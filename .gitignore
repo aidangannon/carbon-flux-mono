@@ -1,0 +1,7 @@
+/venv
+/pants-env/*
+/.idea
+
+# pants
+.pants.d
+dist
