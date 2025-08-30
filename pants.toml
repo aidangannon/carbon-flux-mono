@@ -6,9 +6,7 @@ backend_packages = [
 ]
 
 [source]
-root_patterns = [
-    "/"
-]
+root_patterns = ["/"]
 
 [python]
 interpreter_constraints = [">=3.11,<3.12"]
