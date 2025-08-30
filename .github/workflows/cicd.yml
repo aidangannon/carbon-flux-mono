@@ -15,6 +15,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - uses: pantsbuild/actions/init-pants@v8
+        with:
+          named-caches-hash: ${{ hashFiles('python-default.lock') }}
       - name: Test with Pants
         run: |
           pants run tests:unittest_runner
