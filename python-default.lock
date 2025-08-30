@@ -9,7 +9,7 @@
 //     "CPython<3.12,>=3.11"
 //   ],
 //   "generated_with_requirements": [
-//     "punq==0.7.0"
+//     "punq~=0.7.0"
 //   ],
 //   "manylinux": "manylinux2014",
 //   "requirement_constraints": [],
@@ -58,7 +58,7 @@
   "pip_version": "24.2",
   "prefer_older_binary": false,
   "requirements": [
-    "punq==0.7.0"
+    "punq~=0.7.0"
   ],
   "requires_python": [
     "<3.12,>=3.11"
