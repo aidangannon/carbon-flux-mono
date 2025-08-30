@@ -6,7 +6,7 @@ container = Container()
 register_common(container)
 
 def handle(event, context):
-    service = container.register(MyService)
+    service = container.resolve(MyService)
     return {
         "inner": service()
     }
