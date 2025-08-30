@@ -15,5 +15,5 @@ interpreter_constraints = [">=3.11,<3.12"]
 enable_resolves = true
 resolves = { python-default = "python-default.lock"}
 
-[cli.alias]
-lock = "generate-lockfiles --resolve=python-default --diff=true"
+[cli]
+alias = { lock = "generate-lockfiles --resolve=python-default --diff=true" }
