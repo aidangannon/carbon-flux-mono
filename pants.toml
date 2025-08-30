@@ -16,4 +16,4 @@ enable_resolves = true
 resolves = { python-default = "python-default.lock"}
 
 [cli]
-alias = { lock = "generate-lockfiles --resolve=python-default --diff=true" }
+alias = { lock = "generate-lockfiles --resolve=python-default" }
