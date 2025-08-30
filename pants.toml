@@ -25,8 +25,8 @@ enable_resolves = true
 pip_version = "24.2"
 
 [python.resolves]
-python-default = "lockfiles/python-default.lock"
-ruff = "lockfiles/ruff.lock"
+python-default = "python-default.lock"
+ruff = "ruff.lock"
 
 [ruff]
 install_from_resolve = "ruff"
