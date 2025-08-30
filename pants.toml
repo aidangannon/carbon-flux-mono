@@ -1,9 +1,5 @@
 [GLOBAL]
 pants_version = "2.24.2"
-colors = true
-level = "info"
-loop = false
-
 backend_packages = [
   "pants.backend.awslambda.python",
   "pants.backend.python"
@@ -17,12 +13,7 @@ root_patterns = [
 [python]
 interpreter_constraints = [">=3.11,<3.12"]
 enable_resolves = true
-pip_version = "24.2"
-
-[python.resolves]
-python-default = "python-default.lock"
+resolves = { python-default = "python-default.lock"}
 
 [cli.alias]
-export_venv = "export --export-resolve=python-default --export-py-resolve-format=symlinked_immutable_virtualenv"
 lock = "generate-lockfiles --resolve=python-default --diff=true"
-install = "lock sync_venv"
