@@ -3,9 +3,8 @@ from unittest.mock import MagicMock
 
 from punq import Container
 
-import src
 from src.sitetracking.bootstrap import register_services
-from src.sitetracking.handler import handle, inner_handle
+from src.sitetracking.handler import inner_handle
 from src.sitetracking.service import Dependency
 
 

@@ -2,14 +2,15 @@ from typing import Callable, Any
 
 from punq import Container
 
+# internal cache for reuse
 _container = None
 
-LambdaHandler = Callable[[Container, dict, dict], dict]
-IocFunc = Callable[[Container], None]
+LambdaHandle = Callable[[Container, dict, dict], dict]
+IocHandle = Callable[[Container], None]
 
 def lazy_handler_factory(
-    inner_handler: LambdaHandler,
-    ioc_registrar: IocFunc,
+    inner_handler: LambdaHandle,
+    ioc_registrar: IocHandle,
 ):
     global _container
     if _container is None:
