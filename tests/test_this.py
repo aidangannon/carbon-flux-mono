@@ -5,25 +5,20 @@ from punq import Container
 
 import src
 from src.sitetracking.bootstrap import register_services
-from src.sitetracking.handler import handle
+from src.sitetracking.handler import handle, inner_handle
 from src.sitetracking.service import Dependency
 
 
 class TestThis(TestCase):
 
     def setUp(self):
-        import src.common.handler
-        src.common.handler._container = None  # Reset the global container
-        
-        inner_registrar = register_services
-        def wrapped_registrar(container: Container):
-            inner_registrar(container)
-            container.register(Dependency, instance=MagicMock(return_value="Fake response"))
-        src.sitetracking.bootstrap.register_services = wrapped_registrar
+        self.container = Container()
+        register_services(container=self.container)
+        self.container.register(Dependency, instance=MagicMock(return_value="Fake response"))
 
     def test_my_stuff(self):
         # act
-        resp = handle({}, {})
+        resp = inner_handle(self.container, {}, {})
 
         # assert
         with self.subTest("assert response"):
