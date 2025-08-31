@@ -3,16 +3,16 @@ from unittest.mock import MagicMock
 
 from punq import Container
 
-from src.sitetracking.bootstrap import register_services
+from src.sitetracking.bootstrap import bootstrap
 from src.sitetracking.handler import inner_handle
-from src.sitetracking.service import Dependency
+from src.sitetracking.services import Dependency
 
 
 class TestThis(TestCase):
 
     def setUp(self):
         self.container = Container()
-        register_services(container=self.container)
+        bootstrap(container=self.container)
         self.container.register(Dependency, instance=MagicMock(return_value="Fake response"))
 
     def test_my_stuff(self):

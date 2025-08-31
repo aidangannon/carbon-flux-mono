@@ -1,8 +1,8 @@
 from punq import Container
 
-from src.sitetracking.service import MyService, Dependency
+from src.sitetracking.services import MyService, Dependency
 
 
-def register_services(container: Container):
+def bootstrap(container: Container):
     container.register(Dependency)
     container.register(MyService)

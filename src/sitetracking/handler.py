@@ -1,8 +1,8 @@
 from punq import Container
 
-from src.common.handler import lazy_handler_factory
-from src.sitetracking.bootstrap import register_services
-from src.sitetracking.service import MyService
+from src.common.handlers import lazy_handler_factory
+from src.sitetracking.bootstrap import bootstrap
+from src.sitetracking.services import MyService
 
 
 def inner_handle(
@@ -18,5 +18,5 @@ def inner_handle(
 
 handle = lazy_handler_factory(
     inner_handler=inner_handle,
-    ioc_registrar=register_services
+    ioc_registrar=bootstrap
 )
