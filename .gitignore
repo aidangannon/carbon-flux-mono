@@ -1,6 +1,6 @@
-/venv
-/pants-env/*
-/.idea
+# ide config
+venv
+.idea
 
 # pants
 .pants.d
