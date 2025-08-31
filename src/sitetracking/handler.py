@@ -1,12 +1,22 @@
 from punq import Container
 
-from src.common import MyService, register_common
+from src.common.handler import lazy_handler_factory
+from src.sitetracking.bootstrap import register_services
+from src.sitetracking.service import MyService
 
-container = Container()
-register_common(container)
 
-def handle(event, context):
+def inner_handle(
+    container: Container,
+    event: dict,
+    context: dict
+) -> dict:
     service = container.resolve(MyService)
+    response = service()
     return {
-        "inner": service()
+        "inner": response
     }
+
+handle = lazy_handler_factory(
+    inner_handler=inner_handle,
+    ioc_registrar=register_services
+)

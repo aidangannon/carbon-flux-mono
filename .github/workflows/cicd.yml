@@ -20,4 +20,4 @@ jobs:
           named-caches-hash: ${{ hashFiles('python-default.lock') }}
       - name: Test with Pants
         run: |
-          pants run tests:unittest_runner
+          pants unittest

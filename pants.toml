@@ -13,5 +13,6 @@ interpreter_constraints = [">=3.11,<3.12"]
 enable_resolves = true
 resolves = { python-default = "python-default.lock"}
 
-[cli]
-alias = { lock = "generate-lockfiles --resolve=python-default" }
+[cli.alias]
+lock = "generate-lockfiles --resolve=python-default"
+unittest = "run tests:unittest_runner"
