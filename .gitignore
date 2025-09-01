@@ -8,3 +8,4 @@ dist
 
 # terraform
 .terraform
+.terraform.lock.hcl
