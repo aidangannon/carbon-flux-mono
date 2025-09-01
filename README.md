@@ -20,7 +20,7 @@ pants test tests::    # Run tests
 src/datafetcher:lambda      # EventBridge → ICOS API → SQS
 src/usermanagement:lambda   # API Gateway → DynamoDB
 src/fluxprocessor:lambda    # SQS → flux calculations → DynamoDB  
-src/sitetracking:lambda     # EventBridge → S3 archival
+src/fluxter:lambda          # EventBridge → S3 archival
 ```
 
 ## Dependencies

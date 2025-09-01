@@ -1,8 +1,8 @@
 from punq import Container
 
 from src.common.handlers import lazy_handler_factory
-from src.sitetracking.bootstrap import bootstrap
-from src.sitetracking.services import MyService
+from src.fluxter.bootstrap import bootstrap
+from src.fluxter.services import MyService
 
 
 def inner_handle(

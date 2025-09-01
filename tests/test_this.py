@@ -3,9 +3,9 @@ from unittest.mock import MagicMock
 
 from punq import Container
 
-from src.sitetracking.bootstrap import bootstrap
-from src.sitetracking.handler import inner_handle
-from src.sitetracking.services import Dependency
+from src.fluxter.bootstrap import bootstrap
+from src.fluxter.handler import inner_handle
+from src.fluxter.services import Dependency
 
 
 class TestThis(TestCase):

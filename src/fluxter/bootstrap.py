@@ -1,6 +1,6 @@
 from punq import Container
 
-from src.sitetracking.services import MyService, Dependency
+from src.fluxter.services import MyService, Dependency
 
 
 def bootstrap(container: Container):

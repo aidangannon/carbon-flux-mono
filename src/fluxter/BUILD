@@ -2,9 +2,9 @@ python_sources()
 
 python_aws_lambda_function(
     name="lambda",
-    handler="src/sitetracking/handler:handle",
+    handler="src/fluxter/handler:handle",
     dependencies=[
-        ":sitetracking",
+        ":fluxter",
         "src/common"
     ]
 )

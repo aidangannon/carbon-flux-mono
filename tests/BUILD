@@ -3,7 +3,7 @@ python_sources()
 python_tests(
     name="test_suite",
     dependencies=[
-        "src/sitetracking:lambda"
+        "src/fluxter:lambda"
     ]
 )
 

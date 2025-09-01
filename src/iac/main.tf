@@ -16,16 +16,15 @@ provider "aws" {
 module "lambda_function" {
   source = "terraform-aws-modules/lambda/aws"
 
-  function_name = "blah"
-  description   = "blah"
-  handler       = "todo"
+  function_name = "fluxter"
+  description   = "Manages tracking site's for raw etc data"
+  handler       = "src.fluxter.handler.handle"
   runtime       = "python3.11"
-  memory_size   = 512
 
   create_package         = false
-  local_existing_package = "../../dist/src.blahblahblah.zip"
+  local_existing_package = "../../dist/src.fluxter/lambda.zip"
 
   tags = {
-    Name = "sitetracking"
+    Name = "fluxter"
   }
 }
