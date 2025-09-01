@@ -5,7 +5,7 @@ variable "aws_region" {
 
 variable "fluxter_name" {
   type    = string
-  default = "soft-sensor-hello-world"
+  default = "fluxter"
 }
 
 variable "lambda_runtime" {
