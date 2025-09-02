@@ -33,7 +33,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
       - name: Terraform Deploy
-        working-directory: ./src/iac
+        working-directory: src/iac
         run: |
           terraform init -backend-config=backend.toml
           terraform plan
