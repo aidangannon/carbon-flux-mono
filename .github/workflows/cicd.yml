@@ -34,6 +34,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
       - name: Terraform Deploy
         run: |
+          cd src/iac
           terraform init -backend-config=backend.toml
           terraform plan
           terraform apply -auto-approve
