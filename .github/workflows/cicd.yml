@@ -23,6 +23,7 @@ jobs:
           pants unittest
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -33,7 +34,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
       - name: Terraform Deploy
-        working-directory: src/iac
+        working-directory: ${{ github.workspace }}/src/iac
         run: |
           terraform init -backend-config=backend.toml
           terraform plan
