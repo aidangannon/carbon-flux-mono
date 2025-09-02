@@ -21,6 +21,9 @@ jobs:
       - name: Test with Pants
         run: |
           pants unittest
+      - name: Build with Pants
+        run: |
+          pants package ::
       - name: Debug build output
         run: |
           ls -la
