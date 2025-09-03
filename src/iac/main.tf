@@ -73,23 +73,36 @@ module "lambda_hourly_trigger" {
       hourly_lambda = {
         name                = "${var.fluxter_name}-hourly-trigger"
         description         = "Trigger ${var.fluxter_name} every hour"
-        schedule_expression = "rate(10 minutes)"
-        targets = {
-          lambda = {
-            arn = module.lambda_function.lambda_function_arn,
-            dead_letter_arn = aws_sqs_queue.dlq.arn
-            retry_policy = {
-              maximum_retry_attempts = 3
-              maximum_event_age_in_seconds = 3600
-            }
-          }
-        }
+        schedule_expression = "rate(2 minutes)"
       }
     }
+
+    targets = {
+      hourly_lambda = [
+        {
+          name = "lambda-target"
+          arn  = module.lambda_function.lambda_function_arn
+          dead_letter_arn = aws_sqs_queue.dlq.arn
+          retry_policy = {
+            maximum_retry_attempts = 3
+            maximum_event_age_in_seconds = 3600
+          }
+        }
+      ]
+    }
+
 
     tags = {
       Name = "${var.fluxter_name}-eventbridge-hourly-trigger"
     }
+}
+
+resource "aws_lambda_permission" "allow_eventbridge" {
+  statement_id  = "AllowExecutionFromEventBridge"
+  action        = "lambda:InvokeFunction"
+  function_name = module.lambda_function.lambda_function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = module.lambda_hourly_trigger.eventbridge_rule_arns["hourly_lambda"]
 }
 
 resource "aws_sqs_queue" "dlq" {
