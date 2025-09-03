@@ -5,6 +5,6 @@ from src.fluxter.services import MyService, Dependency
 
 
 def bootstrap(container: Container):
-    add_logging()
+    add_logging(container)
     container.register(Dependency)
     container.register(MyService)
