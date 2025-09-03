@@ -1,6 +1,7 @@
 python_sources(
     name="common",
     dependencies=[
-        "//:reqs#punq"
+        "//:reqs#punq",
+        "//:reqs#structlog"
     ]
 )

@@ -15,5 +15,4 @@ resolves = { python-default = "python-default.lock"}
 
 [cli.alias]
 lock = "generate-lockfiles --resolve=python-default"
-unittest = "run tests:unittest_runner"
-export_venv = "export --resolve=python-default"
+export-venv = "export --resolve=python-default"

@@ -10,7 +10,8 @@
 //   ],
 //   "generated_with_requirements": [
 //     "assertpy~=1.1",
-//     "punq~=0.7.0"
+//     "punq~=0.7.0",
+//     "structlog~=25.4.0"
 //   ],
 //   "manylinux": "manylinux2014",
 //   "requirement_constraints": [],
@@ -59,6 +60,26 @@
           "requires_dists": [],
           "requires_python": "<4.0,>=3.8.1",
           "version": "0.7.0"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "fe809ff5c27e557d14e613f45ca441aabda051d119ee5a0102aaba6ce40eed2c",
+              "url": "https://files.pythonhosted.org/packages/a0/4a/97ee6973e3a73c74c8120d59829c3861ea52210667ec3e7a16045c62b64d/structlog-25.4.0-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "186cd1b0a8ae762e29417095664adf1d6a31702160a46dacb7796ea82f7409e4",
+              "url": "https://files.pythonhosted.org/packages/79/b9/6e672db4fec07349e7a8a8172c1a6ae235c58679ca29c3f86a61b5e59ff3/structlog-25.4.0.tar.gz"
+            }
+          ],
+          "project_name": "structlog",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.11\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "25.4.0"
         }
       ],
       "platform_tag": null
@@ -73,7 +94,8 @@
   "prefer_older_binary": false,
   "requirements": [
     "assertpy~=1.1",
-    "punq~=0.7.0"
+    "punq~=0.7.0",
+    "structlog~=25.4.0"
   ],
   "requires_python": [
     "<3.12,>=3.11"
