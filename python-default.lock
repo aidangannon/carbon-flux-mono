@@ -9,6 +9,7 @@
 //     "CPython<3.12,>=3.11"
 //   ],
 //   "generated_with_requirements": [
+//     "assertpy~=1.1",
 //     "punq~=0.7.0"
 //   ],
 //   "manylinux": "manylinux2014",
@@ -28,6 +29,19 @@
   "locked_resolves": [
     {
       "locked_requirements": [
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "acc64329934ad71a3221de185517a43af33e373bb44dc05b5a9b174394ef4833",
+              "url": "https://files.pythonhosted.org/packages/4f/39/720b5d4463612a40a166d00999cbb715fce3edaf08a9a7588ba5985699ec/assertpy-1.1.tar.gz"
+            }
+          ],
+          "project_name": "assertpy",
+          "requires_dists": [],
+          "requires_python": null,
+          "version": "1.1"
+        },
         {
           "artifacts": [
             {
@@ -58,6 +72,7 @@
   "pip_version": "24.2",
   "prefer_older_binary": false,
   "requirements": [
+    "assertpy~=1.1",
     "punq~=0.7.0"
   ],
   "requires_python": [

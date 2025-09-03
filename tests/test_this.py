@@ -1,6 +1,6 @@
-from unittest import TestCase
 from unittest.mock import MagicMock
 
+from assertpy import assert_that
 from punq import Container
 
 from src.fluxter.bootstrap import bootstrap
@@ -8,9 +8,9 @@ from src.fluxter.handler import inner_handle
 from src.fluxter.services import Dependency
 
 
-class TestThis(TestCase):
+class TestThis:
 
-    def setUp(self):
+    def setup_method(self):
         self.container = Container()
         bootstrap(container=self.container)
         self.container.register(Dependency, instance=MagicMock(return_value="Fake response"))
@@ -20,5 +20,4 @@ class TestThis(TestCase):
         resp = inner_handle(self.container, {}, {})
 
         # assert
-        with self.subTest("assert response"):
-            self.assertEqual(resp, { "inner": "Fake response" })
+        assert_that(resp).is_equal_to({ "inner": "Fake response" })
