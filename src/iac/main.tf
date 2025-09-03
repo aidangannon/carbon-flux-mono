@@ -73,7 +73,7 @@ module "lambda_hourly_trigger" {
       hourly_lambda = {
         name                = "${var.fluxter_name}-hourly-trigger"
         description         = "Trigger ${var.fluxter_name} every hour"
-        schedule_expression = "rate(2 minutes)"
+        schedule_expression = "cron(0 */1 * * ? *)"
       }
     }
 
