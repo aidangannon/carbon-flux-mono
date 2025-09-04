@@ -10,9 +10,12 @@ def inner_handle(
     event: dict,
     context: dict
 ) -> dict:
+    from src.common.logging import Logger
+    logger = container.resolve(Logger)
+    print("hello")
+    logger.info("Direct logger test from handler")
     service = container.resolve(MyService)
     response = service()
-    print("hello")
     return {
         "inner": response
     }
