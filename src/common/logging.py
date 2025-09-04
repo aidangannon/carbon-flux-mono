@@ -1,8 +1,9 @@
 import logging
-from typing import Protocol, Any
+from typing import Protocol, Any, ContextManager
 
 import sys
-import structlog
+
+from loguru import logger
 from punq import Container, Scope
 
 
@@ -16,24 +17,10 @@ class Logger(Protocol):
 
     def error(self, msg: str, *args: Any, **kwargs: Any) -> None: ...
 
+    def contextualize(self, *args: Any, **kwargs: Any) -> ContextManager[Any]: ...
+
 
 def add_logging(container: Container):
-    container.register(Logger, factory=structlog.getLogger, scope=Scope.singleton)
-    logging.basicConfig(
-        format="%(message)s",
-        stream=sys.stdout,
-        level=logging.INFO,  # or DEBUG
-    )
-    structlog.configure(
-        processors=[
-            structlog.contextvars.merge_contextvars,
-            structlog.stdlib.filter_by_level,
-            structlog.stdlib.add_log_level,
-            structlog.processors.TimeStamper(fmt="ISO"),
-            structlog.processors.JSONRenderer()
-        ],
-        wrapper_class=structlog.stdlib.BoundLogger,
-        logger_factory=structlog.stdlib.LoggerFactory(),
-
-        cache_logger_on_first_use=True,
-    )
+    logger.remove()
+    logger.add(sys.stdout, serialize=True)
+    container.register(Logger, instance=logger, scope=Scope.singleton)
