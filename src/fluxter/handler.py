@@ -12,6 +12,7 @@ def inner_handle(
 ) -> dict:
     service = container.resolve(MyService)
     response = service()
+    print("hello")
     return {
         "inner": response
     }
