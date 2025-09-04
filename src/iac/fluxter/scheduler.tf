@@ -51,7 +51,7 @@ module "lambda_hourly_trigger" {
     hourly_lambda = {
       name                = "${var.name}-hourly-trigger"
       description         = "Trigger ${var.name} every hour"
-      schedule_expression = "cron(*/2 * * * ? *)"
+      schedule_expression = "cron(0 */1 * * ? *)"
     }
   }
   targets = {
