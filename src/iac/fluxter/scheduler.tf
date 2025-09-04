@@ -14,6 +14,7 @@ module "lambda_function" {
   local_existing_package = "../../dist/src.fluxter/lambda.zip"
 
   attach_policy_statements = true
+  attach_cloudwatch_logs_policy = true
   policy_statements = {
     s3_access = {
       effect = "Allow"
