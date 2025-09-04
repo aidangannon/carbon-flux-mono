@@ -1,9 +1,11 @@
 variable "name" {
   type    = string
-  default = "fluxter"
 }
 
-variable "lambda_runtime" {
+variable "python_runtime" {
   type    = string
-  default = "python3.11"
+}
+
+variable "core_layer_arn" {
+  type    = string
 }

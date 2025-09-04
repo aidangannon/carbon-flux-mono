@@ -4,7 +4,11 @@ module "lambda_function" {
   function_name = var.name
   description   = "Manages tracking site's for raw etc data"
   handler       = "src.fluxter.handler.handle"
-  runtime       = var.lambda_runtime
+  runtime       = var.python_runtime
+
+  layers = [
+    var.core_layer_arn
+  ]
 
   create_package         = false
   local_existing_package = "../../dist/src.fluxter/lambda.zip"
