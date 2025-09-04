@@ -7,8 +7,10 @@ from src.common.logging import Logger
 
 @dataclass(slots=True)
 class Dependency:
+    logger: Logger
 
     def __call__(self) -> str:
+        self.logger.info("Logging from inner service")
         return "do work"
 
 
@@ -18,5 +20,6 @@ class MyService:
     logger: Logger
 
     def __call__(self) -> str:
-        self.logger.info("Logging from service", property="hello")
-        return self.dep1()
+        with self.logger.contextualize(nested_prop="this is nested"):
+            self.logger.info("Logging from service", property="hello")
+            return self.dep1()
