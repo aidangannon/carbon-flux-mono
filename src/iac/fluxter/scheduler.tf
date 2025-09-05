@@ -11,7 +11,7 @@ module "lambda_function" {
   ]
 
   create_package         = false
-  local_existing_package = "../../dist/src.fluxter/lambda.zip"
+  local_existing_package = "../../dist/src.fluxter_scrape/lambda.zip"
 
   attach_policy_statements = true
   attach_cloudwatch_logs_policy = true

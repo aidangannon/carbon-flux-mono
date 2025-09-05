@@ -3,9 +3,9 @@ from unittest.mock import MagicMock
 from assertpy import assert_that
 from punq import Container
 
-from src.fluxter.bootstrap import bootstrap
-from src.fluxter.handler import inner_handle
-from src.fluxter.services import Dependency
+from src.fluxter_scrape.bootstrap import bootstrap
+from src.fluxter_scrape.handler import inner_handle
+from src.fluxter_scrape.services import Dependency
 
 
 class TestThis:

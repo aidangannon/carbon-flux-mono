@@ -1,7 +1,7 @@
 from punq import Container
 
 from src.common.logging import add_logging
-from src.fluxter.services import MyService, Dependency
+from src.fluxter_scrape.services import MyService, Dependency
 
 
 def bootstrap(container: Container):
