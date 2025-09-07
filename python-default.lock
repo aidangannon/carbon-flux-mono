@@ -10,7 +10,7 @@
 //   ],
 //   "generated_with_requirements": [
 //     "assertpy~=1.1",
-//     "boto3-stubs[boto3]~=1.40.25",
+//     "boto3-stubs[essential]~=1.40.25",
 //     "loguru~=0.7.3",
 //     "moto[dynamodb,s3]~=5.1.11",
 //     "punq~=0.7.0",
@@ -1606,6 +1606,146 @@
           "artifacts": [
             {
               "algorithm": "sha256",
+              "hash": "dfd4f8d72005373ff9df20e779524f8ea24c1c1ba051c663f7ce855da349ee27",
+              "url": "https://files.pythonhosted.org/packages/ab/f8/0f74d0a5c5a5e6cd7bfe2c74c3024ea53964e0bf808eeb71db18ed2cb665/mypy_boto3_cloudformation-1.40.24-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "e2b00afc6aab1311b258c93148eeea5b3eead94c7203e28ff9fd38e9fce28488",
+              "url": "https://files.pythonhosted.org/packages/07/da/a99189fa5aa30c56d7164f26a2ce34a381719003ca0c86a882a1c9d1bb81/mypy_boto3_cloudformation-1.40.24.tar.gz"
+            }
+          ],
+          "project_name": "mypy-boto3-cloudformation",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.12\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "1.40.24"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "276f12132b19e5cd9c8c2e551899128acfad39fb56fc77c7e0b005b29d86c844",
+              "url": "https://files.pythonhosted.org/packages/d3/5b/2513b9006818feb5481377f99816726cfa5046f4c8a43f2e1174c779d86c/mypy_boto3_dynamodb-1.40.20-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "2f424315d299ccf0b3b4e3b2b2300f90f09cd0b7c69fc473d0cdc0b6be6c30d6",
+              "url": "https://files.pythonhosted.org/packages/5b/28/7287218f6e7a5089b2efb60e7add467c8b1ed686ea1a61717a2a779bae66/mypy_boto3_dynamodb-1.40.20.tar.gz"
+            }
+          ],
+          "project_name": "mypy-boto3-dynamodb",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.12\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "1.40.20"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "562e7d2d40bfd7b77c0144c2aa01589913b1e8f16eb9c39d689da021c63f6a33",
+              "url": "https://files.pythonhosted.org/packages/6d/8e/7dee019eb070ab63948f12b47c9078712644486a449fd078c7e79e822e40/mypy_boto3_ec2-1.40.24-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "6825010f73877b0fce4adc042532725d949225fc0f080e9d6fceb059dbf5a1b7",
+              "url": "https://files.pythonhosted.org/packages/8c/d5/e3f5d31766d972c6f0082b95ff610494e50d8e8b4c7a47209f88f547fc5b/mypy_boto3_ec2-1.40.24.tar.gz"
+            }
+          ],
+          "project_name": "mypy-boto3-ec2",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.12\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "1.40.24"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "398c9dd051278430168e907b6b6c2078a3a1bca3948c2bf4d47eda8d7da28573",
+              "url": "https://files.pythonhosted.org/packages/0c/ef/ab7a0fc83b8f3c39145cbce4a8bf5326e153157f0edcc939b4570e0b9f9e/mypy_boto3_lambda-1.40.7-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "e8bedf03a67fade5db861fe902df063064292352eed5f785f74cd0e591948db9",
+              "url": "https://files.pythonhosted.org/packages/25/4f/63def7a5be630e8d39186594b01fee86f2e6dcbca3e0b0e80a3ea90bc4ae/mypy_boto3_lambda-1.40.7.tar.gz"
+            }
+          ],
+          "project_name": "mypy-boto3-lambda",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.12\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "1.40.7"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "722c430766a09d02492f4821f70749dd6bce7589f9b858ad295560ba8d0ecc04",
+              "url": "https://files.pythonhosted.org/packages/8b/77/b0098e093d005d7844ea8ff8e6227857a00af78c8d4f67c2d82f55a8413a/mypy_boto3_rds-1.40.24-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "b83762acfe519921a7a756b9a88e4a0d8a7efda0cc83b66f44debdaf2a25892f",
+              "url": "https://files.pythonhosted.org/packages/d8/e5/842e8092f37dfc55f5b41e6a5e2d386b45c8d3c5cdd2b32402e1ba0aca04/mypy_boto3_rds-1.40.24.tar.gz"
+            }
+          ],
+          "project_name": "mypy-boto3-rds",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.12\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "1.40.24"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "5736b7780d57a156312d8d136462c207671d0236b0355704b5754496bb712bc8",
+              "url": "https://files.pythonhosted.org/packages/43/4f/4d32cd202d8c8c7e11e44dd288f66b8985e6ee4402b9a0891b7b94ff6cc6/mypy_boto3_s3-1.40.0-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "99a4a27f04d62fe0b31032f274f2e19889fa66424413617a9416873c48567f1d",
+              "url": "https://files.pythonhosted.org/packages/06/d7/b2100702d2f200fdb3468e419c729790bd8543ee0af6f6d63d8dfdab4e28/mypy_boto3_s3-1.40.0.tar.gz"
+            }
+          ],
+          "project_name": "mypy-boto3-s3",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.12\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "1.40.0"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
+              "hash": "f0361de7cec1b82a580d1b02e8135f64006f727b76b324d35c52491dd45f3a32",
+              "url": "https://files.pythonhosted.org/packages/dc/98/3bd74213083ece76b0fa8875967dcfadfaa0e424a6e60cdd81150142e81b/mypy_boto3_sqs-1.40.17-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "04de818a43258795c84a093d41d3191c8d89446e8c43fea774f453b8124a7d56",
+              "url": "https://files.pythonhosted.org/packages/58/37/3bc3a1fd8e9a83e0a2701653312b2dfae302212273d4dddf6db7c3ddc0b6/mypy_boto3_sqs-1.40.17.tar.gz"
+            }
+          ],
+          "project_name": "mypy-boto3-sqs",
+          "requires_dists": [
+            "typing-extensions; python_version < \"3.12\""
+          ],
+          "requires_python": ">=3.8",
+          "version": "1.40.17"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
               "hash": "29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484",
               "url": "https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl"
             },
@@ -2051,7 +2191,7 @@
   "prefer_older_binary": false,
   "requirements": [
     "assertpy~=1.1",
-    "boto3-stubs[boto3]~=1.40.25",
+    "boto3-stubs[essential]~=1.40.25",
     "loguru~=0.7.3",
     "moto[dynamodb,s3]~=5.1.11",
     "punq~=0.7.0",

@@ -2,7 +2,7 @@
 punq~=0.7.0
 assertpy~=1.1
 loguru~=0.7.3
-boto3-stubs[boto3]~=1.40.25
+boto3-stubs[essential]~=1.40.25
 
 # testing
 pytest~=8.4.2

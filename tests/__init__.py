@@ -38,17 +38,6 @@ def step(func):
     return wrapper
 
 
-class BaseScenario:
-    runner: ScenarioRunner
-
-    def setup_scenario(self):
-        pass
-
-    def run(self):
-        """Call this at the end of your test to check all steps passed"""
-        self.runner.assert_all()
-
-
 @dataclass(frozen=True, slots=True)
 class LoguruTestCapture:
     logs = []

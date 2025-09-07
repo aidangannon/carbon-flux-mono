@@ -5,11 +5,12 @@ from punq import Container
 # internal cache for reuse
 _container = None
 
-LambdaHandle = Callable[[Container, dict, dict], dict]
+LambdaHandle = Callable[[dict, dict], dict]
+InnerLambdaHandle = Callable[[Container, dict, dict], dict]
 IocHandle = Callable[[Container], None]
 
 def lazy_handler_factory(
-    inner_handler: LambdaHandle,
+    inner_handler: InnerLambdaHandle,
     ioc_registrar: IocHandle,
 ):
     global _container
