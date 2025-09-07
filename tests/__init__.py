@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from functools import wraps
+from typing import Literal, Callable, Any
 
 from loguru import logger
 from punq import Container
@@ -20,26 +21,25 @@ class ScenarioRunner:
 def step(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
-        step_name = func.__name__
-        print(f"Incoming step: {step_name}")
+        step_str = func.__name__.replace('_', ' ')
+        print(step_str)
         try:
             result = func(self, *args, **kwargs)
-            print(f"Step {step_name} passed")
+            print(f"{step_str} passed")
             return result
         except AssertionError as e:
-            print(f"Step {step_name} assert error")
-            self.runner.failures.append((step_name, e))
+            print(f"{step_str} assert error")
+            self.runner.failures.append((step_str, e))
         except Exception as e:
-            print(f"Step {step_name} exception")
-            self.runner.failures.append((step_name, e))
+            print(f"{step_str} exception")
+            self.runner.failures.append((step_str, e))
         return self
 
     return wrapper
 
 
-@dataclass(frozen=True, slots=True)
 class BaseScenario:
-    runner: ScenarioRunner = ScenarioRunner()
+    runner: ScenarioRunner
 
     def setup_scenario(self):
         pass

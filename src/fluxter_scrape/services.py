@@ -1,11 +1,9 @@
 from dataclasses import dataclass
 
-from punq import Container
-
 from src.common.logging import Logger
 
 
-@dataclass(slots=True)
+@dataclass(frozen=True, slots=True)
 class Dependency:
     logger: Logger
 
