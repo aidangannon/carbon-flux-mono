@@ -1,24 +1,19 @@
-from typing import Generator
-
 import boto3
 from moto import mock_aws
 from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefinitionTypeDef
 from punq import Container
 from pytest import fixture
 
-from src.common.handlers import LambdaHandle
 from src.fluxter_scrape.bootstrap import bootstrap
 from src.fluxter_scrape.handler import inner_handle
 from tests import add_test_logging
 
 
-@fixture(scope='session', autouse=True)
+@fixture(scope='session')
 def setup_database():
-    print("setup_database")
     with mock_aws():
-        print("inner setup_database")
         dynamodb = boto3.resource('dynamodb')
-        dynamodb.create_table(
+        yield dynamodb.create_table(
             TableName='fluxter-db',
             AttributeDefinitions=[
                 AttributeDefinitionTypeDef(AttributeName="partition_key", AttributeType='S'),
@@ -30,15 +25,18 @@ def setup_database():
             ],
             BillingMode='PAY_PER_REQUEST'
         )
-        yield
 
-@fixture(scope='session', autouse=True)
-def setup_handle(setup_database):
-    print("setup_handle")
+@fixture(scope='session')
+def setup_container(setup_database):
     container = Container()
     bootstrap(container=container)
     add_test_logging(container=container)
-    yield lambda event, context: inner_handle(
+    return container
+
+@fixture(scope='session')
+def setup_handle(setup_container):
+    container = setup_container
+    return lambda event, context: inner_handle(
         container=container,
         event=event,
         context=context)

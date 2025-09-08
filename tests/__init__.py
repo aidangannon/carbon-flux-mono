@@ -12,30 +12,24 @@ class ScenarioRunner:
     def __init__(self):
         self.failures = []
 
-    def assert_all(self):
+    def run(self, **kwargs):
+        for step_name, step_func in kwargs.items():
+            step_str = step_name.replace('_', ' ')
+            print(step_str)
+            try:
+                step_func()
+                print(f"{step_str} passed")
+            except AssertionError as e:
+                print(f"{step_str} assert error")
+                self.failures.append((step_str, e))
+            except Exception as e:
+                print(f"{step_str} exception")
+                self.failures.append((step_str, e))
+
+        print(f"failure count {len(self.failures)}")
         if self.failures:
             msgs = [f"Step {name} failed: {ex}" for name, ex in self.failures]
             raise AssertionError("\n".join(msgs))
-
-
-def step(func):
-    @wraps(func)
-    def wrapper(self, *args, **kwargs):
-        step_str = func.__name__.replace('_', ' ')
-        print(step_str)
-        try:
-            result = func(self, *args, **kwargs)
-            print(f"{step_str} passed")
-            return result
-        except AssertionError as e:
-            print(f"{step_str} assert error")
-            self.runner.failures.append((step_str, e))
-        except Exception as e:
-            print(f"{step_str} exception")
-            self.runner.failures.append((step_str, e))
-        return self
-
-    return wrapper
 
 
 @dataclass(frozen=True, slots=True)

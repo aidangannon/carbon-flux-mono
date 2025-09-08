@@ -1,60 +1,48 @@
 import uuid
-from dataclasses import dataclass
-from typing import Generator
 
-import boto3
+from assertpy import assert_that
 from mypy_boto3_dynamodb.service_resource import Table
 from pytest import fixture
-from assertpy import assert_that
 
 from src.common.handlers import LambdaHandle
-from tests import step, ScenarioRunner
-
-
-@dataclass(frozen=True, slots=True)
-class Context:
-    table: Table
-    sut: LambdaHandle
-
-
-@fixture(scope="class", autouse=True)
-def setup_scenario(setup_handle):
-    print("setup_scenario")
-    yield Context(
-        table=boto3\
-            .resource('dynamodb')\
-            .Table('fluxter-db'),
-        sut=setup_handle
-    )
+from tests import ScenarioRunner
 
 
 class TestScenarioSteps:
     runner: ScenarioRunner
-    context: Context
+    sut: LambdaHandle
+    table: Table
+    item: dict
+    response: dict
+    item_id: str
 
-    def setup_method(self, setup_scenario):
-        self.context = setup_scenario
+    @fixture(autouse=True)
+    def setup_class(self, setup_handle, setup_database):
+        self.runner = ScenarioRunner()
+        self.sut = setup_handle
+        self.table = setup_database
+        self.item_id = str(uuid.uuid4())
 
-    @step
-    def given_add_some_data(self) -> 'TestScenarioSteps':
+    def no_data_exists(self):
+        ...
+
+    def data_exists_in_the_db(self):
         self.item = {
-            'partition_key': str(uuid.uuid4()),
-            'id': str(uuid.uuid4()),
+            'partition_key': 'item',
+            'id': self.item_id,
             'other_field': 'data',
             'number_field': 123
         }
-        self.context.table.put_item(Item=self.item)
-        return self
+        self.table.put_item(Item=self.item)
 
-    @step
-    def when_this(self) -> 'TestScenarioSteps':
-        self.response = self.context.sut({
-            "id": self.item["id"],
-            "partition_key": self.item["partition_key"]
+    def lambda_is_called_with_data_id(self):
+        self.response = self.sut({
+            "id": self.item_id,
+            "partition_key": "item"
         }, {})
-        return self
 
-    @step
-    def then_that(self) -> 'TestScenarioSteps':
+    def lambda_response_should_equal_data(self):
         assert_that(self.response).is_equal_to(self.item)
-        return self
+
+    def lambda_response_should_be_empty(self):
+        assert_that(self.response).is_empty()
