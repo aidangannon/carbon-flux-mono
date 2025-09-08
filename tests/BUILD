@@ -5,7 +5,9 @@ python_tests(
     dependencies=[
         "src/fluxter_scrape",
         "src/common",
-        "//:reqs#assertpy"
+        "//:reqs#assertpy",
+        "//:reqs#moto",
+        "//:reqs#pytest"
     ],
     sources=[
         "**/*_tests.py"

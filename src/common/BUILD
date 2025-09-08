@@ -1,7 +1,8 @@
 python_sources(
     dependencies=[
         "//:reqs#punq",
-        "//:reqs#loguru"
+        "//:reqs#loguru",
+        "//:reqs#boto3-stubs"
     ]
 )
 
