@@ -11,7 +11,7 @@ def inner_handle(
     context: dict
 ) -> dict:
     service = container.resolve(MyService)
-    response = service(item_id=event["id"])
+    response = service(item_id=event.get("id", "bumbaclart"))
     return {
         "item": response
     }
