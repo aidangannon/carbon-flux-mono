@@ -12,7 +12,7 @@ from tests import add_test_logging
 @fixture(scope='session')
 def setup_database():
     with mock_aws():
-        dynamodb = boto3.resource('dynamodb')
+        dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
         yield dynamodb.create_table(
             TableName='fluxter-db',
             AttributeDefinitions=[
