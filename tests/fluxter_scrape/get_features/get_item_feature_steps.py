@@ -42,7 +42,7 @@ class TestScenarioSteps:
         }, {})
 
     def lambda_response_should_equal_data(self):
-        assert_that(self.response).is_equal_to(self.item)
+        assert_that(self.response["item"]).is_equal_to(self.item)
 
     def lambda_response_should_be_empty(self):
-        assert_that(self.response).is_empty()
+        assert_that(self.response["item"]).is_none()

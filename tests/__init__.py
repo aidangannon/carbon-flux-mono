@@ -8,25 +8,59 @@ from punq import Container
 from src.common.logging import Logger
 
 
+StepName = Literal["given", "when", "then", "and\t"]
+
+
+@dataclass(frozen=True, slots=True)
+class Step:
+    func: Callable
+    name: StepName
+
+    def __str__(self):
+        return f"{self.name}\t{self.func.__name__.replace('_', ' ')}"
+
+
+@dataclass(frozen=True, slots=True)
+class StepFailure:
+    exception: Exception
+    name: str
+
+
 class ScenarioRunner:
+    steps: list[Step]
+    failures: list[StepFailure]
+
     def __init__(self):
         self.failures = []
+        self.steps = []
 
-    def run(self, **kwargs):
-        for step_name, step_func in kwargs.items():
-            step_str = step_name.replace('_', ' ')
-            print(step_str)
+    def given(self, step: Callable) -> 'ScenarioRunner':
+        self.steps.append(Step(func=step, name="given"))
+        return self
+
+    def when(self, step: Callable) -> 'ScenarioRunner':
+        self.steps.append(Step(func=step, name="when"))
+        return self
+
+    def then(self, step: Callable) -> 'ScenarioRunner':
+        self.steps.append(Step(func=step, name="then"))
+        return self
+
+    def and_also(self, step: Callable) -> 'ScenarioRunner':
+        self.steps.append(Step(func=step, name="and\t"))
+        return self
+
+    def run(self):
+        print("\n")
+        for step in self.steps:
+            step_str = str(step)
             try:
-                step_func()
-                print(f"{step_str} passed")
-            except AssertionError as e:
-                print(f"{step_str} assert error")
-                self.failures.append((step_str, e))
+                step.func()
+                print(f"passed: \t{step_str}")
             except Exception as e:
-                print(f"{step_str} exception")
-                self.failures.append((step_str, e))
+                print(f"failed: \t{step_str}")
+                self.failures.append(StepFailure(exception=e, name=step_str))
 
-        print(f"failure count {len(self.failures)}")
         if self.failures:
             msgs = [f"Step {name} failed: {ex}" for name, ex in self.failures]
             raise AssertionError("\n".join(msgs))

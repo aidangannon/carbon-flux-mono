@@ -11,9 +11,9 @@ def inner_handle(
     context: dict
 ) -> dict:
     service = container.resolve(MyService)
-    response = service()
+    response = service(item_id=event["id"])
     return {
-        "inner": response
+        "item": response
     }
 
 handle = lazy_handler_factory(
