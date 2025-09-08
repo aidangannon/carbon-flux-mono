@@ -6,5 +6,16 @@ python_tests(
         "src/fluxter_scrape",
         "src/common",
         "//:reqs#assertpy"
+    ],
+    sources=[
+        "**/*_tests.py"
+    ]
+)
+
+python_test_utils(
+    name="test_utils",
+    sources=[
+        "**/conftest.py",
+        "**/*_steps.py"
     ]
 )
