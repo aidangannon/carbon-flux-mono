@@ -6,15 +6,13 @@ import boto3
 from src.common.logging import Logger
 
 
-dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
-
-
 @dataclass(frozen=True, slots=True)
 class Dependency:
     logger: Logger
 
     def __call__(self, item_id: str) -> Optional[dict]:
         self.logger.info("Logging from inner service")
+        dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
         response = dynamodb.Table('fluxter-db').get_item(Key={
             'partition_key': 'item',
             'id': item_id
