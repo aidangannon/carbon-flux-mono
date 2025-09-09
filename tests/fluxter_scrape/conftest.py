@@ -12,7 +12,7 @@ from tests import add_test_logging
 
 
 @fixture(scope='session')
-def setup_database():
+def database():
     print(f"AWS Region: {os.environ.get('AWS_DEFAULT_REGION', 'not set')}")
     print(f"Running in CI: {os.environ.get('CI', 'false')}")
     with mock_aws():
@@ -31,15 +31,15 @@ def setup_database():
         )
 
 @fixture(scope='session')
-def setup_container(setup_database):
+def container(database):
     container = Container()
     bootstrap(container=container)
     add_test_logging(container=container)
     return container
 
 @fixture(scope='session')
-def setup_handle(setup_container):
-    container = setup_container
+def handler(container):
+    container = container
     return lambda event, context: inner_handle(
         container=container,
         event=event,

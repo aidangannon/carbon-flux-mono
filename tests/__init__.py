@@ -1,3 +1,4 @@
+from abc import ABC
 from dataclasses import dataclass
 from functools import wraps
 from typing import Literal, Callable, Any
@@ -29,10 +30,12 @@ class StepFailure:
 class ScenarioRunner:
     steps: list[Step]
     failures: list[StepFailure]
+    context: 'BaseBddContext' = None
 
-    def __init__(self):
+    def __init__(self, context: 'BaseBddContext' = None):
         self.failures = []
         self.steps = []
+        self.context = context
 
     def given(self, step: Callable) -> 'ScenarioRunner':
         self.steps.append(Step(func=step, name="given"))
@@ -55,15 +58,23 @@ class ScenarioRunner:
         for step in self.steps:
             step_str = str(step)
             try:
-                step.func()
+                if self.context is not None:
+                    step.func(self.context)
                 print(f"passed: \t{step_str}")
             except Exception as e:
                 print(f"failed: \t{step_str}")
                 self.failures.append(StepFailure(exception=e, name=step_str))
 
         if self.failures:
-            msgs = [f"Step {name} failed: {ex}" for name, ex in self.failures]
+            msgs = [f"Step {failure.name} failed: {failure.exception}" for failure in self.failures]
             raise AssertionError("\n".join(msgs))
+
+
+class BaseBddContext(ABC):
+    runner: ScenarioRunner
+
+    def __init__(self):
+        self.runner = ScenarioRunner(self)
 
 
 @dataclass(frozen=True, slots=True)
