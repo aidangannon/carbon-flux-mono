@@ -13,6 +13,10 @@ from tests import add_test_logging
 
 @fixture(scope='session')
 def database():
+    import os
+    os.environ['AWS_DEFAULT_REGION'] = 'eu-west-2'
+    os.environ['AWS_ACCESS_KEY_ID'] = 'testing'
+    os.environ['AWS_SECRET_ACCESS_KEY'] = 'testing'
     print(f"AWS Region: {os.environ.get('AWS_DEFAULT_REGION', 'not set')}")
     print(f"Running in CI: {os.environ.get('CI', 'false')}")
     with mock_aws():
