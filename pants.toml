@@ -16,3 +16,13 @@ resolves = { python-default = "python-default.lock"}
 [cli.alias]
 lock = "generate-lockfiles --resolve=python-default"
 export-venv = "export --resolve=python-default"
+
+[pytest]
+config_discovery = false
+args = [
+  "--capture=no",
+  "--verbose"
+]
+
+[test]
+output = "all"

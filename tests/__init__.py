@@ -9,7 +9,7 @@ from punq import Container
 from src.common.logging import Logger
 
 
-StepName = Literal["given", "when", "then", "and\t"]
+StepName = Literal["given", "when", "then", "and"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -18,7 +18,7 @@ class Step:
     name: StepName
 
     def __str__(self):
-        return f"{self.name}\t{self.func.__name__.replace('_', ' ')}"
+        return f"{self.name:<5}\t{self.func.__name__.replace('_', ' ')}"
 
 
 @dataclass(frozen=True, slots=True)
@@ -54,7 +54,7 @@ class ScenarioRunner:
         return self.append_step(step, 'then')
 
     def and_also(self, step: Callable) -> 'ScenarioRunner':
-        return self.append_step(step, 'and\t')
+        return self.append_step(step, 'and')
 
     def call_step(self, step: Step):
         if self.context is None:
