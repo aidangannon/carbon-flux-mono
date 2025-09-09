@@ -1,4 +1,4 @@
-from tests.fluxter_scrape.get_features.conftest import data_exists_in_the_db, \
+from tests.fluxter_scrape.get_item_feature.conftest import data_exists_in_the_db, \
     lambda_is_called_with_data_id, lambda_response_should_equal_data, no_data_exists, lambda_response_should_be_empty, get_item_feature
 
 
