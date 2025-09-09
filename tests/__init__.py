@@ -1,5 +1,5 @@
 from abc import ABC
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import wraps
 from typing import Literal, Callable, Any
 
@@ -37,29 +37,37 @@ class ScenarioRunner:
         self.steps = []
         self.context = context
 
-    def given(self, step: Callable) -> 'ScenarioRunner':
-        self.steps.append(Step(func=step, name="given"))
+    def append_step(self, step: Callable, name: StepName) -> 'ScenarioRunner':
+        self.steps.append(Step(
+            func=step,
+            name=name)
+        )
         return self
+
+    def given(self, step: Callable) -> 'ScenarioRunner':
+        return self.append_step(step, 'given')
 
     def when(self, step: Callable) -> 'ScenarioRunner':
-        self.steps.append(Step(func=step, name="when"))
-        return self
+        return self.append_step(step, 'when')
 
     def then(self, step: Callable) -> 'ScenarioRunner':
-        self.steps.append(Step(func=step, name="then"))
-        return self
+        return self.append_step(step, 'then')
 
     def and_also(self, step: Callable) -> 'ScenarioRunner':
-        self.steps.append(Step(func=step, name="and\t"))
-        return self
+        return self.append_step(step, 'and\t')
+
+    def call_step(self, step: Step):
+        if self.context is None:
+            step.func()
+        else:
+            step.func(self.context)
 
     def run(self):
         print("\n")
         for step in self.steps:
             step_str = str(step)
             try:
-                if self.context is not None:
-                    step.func(self.context)
+                self.call_step(step)
                 print(f"passed: \t{step_str}")
             except Exception as e:
                 print(f"failed: \t{step_str}")
