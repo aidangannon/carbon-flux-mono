@@ -3,9 +3,6 @@ from typing import Callable, Any
 
 from punq import Container
 
-# internal cache for reuse
-_container = None
-
 LambdaHandle = Callable[[dict, dict], dict]
 InnerLambdaHandle = Callable[[Container, dict, dict], dict]
 IocHandle = Callable[[Container], None]
