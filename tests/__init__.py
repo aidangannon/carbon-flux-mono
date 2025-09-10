@@ -2,6 +2,8 @@ from abc import ABC
 from dataclasses import dataclass, field
 from functools import wraps
 from typing import Literal, Callable, Any, Optional
+import inspect
+import re
 
 from loguru import logger
 from punq import Container
@@ -12,6 +14,24 @@ from src.common.logging import Logger
 StepName = Literal["given", "when", "then", "and"]
 
 
+def substitute_args_into_func_display_name(func_name: str, step: 'Step') -> str:
+    params = list(inspect.signature(step.func).parameters.keys())
+    
+    param_offset = 1 if params and params[0] == 'context' else 0
+
+    if step.args:
+        for i, arg in enumerate(step.args):
+            param_index = i + param_offset
+            if param_index < len(params):
+                func_name = re.sub(params[param_index].upper(), f'"{arg}"', func_name)
+    
+    if step.kwargs:
+        for key, value in step.kwargs.items():
+            func_name = re.sub(key.upper(), f'"{value}"', func_name)
+    
+    return func_name
+
+
 @dataclass(frozen=True, slots=True)
 class Step:
     func: Callable
@@ -20,13 +40,20 @@ class Step:
     kwargs: Optional[dict[str, Any]]
 
     def __str__(self):
-        return f"{self.name:<5}\t{self.func.__name__.replace('_', ' ')}"
+        func_name = substitute_args_into_func_display_name(self.func.__name__, self).replace('_', ' ')
+        return f"{self.name:<5}\t{func_name}"
 
 
 @dataclass(frozen=True, slots=True)
 class StepFailure:
     exception: Exception
     name: str
+
+
+def step_expects_context(step: Step):
+    params = list(inspect.signature(step.func).parameters.values())
+
+    return len(params) > 0 and params[0].name == 'context'
 
 
 class ScenarioRunner:
@@ -81,7 +108,7 @@ class ScenarioRunner:
 
     def call_step(self, step: Step):
         args = []
-        if self.context is not None:
+        if step_expects_context(step) and self.context is not None:
             args.append(self.context)
         
         if step.args:

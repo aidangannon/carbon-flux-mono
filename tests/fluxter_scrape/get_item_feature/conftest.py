@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from pytest import fixture
 import uuid
 
@@ -17,6 +19,13 @@ def get_item_feature(handler, database):
     return context
 
 
+@dataclass(unsafe_hash=True)
+class Person:
+    name: str
+    blah: str
+    attributes: dict
+
+
 class TestScenarioContext(BaseBddContext):
     sut: LambdaHandle
     table: Table
@@ -25,7 +34,7 @@ class TestScenarioContext(BaseBddContext):
     item: dict
 
 
-def no_data_exists(context: TestScenarioContext):
+def no_data_exists():
         ...
 
 def data_exists_in_the_db(context: TestScenarioContext):
@@ -36,6 +45,32 @@ def data_exists_in_the_db(context: TestScenarioContext):
         'number_field': 123
     }
     context.table.put_item(Item=context.item)
+
+def data_exists_in_the_db_PERSON_with_other_partition_PARTITION_KEY(
+    context: TestScenarioContext,
+    partition_key: str,
+    number: int,
+    person: Person
+):
+    context.item = {
+        'partition_key': partition_key,
+        'id': context.item_id,
+        'other_field': 'data',
+        'number_field': number
+    }
+    context.table.put_item(Item=context.item)
+
+def needless_step_to_test_our_args(
+    partition_key: str,
+    number: int,
+    _id: str
+):
+    _ = {
+        'partition_key': partition_key,
+        'id': _id,
+        'other_field': 'data',
+        'number_field': number
+    }
 
 def lambda_is_called_with_data_id(context: TestScenarioContext):
     context.response = context.sut({
