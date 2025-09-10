@@ -1,7 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass, field
 from functools import wraps
-from typing import Literal, Callable, Any
+from typing import Literal, Callable, Any, Optional
 
 from loguru import logger
 from punq import Container
@@ -16,6 +16,8 @@ StepName = Literal["given", "when", "then", "and"]
 class Step:
     func: Callable
     name: StepName
+    args: Optional[tuple[Any, ...]]
+    kwargs: Optional[dict[str, Any]]
 
     def __str__(self):
         return f"{self.name:<5}\t{self.func.__name__.replace('_', ' ')}"
@@ -37,10 +39,19 @@ class ScenarioRunner:
         self.steps = []
         self.context = context
 
-    def append_step(self, step: Callable, name: StepName) -> 'ScenarioRunner':
-        self.steps.append(Step(
-            func=step,
-            name=name)
+    def append_step(self,
+        step: Callable,
+        name: StepName,
+        *args,
+        **kwargs
+    ) -> 'ScenarioRunner':
+        self.steps.append(
+            Step(
+                func=step,
+                name=name,
+                args=args,
+                kwargs=kwargs
+            )
         )
         return self
 
@@ -56,11 +67,29 @@ class ScenarioRunner:
     def and_also(self, step: Callable) -> 'ScenarioRunner':
         return self.append_step(step, 'and')
 
+    def given_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
+        return self.append_step(step, 'given', *args, **kwargs)
+
+    def when_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
+        return self.append_step(step, 'when', *args, **kwargs)
+
+    def then_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
+        return self.append_step(step, 'then', *args, **kwargs)
+
+    def and_also_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
+        return self.append_step(step, 'and', *args, **kwargs)
+
     def call_step(self, step: Step):
-        if self.context is None:
-            step.func()
-        else:
-            step.func(self.context)
+        args = []
+        if self.context is not None:
+            args.append(self.context)
+        
+        if step.args:
+            args.extend(step.args)
+            
+        kwargs = step.kwargs or {}
+        
+        step.func(*args, **kwargs)
 
     def run(self):
         print("\n")
