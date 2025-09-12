@@ -7,3 +7,11 @@ variable "python_runtime" {
   type    = string
   default = "python3.11"
 }
+
+variable "icos_username" {
+  type    = string
+}
+
+variable "icos_password" {
+  type    = string
+}
