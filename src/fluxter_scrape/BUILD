@@ -12,6 +12,7 @@ python_aws_lambda_function(
     handler="src/fluxter_scrape/handler:handle",
     dependencies=[
         ":fluxter_scrape",
-        ":icos_config"
+        ":icos_config",
+        "//:reqs#icoscp"
     ]
 )
