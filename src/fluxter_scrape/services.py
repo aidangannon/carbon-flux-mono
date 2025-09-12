@@ -5,6 +5,8 @@ from pathlib import Path
 from typing import Optional
 
 import boto3
+from icoscp import cpauth
+from icoscp_core.icos import bootstrap
 
 from src.common.logging import Logger
 
@@ -30,12 +32,10 @@ class MyService:
 
     def __call__(self, item_id: str) -> Optional[dict]:
         with self.logger.contextualize(nested_prop="this is nested"):
-            auth_file = Path.home() / '.icoscp' / "config.json"
-            with open(auth_file, 'r') as f:
-                config = json.load(f)
-            config['user_id'] = os.environ['ICOS_USERNAME']
-            config['password'] = os.environ['ICOS_PASSWORD']
-            with open(auth_file, 'w') as f:
-                json.dump(config, f)
+            user_id = os.environ["ICOS_USERNAME"]
+            password = os.environ["ICOS_PASSWORD"]
+            meta, data = bootstrap.fromCredentials(user_id, password)
+            cpauth.init_by(data.auth)
+            self.logger.info("Logging some genuine tweaking stuff", meta=meta, data=data)
             self.logger.info("Logging from service", property="hello")
             return self.dep1(item_id=item_id)
