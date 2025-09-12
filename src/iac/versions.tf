@@ -6,11 +6,6 @@ terraform {
       source = "hashicorp/aws"
       version = ">= 6.0.0"
     }
-
-    klayers = {
-      version = "~> 1.0.0"
-      source  = "ldcorentin/klayer"
-    }
   }
 
   backend "s3" {}

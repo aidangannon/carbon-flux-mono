@@ -1,9 +1,11 @@
 module "fluxter" {
-  source          = "./fluxter"
-  python_runtime  = var.python_runtime
-  name            = "fluxter"
-  icos_username   = var.icos_username
-  icos_password   = var.icos_password
+  source            = "./fluxter"
+  python_runtime    = var.python_runtime
+  name              = "fluxter"
 
-  core_layer_arn  = aws_lambda_layer_version.core_layer.arn
+  icos_username     = var.icos_username
+  icos_password     = var.icos_password
+
+  core_layer_arn    = aws_lambda_layer_version.core_layer.arn
+  pandas_layer_arn  = local.pandas_layer_arn
 }

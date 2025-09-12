@@ -7,7 +7,8 @@ module "lambda_function" {
   runtime       = var.python_runtime
 
   layers = [
-    var.core_layer_arn
+    var.core_layer_arn,
+    var.pandas_layer_arn
   ]
 
   create_package         = false
