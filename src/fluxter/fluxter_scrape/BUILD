@@ -5,7 +5,7 @@ python_aws_lambda_function(
     handler="src/fluxter/fluxter_scrape/handler:handle",
     dependencies=[
         ":fluxter_scrape",
-        "src/fluxter/fluxter_common",
+        "src/fluxter",
         "//:reqs#icoscp"
     ]
 )

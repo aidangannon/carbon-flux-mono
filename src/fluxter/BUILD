@@ -1,6 +1,4 @@
-python_sources(
-    name="fluxter_common"
-)
+python_sources()
 
 python_sources(
     name="fluxter_messages",
