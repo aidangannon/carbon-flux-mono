@@ -1,6 +1,6 @@
 module "fluxter" {
   source            = "./fluxter"
-  python_runtime    = var.python_runtime
+  python_runtime    = local.python_runtime
   name              = "fluxter"
 
   icos_username     = var.icos_username

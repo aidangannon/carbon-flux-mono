@@ -1,11 +1,6 @@
-variable "aws_region" {
-  type    = string
-  default = "eu-west-2"
-}
-
-variable "python_runtime" {
-  type    = string
-  default = "python3.11"
+locals {
+  python_runtime = "python3.11",
+  aws_region = "eu-west-2"
 }
 
 variable "icos_username" {
