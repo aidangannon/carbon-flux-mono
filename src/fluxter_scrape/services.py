@@ -1,3 +1,4 @@
+import io
 import json
 import os
 from dataclasses import dataclass
@@ -34,6 +35,14 @@ class AnotherDependency:
         password = os.environ["ICOS_PASSWORD"]
         meta, data = bootstrap.fromCredentials(user_id, password)
         cpauth.init_by(data.auth)
+        _, response = data.get_file_stream("https://data.icos-cp.eu/zip/KuarACMQOQSxh3lcQK1Sg27d/extractFile/FR-FBn_EC_202509120430_L05_F01.zip")
+        response_data = response.read()
+        s3 = boto3.client('s3')
+        s3.put_object(
+            Bucket='fluxter-blob',
+            Key='FR-FBn_EC_202509120430_L05_F01.zip',
+            Body=response_data
+        )
         self.logger.info("Logging some genuine tweaking stuff", meta=meta, data=data)
 
 
