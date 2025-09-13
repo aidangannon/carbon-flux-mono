@@ -39,7 +39,7 @@ class AnotherDependency:
         response_data = response.read()
         s3 = boto3.client('s3')
         s3.put_object(
-            Bucket='fluxter-blob',
+            Bucket=os.environ["BUCKET_NAME"],
             Key='FR-FBn_EC_202509120430_L05_F01.zip',
             Body=response_data
         )

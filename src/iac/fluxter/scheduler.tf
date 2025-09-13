@@ -45,6 +45,7 @@ module "lambda_function" {
     ICOS_USERNAME = var.icos_username
     ICOS_PASSWORD = var.icos_password
     HOME          = "/tmp"
+    BUCKET_NAME   = aws_s3_bucket.blob.id
   }
 
   tags = {
