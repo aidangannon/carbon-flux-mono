@@ -3,7 +3,7 @@ module "lambda_function" {
 
   function_name = var.name
   description   = "Manages tracking site's for raw etc data"
-  handler       = "src.fluxter.handler.handle"
+  handler       = "src.fluxter_scrape.handler.handle"
   runtime       = var.python_runtime
 
   layers = [
