@@ -1,8 +1,8 @@
 from punq import Container
 
 from src.common.handlers import lazy_handler_factory
-from src.fluxter_scrape.bootstrap import bootstrap
-from src.fluxter_scrape.services import MyService
+from src.fluxter.fluxter_scrape.bootstrap import bootstrap
+from src.fluxter.fluxter_scrape.services import MyService
 
 
 def inner_handle(

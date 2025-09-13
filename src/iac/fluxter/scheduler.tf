@@ -3,7 +3,7 @@ module "lambda_function" {
 
   function_name = var.name
   description   = "Manages tracking site's for raw etc data"
-  handler       = "src.fluxter_scrape.handler.handle"
+  handler       = "src.fluxter.fluxter_scrape.handler.handle"
   runtime       = var.python_runtime
 
   timeout = 30
@@ -13,7 +13,7 @@ module "lambda_function" {
   ]
 
   create_package         = false
-  local_existing_package = "../../dist/src.fluxter_scrape/lambda.zip"
+  local_existing_package = "../../dist/src.fluxter.fluxter_scrape/lambda.zip"
 
   attach_policy_statements = true
   attach_cloudwatch_logs_policy = true

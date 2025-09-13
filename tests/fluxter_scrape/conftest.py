@@ -1,13 +1,11 @@
-import os
-
 import boto3
 from moto import mock_aws
 from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefinitionTypeDef
 from punq import Container
 from pytest import fixture
 
-from src.fluxter_scrape.bootstrap import bootstrap
-from src.fluxter_scrape.handler import inner_handle
+from src.fluxter.fluxter_scrape import bootstrap
+from src.fluxter.fluxter_scrape import inner_handle
 from tests import add_test_logging
 
 
