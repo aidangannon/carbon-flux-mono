@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from unittest.mock import Mock
 
 from pytest import fixture
 import uuid
@@ -7,12 +8,14 @@ from assertpy import assert_that
 from mypy_boto3_dynamodb.service_resource import Table
 
 from src.common.handlers import LambdaHandle
+from src.fluxter_scrape.services import AnotherDependency
 from tests import BaseBddContext
 
 
 @fixture
-def get_item_feature(handler, database):
+def get_item_feature(handler, container, database):
     context = TestScenarioContext()
+    container.register(AnotherDependency, instance=Mock())
     context.sut = handler
     context.table = database
     context.item_id = str(uuid.uuid4())
