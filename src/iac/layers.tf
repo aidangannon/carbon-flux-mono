@@ -7,7 +7,7 @@ resource "aws_lambda_layer_version" "core_layer" {
 }
 
 locals {
-  file_name = "../../dist/src.common/layer.zip"
+  file_name = "../../dist/src.common/common_layer.zip"
 }
 
 locals {
