@@ -42,6 +42,7 @@ module "lambda_function" {
   environment_variables = {
     ICOS_USERNAME = var.icos_username
     ICOS_PASSWORD = var.icos_password
+    HOME          = "/tmp"
   }
 
   tags = {
