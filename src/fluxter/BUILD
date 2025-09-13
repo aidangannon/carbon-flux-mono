@@ -4,5 +4,5 @@ python_sources(
 
 python_sources(
     name="fluxter_messages",
-    sources=["messaging.py"]
+    sources=["messages.py"]
 )
