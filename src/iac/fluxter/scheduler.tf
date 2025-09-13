@@ -6,6 +6,8 @@ module "lambda_function" {
   handler       = "src.fluxter_scrape.handler.handle"
   runtime       = var.python_runtime
 
+  timeout = 30
+
   layers = [
     var.core_layer_arn
   ]
