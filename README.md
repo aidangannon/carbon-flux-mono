@@ -34,7 +34,7 @@ handle = lazy_handler_factory(
 ### Terraform Infrastructure
 ```hcl
 resource "aws_lambda_function" "fluxter_scrape" {
-  function_name = "fluxter-scrape"
+  function_name = "flux_tracking_service-scrape"
   layers        = [aws_lambda_layer_version.common.arn]
   
   depends_on = [aws_dynamodb_table.fluxter_db]

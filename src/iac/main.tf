@@ -1,7 +1,7 @@
-module "fluxter" {
-  source            = "./fluxter"
+module "flux_tracking_service" {
+  source            = "./flux_tracking_service"
   python_runtime    = local.python_runtime
-  name              = "fluxter"
+  name              = "flux-tracking"
 
   icos_username     = var.icos_username
   icos_password     = var.icos_password

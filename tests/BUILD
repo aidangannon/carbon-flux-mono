@@ -3,7 +3,7 @@ python_sources()
 python_tests(
     name="test_suite",
     dependencies=[
-        "src/fluxter/fluxter_scrape",
+        "src/flux_tracking_service/ingest",
         "src/common",
         "//:reqs#assertpy",
         "//:reqs#moto",

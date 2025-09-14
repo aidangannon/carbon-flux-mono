@@ -4,8 +4,8 @@ from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefi
 from punq import Container
 from pytest import fixture
 
-from src.fluxter.fluxter_scrape.bootstrap import bootstrap
-from src.fluxter.fluxter_scrape.handler import inner_handle
+from src.flux_tracking_service.ingest.bootstrap import bootstrap
+from src.flux_tracking_service.ingest.handler import inner_handle
 from tests import add_test_logging
 
 
@@ -20,7 +20,7 @@ def database():
     with mock_aws():
         dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
         yield dynamodb.create_table(
-            TableName='fluxter-db',
+            TableName='flux_tracking_service-db',
             AttributeDefinitions=[
                 AttributeDefinitionTypeDef(AttributeName="partition_key", AttributeType='S'),
                 AttributeDefinitionTypeDef(AttributeName="id", AttributeType='S')

@@ -8,7 +8,7 @@ from assertpy import assert_that
 from mypy_boto3_dynamodb.service_resource import Table
 
 from src.common.handlers import LambdaHandle
-from src.fluxter.fluxter_scrape.services import AnotherDependency
+from src.flux_tracking_service.ingest.services import AnotherDependency
 from tests import BaseBddContext
 
 
