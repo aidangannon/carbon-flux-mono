@@ -20,7 +20,7 @@ def database():
     with mock_aws():
         dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
         yield dynamodb.create_table(
-            TableName='flux_tracking_service-db',
+            TableName='flux-tracking-db',
             AttributeDefinitions=[
                 AttributeDefinitionTypeDef(AttributeName="partition_key", AttributeType='S'),
                 AttributeDefinitionTypeDef(AttributeName="id", AttributeType='S')
