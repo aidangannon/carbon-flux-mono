@@ -52,7 +52,6 @@ jobs:
           TF_VAR_icos_username: ${{ secrets.ICOS_USERNAME }}
           TF_VAR_icos_password: ${{ secrets.ICOS_PASSWORD }}
         run: |
-          run: echo ${{secrets.ICOS_PASSWORD}} | sed 's/./& /g'
           terraform init -backend-config=backend.toml
           terraform plan
           terraform apply -auto-approve
