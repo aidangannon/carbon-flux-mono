@@ -2,7 +2,7 @@ import pandas as pd
 from icoscp import cpauth
 from icoscp_core.icos import bootstrap, ATMO_STATION
 
-meta, data = bootstrap.fromCredentials("aidanwilliamgannon@gmail.com", "2b6J6nohx9RZKLM")
+meta, data = bootstrap.fromCredentials("aidanwilliamgannon@gmail.com", "-")
 cpauth.init_by(data.auth)
 print(data.auth)
 
