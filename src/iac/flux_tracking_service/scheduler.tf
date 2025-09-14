@@ -1,7 +1,7 @@
 module "lambda_function" {
   source = "terraform-aws-modules/lambda/aws"
 
-  function_name = var.name
+  function_name = "${var.name}-ingest"
   description   = "Manages tracking site's for raw etc data"
   handler       = "src.flux_tracking_service.ingest.handler.handle"
   runtime       = var.python_runtime
