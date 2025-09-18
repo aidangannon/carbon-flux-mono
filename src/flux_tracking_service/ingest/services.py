@@ -32,26 +32,7 @@ class AnotherDependency:
     logger: Logger
 
     def __call__(self):
-        user_id = os.environ["ICOS_USERNAME"]
-        password = os.environ["ICOS_PASSWORD"]
-        meta, data = bootstrap.fromCredentials(user_id, password)
-        ec_data = meta.list_data_objects(
-            datatype='http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv',
-            station='http://meta.icos-cp.eu/resources/stations/ES_FR-FBn',
-            order_by={"prop": "timeEnd", "descending": True},
-            limit=1
-        )
-        requests.get(f"https://data.icos-cp.eu/zip/{ec_data[0].uri.split('/')[4]}/listContents")
-        cpauth.init_by(data.auth)
-        _, response = data.get_file_stream("https://data.icos-cp.eu/zip/KuarACMQOQSxh3lcQK1Sg27d/extractFile/FR-FBn_EC_202509120430_L05_F01.zip")
-        response_data = response.read()
-        s3 = boto3.client('s3')
-        s3.put_object(
-            Bucket=os.environ["BUCKET_NAME"],
-            Key='FR-FBn_EC_202509120430_L05_F01.zip',
-            Body=response_data
-        )
-        self.logger.info("Logging some genuine tweaking stuff", meta=meta, data=data)
+        ...
 
 
 @dataclass(frozen=True, slots=True)
