@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 import boto3
+import requests
 from icoscp import cpauth
 from icoscp_core.icos import bootstrap
 
@@ -40,6 +41,7 @@ class AnotherDependency:
             order_by={"prop": "timeEnd", "descending": True},
             limit=1
         )
+        requests.get(f"https://data.icos-cp.eu/zip/{ec_data[0].uri.split('/')[4]}/listContents")
         cpauth.init_by(data.auth)
         _, response = data.get_file_stream("https://data.icos-cp.eu/zip/KuarACMQOQSxh3lcQK1Sg27d/extractFile/FR-FBn_EC_202509120430_L05_F01.zip")
         response_data = response.read()
