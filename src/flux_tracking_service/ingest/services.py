@@ -34,6 +34,12 @@ class AnotherDependency:
         user_id = os.environ["ICOS_USERNAME"]
         password = os.environ["ICOS_PASSWORD"]
         meta, data = bootstrap.fromCredentials(user_id, password)
+        ec_data = meta.list_data_objects(
+            datatype='http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv',
+            station='http://meta.icos-cp.eu/resources/stations/ES_FR-FBn',
+            order_by={"prop": "timeEnd", "descending": True},
+            limit=1
+        )
         cpauth.init_by(data.auth)
         _, response = data.get_file_stream("https://data.icos-cp.eu/zip/KuarACMQOQSxh3lcQK1Sg27d/extractFile/FR-FBn_EC_202509120430_L05_F01.zip")
         response_data = response.read()
