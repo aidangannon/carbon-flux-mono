@@ -1,7 +1,10 @@
+import loguru
+
 from tests import scenario
 from tests.flux_tracking_service.features.get_item_feature.get_item_feature_steps import data_exists_in_the_db, \
     lambda_is_called_with_data_id, lambda_response_should_equal_data, no_data_exists, lambda_response_should_be_empty, \
     needless_step_to_test_our_args, data_exists_in_the_db_with_other_partition_PARTITION_and_number_NUMBER_and_person_PERSON
+from tests.flux_tracking_service.infrastructure.common_steps.log_steps import there_should_be_an_LEVEL_log_with_message_MESSAGE
 
 
 def test_1(get_item_feature):
@@ -10,6 +13,7 @@ def test_1(get_item_feature):
         .given(data_exists_in_the_db(context)) \
         .when(lambda_is_called_with_data_id(context)) \
         .then(lambda_response_should_equal_data(context)) \
+        .and_also(there_should_be_an_LEVEL_log_with_message_MESSAGE(context, "Logging from service", "INFO")) \
         .run()
 
 def test_2(get_item_feature):

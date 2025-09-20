@@ -164,21 +164,35 @@ class LoguruTestCapture:
     def get_logs(self):
         return self.logs
 
-def assert_that_there_is_a_log_with(container: Container,
-    message: str,
-    level: str,
-    **extra_vars: dict
-):
-    logs = container \
-        .resolve(LoguruTestCapture) \
-        .get_logs()
-    matching_logs = [
-        log for log in logs
-        if message in log['message']
-           and log['level'].name == level
-           and all(log['extra'].get(k) == v for k, v in extra_vars.items())
-    ]
-    return len(matching_logs) > 0
+class LogAssertions:
+    def __init__(self, container: Container):
+        self.container = container
+        self.logs = container.resolve(LoguruTestCapture).get_logs()
+
+    def contains_message(self, message: str):
+        self._message = message
+        return self
+
+    def with_level(self, level: str):
+        self._level = level
+        return self
+
+    def with_extra(self, **extra_vars):
+        self._extra_vars = extra_vars
+        return self
+
+    def exists(self):
+        matching_logs = [
+            log for log in self.logs
+            if (hasattr(self, '_message') and self._message in log['message'])
+               and (hasattr(self, '_level') and log['level'].name == self._level)
+               and (not hasattr(self, '_extra_vars') or
+                   all(log['extra'].get(k) == v for k, v in self._extra_vars.items()))
+        ]
+        assert len(matching_logs) > 0, f"No logs found matching criteria"
+
+def assert_that_logs(container: Container):
+    return LogAssertions(container)
 
 def add_test_logging(container: Container):
     logger.remove()
