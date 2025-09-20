@@ -7,6 +7,7 @@ from tests.flux_tracking_service.features.get_item_feature.get_item_feature_step
 from tests.flux_tracking_service.infrastructure.common_steps.log_steps import there_should_be_an_LEVEL_log_with_message_MESSAGE
 
 
+@scenario
 def test_1(get_item_feature):
     context = get_item_feature
     context.runner \
@@ -16,6 +17,7 @@ def test_1(get_item_feature):
         .and_also(there_should_be_an_LEVEL_log_with_message_MESSAGE(context, "Logging from service", "INFO")) \
         .run()
 
+@scenario
 def test_2(get_item_feature):
     context = get_item_feature
     context.runner \
@@ -25,6 +27,7 @@ def test_2(get_item_feature):
         .and_also(lambda_response_should_be_empty(context)) \
         .run()
 
+@scenario
 def test_another_blady_test(get_item_feature):
     context = get_item_feature
     context.runner \
