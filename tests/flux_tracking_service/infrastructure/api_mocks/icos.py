@@ -3,8 +3,9 @@ from string import Template
 from responses import RequestsMock, POST
 
 
-META_BASE_URL = "https://meta.test-icos.py"
-SPARQL_PATH = f"{META_BASE_URL}/sparql"
+META_URL = "https://meta.test-icos.py"
+DATA_URL = "https://data.test-icos.py"
+SPARQL_PATH = f"{META_URL}/sparql"
 
 
 def configure_get_submissions(
@@ -106,4 +107,25 @@ offset 0 limit $limit
             order_desc_param=order_desc_field,
             limit=limit
         )
+    )
+
+
+def configure_get_content(
+    submission_object: str,
+    file_urls: list[str],
+    request_mock: RequestsMock
+):
+    response = [
+        {
+            "name": "FR-FBn_EC_202509120030_L05_F01.zip",
+            "path": file_url,
+            "size": 12321321
+        }
+        for file_url in file_urls
+    ]
+
+    request_mock.add(
+        method=POST,
+        url=f"{DATA_URL}/zip/{submission_object}/listContents",
+        json=response
     )

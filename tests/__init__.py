@@ -1,47 +1,63 @@
-from abc import ABC
-from dataclasses import dataclass, field
-from functools import wraps
-from typing import Literal, Callable, Any, Optional
 import inspect
-import re
+from abc import ABC
+from dataclasses import dataclass
+from typing import Literal, Callable, Any
 
+import pytest
 from loguru import logger
 from punq import Container
 
 from src.common.logging import Logger
 
-
 StepName = Literal["given", "when", "then", "and"]
 
 
-def substitute_args_into_func_display_name(func_name: str, step: 'Step') -> str:
-    params = list(inspect.signature(step.func).parameters.keys())
-    
-    param_offset = 1 if params and params[0] == 'context' else 0
+def scenario(func):
+    return pytest.mark.test(func)
 
-    if step.args:
-        for i, arg in enumerate(step.args):
-            param_index = i + param_offset
-            if param_index < len(params):
-                func_name = re.sub(params[param_index].upper(), f'"{arg}"', func_name)
-    
-    if step.kwargs:
-        for key, value in step.kwargs.items():
-            func_name = re.sub(key.upper(), f'"{value}"', func_name)
-    
-    return func_name
+
+def substitute_args_into_func_display_name(func_name: str, param_values: dict[str, Any]) -> str:
+    result = func_name
+    for param_name, value in param_values.items():
+        uppercase_param = param_name.upper()
+        if uppercase_param in result:
+            result = result.replace(uppercase_param, f"'{str(value)}'")
+
+    return result
+
+
+def step(func):
+    def wrapper(*args, **kwargs) -> StepWrapperReturn:
+        all_args = list(args) + list(kwargs.values())
+        params = list(inspect.signature(func).parameters.keys())
+        param_values = dict(zip(params, all_args))
+        return StepWrapperReturn(
+            lambda: func(*args, **kwargs),
+            func.__name__,
+            param_values
+        )
+
+    return wrapper
+
+
+@dataclass(frozen=True, slots=True)
+class StepWrapperReturn:
+    func: Callable
+    func_name: str
+    param_values: dict[str, Any]
 
 
 @dataclass(frozen=True, slots=True)
 class Step:
     func: Callable
+    func_name: str
+    param_values: dict[str, Any]
     name: StepName
-    args: Optional[tuple[Any, ...]]
-    kwargs: Optional[dict[str, Any]]
 
     def __str__(self):
-        func_name = substitute_args_into_func_display_name(self.func.__name__, self).replace('_', ' ')
-        return f"{self.name:<5}\t{func_name}"
+        func_name = self.func_name.replace('_', ' ')
+        display_name = substitute_args_into_func_display_name(func_name, self.param_values)
+        return f"{self.name:<5}\t{display_name}"
 
 
 @dataclass(frozen=True, slots=True)
@@ -68,62 +84,58 @@ class ScenarioRunner:
 
     def append_step(self,
         step: Callable,
+        func_name: str,
         name: StepName,
-        *args,
-        **kwargs
+        param_values: dict
     ) -> 'ScenarioRunner':
         self.steps.append(
             Step(
                 func=step,
+                func_name=func_name,
                 name=name,
-                args=args,
-                kwargs=kwargs
+                param_values=param_values
             )
         )
         return self
 
-    def given(self, step: Callable) -> 'ScenarioRunner':
-        return self.append_step(step, 'given')
+    def given(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
+        return self.append_step(
+            step_wrapper_return.func,
+            step_wrapper_return.func_name,
+            'given',
+            step_wrapper_return.param_values,
+        )
 
-    def when(self, step: Callable) -> 'ScenarioRunner':
-        return self.append_step(step, 'when')
+    def when(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
+        return self.append_step(
+            step_wrapper_return.func,
+            step_wrapper_return.func_name,
+            'when',
+            step_wrapper_return.param_values,
+        )
 
-    def then(self, step: Callable) -> 'ScenarioRunner':
-        return self.append_step(step, 'then')
+    def then(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
+        return self.append_step(
+            step_wrapper_return.func,
+            step_wrapper_return.func_name,
+            'then',
+            step_wrapper_return.param_values,
+        )
 
-    def and_also(self, step: Callable) -> 'ScenarioRunner':
-        return self.append_step(step, 'and')
-
-    def given_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
-        return self.append_step(step, 'given', *args, **kwargs)
-
-    def when_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
-        return self.append_step(step, 'when', *args, **kwargs)
-
-    def then_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
-        return self.append_step(step, 'then', *args, **kwargs)
-
-    def and_also_with_params(self, step: Callable, *args, **kwargs) -> 'ScenarioRunner':
-        return self.append_step(step, 'and', *args, **kwargs)
-
-    def call_step(self, step: Step):
-        args = []
-        if step_expects_context(step) and self.context is not None:
-            args.append(self.context)
-        
-        if step.args:
-            args.extend(step.args)
-            
-        kwargs = step.kwargs or {}
-        
-        step.func(*args, **kwargs)
+    def and_also(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
+        return self.append_step(
+            step_wrapper_return.func,
+            step_wrapper_return.func_name,
+            'and',
+            step_wrapper_return.param_values,
+        )
 
     def run(self):
         print("\n")
         for step in self.steps:
             step_str = str(step)
             try:
-                self.call_step(step)
+                step.func()
                 print(f"passed: \t{step_str}")
             except Exception as e:
                 print(f"failed: \t{step_str}")

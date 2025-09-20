@@ -10,13 +10,14 @@ python_tests(
         "//:reqs#pytest"
     ],
     sources=[
-        "**/*_test.py"
+        "**/*_feature.py"
     ]
 )
 
 python_test_utils(
     name="test_utils",
     sources=[
-        "**/conftest.py"
+        "**/conftest.py",
+        "**/*_steps.py"
     ]
 )

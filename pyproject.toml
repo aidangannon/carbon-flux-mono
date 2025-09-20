@@ -1,0 +1,10 @@
+[tool.pytest.ini_options]
+python_files = [
+  "*_tests.py",
+  "*_test.py",
+  "*_feature.py"
+]
+python_classes = ["Test*"]
+python_functions = ["test*"]
+addopts = "-v"
+testpaths = ["tests"]
