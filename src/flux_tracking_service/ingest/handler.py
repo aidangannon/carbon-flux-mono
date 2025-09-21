@@ -9,7 +9,9 @@ def inner_handle(
     event: dict,
     context: dict
 ) -> dict:
-    return { }
+    return {
+        "submissions": []
+    }
 
 handle = lazy_handler_factory(
     inner_handler=inner_handle,
