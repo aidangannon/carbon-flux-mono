@@ -39,6 +39,10 @@ def ingest_container(database):
     return common. \
         create_container_with_bootstrap(bootstrap)
 
+@fixture(scope='session', autouse=True)
+def ingest_settings(ingest_container):
+    ...
+
 @fixture(scope='session')
 def ingest_handler(ingest_container):
     return common. \

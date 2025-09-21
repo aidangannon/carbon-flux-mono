@@ -42,8 +42,8 @@ module "lambda_function" {
   }
 
   environment_variables = {
-    ICOS_USERNAME = var.icos_username
-    ICOS_PASSWORD = var.icos_password
+    ICOS_DATA_URL = local.icos_data_url
+    ICOS_META_URL = local.icos_meta_url
     HOME          = "/tmp"
     BUCKET_NAME   = aws_s3_bucket.blob.id
   }

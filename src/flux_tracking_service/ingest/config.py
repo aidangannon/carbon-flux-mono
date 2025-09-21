@@ -7,5 +7,5 @@ ICOS = "ICOS"
 
 @dataclass(frozen=True, slots=True)
 class IcosSettings:
-    username: str = os.environ[f"{ICOS}_USERNAME"]
-    password: str = os.environ[f"{ICOS}_PASSWORD"]
+    data_url: str = os.environ[f"{ICOS}_DATA_URL"]
+    meta_url: str = os.environ[f"{ICOS}_PORTAL_URL"]
