@@ -11,3 +11,9 @@ dist
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
+
+# hypothesis
+.hypothesis
+
+# aws cli
+response.json

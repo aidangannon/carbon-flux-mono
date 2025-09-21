@@ -1,13 +1,18 @@
 import inspect
+import random
 from abc import ABC
 from dataclasses import dataclass
-from typing import Literal, Callable, Any
+from types import SimpleNamespace
+from typing import Literal, Callable, Any, Type, TypeVar, Generic
 
 import pytest
+from hypothesis import strategies
 from loguru import logger
 from punq import Container
 
 from src.common.logging import Logger
+
+T = TypeVar('T')
 
 StepName = Literal["given", "when", "then", "and"]
 
@@ -83,11 +88,11 @@ class ScenarioRunner:
         self.context = context
 
     def append_step(self,
-        step: Callable,
-        func_name: str,
-        name: StepName,
-        param_values: dict
-    ) -> 'ScenarioRunner':
+                    step: Callable,
+                    func_name: str,
+                    name: StepName,
+                    param_values: dict
+                    ) -> 'ScenarioRunner':
         self.steps.append(
             Step(
                 func=step,
@@ -164,6 +169,7 @@ class LoguruTestCapture:
     def get_logs(self):
         return self.logs
 
+
 class LogAssertions:
     def __init__(self, container: Container):
         self.container = container
@@ -187,9 +193,10 @@ class LogAssertions:
             if (hasattr(self, '_message') and self._message in log['message'])
                and (hasattr(self, '_level') and log['level'].name == self._level)
                and (not hasattr(self, '_extra_vars') or
-                   all(log['extra'].get(k) == v for k, v in self._extra_vars.items()))
+                    all(log['extra'].get(k) == v for k, v in self._extra_vars.items()))
         ]
         assert len(matching_logs) > 0, f"No logs found matching criteria"
+
 
 def assert_that_logs(container: Container):
     return LogAssertions(container)
@@ -200,3 +207,54 @@ def add_test_logging(container: Container):
     logger.add(capture.capture_logs)
     container.register(LoguruTestCapture, instance=capture)
     container.register(Logger, instance=logger)
+
+
+class Fixture:
+    @staticmethod
+    def build(cls: Type[T]) -> 'ObjectBuilder[T]':
+        return ObjectBuilder(cls)
+
+    @staticmethod
+    def create(cls: Type[T]) -> T:
+        return ObjectBuilder(cls).create()
+
+    @staticmethod
+    def create_many(cls: Type[T], count: int = None) -> list[T]:
+        return ObjectBuilder(cls).create_many(count)
+
+class ObjectBuilder(Generic[T]):
+    def __init__(self, cls: Type[T]):
+        self._cls = cls
+        self._overrides = {}
+        self._non_empty = True
+
+    def with_field(self, **kwargs) -> 'ObjectBuilder[T]':
+        self._overrides.update(kwargs)
+        return self
+
+    def create(self) -> T:
+        if not self._overrides:
+            return strategies.from_type(self._cls).example()
+
+        return strategies.builds(
+            self._cls,
+            **{k: strategies.just(v) for k, v in self._overrides.items()}
+        ).example()
+
+    def create_many(self, count: int = None) -> list[T]:
+        if count is None:
+            count = random.Random().randint(1, 15)
+
+        return [self.create() for _ in range(count)]
+
+
+
+strategies.register_type_strategy(str, strategies.text(min_size=1))
+strategies.register_type_strategy(float, strategies.floats(min_value=0.1))
+strategies.register_type_strategy(int, strategies.integers(min_value=1))
+
+# Force all lists to have at least 1 item - override the default min_size
+original_lists = strategies.lists
+strategies.lists = lambda elements, **kwargs: original_lists(elements, min_size=kwargs.get('min_size', 1), **kwargs)
+
+fixture = Fixture()
