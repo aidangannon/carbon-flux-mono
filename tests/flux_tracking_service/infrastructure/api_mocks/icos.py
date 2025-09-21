@@ -1,10 +1,12 @@
+import uuid
 from string import Template
 
 from responses import RequestsMock, POST
 
+SESSION_ID = str(uuid.uuid4())
 
-META_URL = "https://meta.test-icos.py"
-DATA_URL = "https://data.test-icos.py"
+META_URL = f"https://meta.test-icos-{SESSION_ID}.ci"
+DATA_URL = f"https://data.test-icos-{SESSION_ID}.ci"
 SPARQL_PATH = f"{META_URL}/sparql"
 
 
