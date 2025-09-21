@@ -5,7 +5,7 @@ from responses import RequestsMock, POST, matchers
 
 SESSION_ID = str(uuid.uuid4())
 
-META_URL = f"https://meta.test-icos-{SESSION_ID}.ci"
+META_URL = f"https://meta.icos-cp.eu"
 DATA_URL = f"https://data.test-icos-{SESSION_ID}.ci"
 SPARQL_PATH = f"{META_URL}/sparql"
 
@@ -79,8 +79,6 @@ def configure_get_etc_submissions_with_bindings(
 prefix cpmeta: <http://meta.icos-cp.eu/ontologies/cpmeta/>
 prefix prov: <http://www.w3.org/ns/prov#>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
-
-
 select ?dobj ?spec ?station ?samplingHeight ?fileName ?size ?submTime ?timeStart ?timeEnd
 where {
 	VALUES ?spec { <http://meta.icos-cp.eu/resources/cpmeta/${datatype}> }
@@ -94,12 +92,10 @@ where {
 	?dobj cpmeta:hasStartTime | (cpmeta:wasAcquiredBy / prov:startedAtTime) ?timeStart .
 	?dobj cpmeta:hasEndTime | (cpmeta:wasAcquiredBy / prov:endedAtTime) ?timeEnd .
 	FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?dobj}
-	
-	
+\t
 }
 order by desc(?${order_desc_param})
-offset 0 limit ${limit}
-        """)
+offset 0 limit ${limit}""")
     request_body = request.substitute(
         datatype=datatype,
         station=station,

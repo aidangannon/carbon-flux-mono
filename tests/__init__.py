@@ -249,7 +249,10 @@ class ObjectBuilder(Generic[T]):
 
 
 
-strategies.register_type_strategy(str, strategies.text(min_size=1))
+strategies.register_type_strategy(str, strategies.text(
+    min_size=1,
+    alphabet='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+)
 strategies.register_type_strategy(float, strategies.floats(min_value=0.1))
 strategies.register_type_strategy(int, strategies.integers(min_value=1))
 

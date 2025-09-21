@@ -9,3 +9,4 @@ icoscp~=0.2.2
 pytest~=8.4.2
 moto[dynamodb, s3]~=5.1.11
 hypothesis~=6.139.2
+dacite~=1.9.2
