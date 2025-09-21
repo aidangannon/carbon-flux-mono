@@ -1,7 +1,7 @@
 import uuid
 from string import Template
 
-from responses import RequestsMock, POST
+from responses import RequestsMock, POST, matchers
 
 SESSION_ID = str(uuid.uuid4())
 
@@ -127,7 +127,7 @@ offset 0 limit ${limit}
                 "bindings": bindings
             }
         },
-        additional_matcher=lambda req: req.text == request_body
+        match=[matchers.body_matcher(request_body)]
     )
 
 
