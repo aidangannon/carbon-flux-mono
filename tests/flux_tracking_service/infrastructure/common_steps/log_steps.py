@@ -5,12 +5,12 @@ from tests import step, assert_that_logs
 
 @step
 def there_should_be_an_LEVEL_log_with_message_MESSAGE(
-    context,
+    ctx,
     message: str,
     level: str
 ):
-    assert_that_logs(context.container) \
+    assert_that_logs(ctx.container) \
         .contains_message(message) \
         .with_level(level) \
-        .with_extra(**context.scoped_vars) \
+        .with_extra(**ctx.scoped_vars) \
         .exists()
