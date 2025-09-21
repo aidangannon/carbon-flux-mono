@@ -6,9 +6,10 @@ from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefi
 from punq import Container
 from pytest import fixture
 
+from src.common.handlers import InnerLambdaHandle, IocHandle
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
 from src.flux_tracking_service.ingest.handler import inner_handle
-from tests import add_test_logging
+from tests import add_test_logging, common
 
 
 @fixture(scope='session')
@@ -34,16 +35,11 @@ def api_mocks():
       yield requests_mock
 
 @fixture(scope='session')
-def container(database):
-    container = Container()
-    bootstrap(container=container)
-    add_test_logging(container=container)
-    return container
+def ingest_container(database):
+    return common. \
+        create_container_with_bootstrap(bootstrap)
 
 @fixture(scope='session')
-def handler(container):
-    container = container
-    return lambda event, context: inner_handle(
-        container=container,
-        event=event,
-        context=context)
+def ingest_handler(ingest_container):
+    return common. \
+        create_handler_with_inner_handle(ingest_container, inner_handle)

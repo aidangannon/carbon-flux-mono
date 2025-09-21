@@ -8,11 +8,11 @@ from tests.flux_tracking_service.features.get_item_feature.get_item_feature_step
 
 
 @fixture
-def get_item_feature(handler, container, database):
+def get_item_feature(ingest_handler, ingest_container, database):
     context = TestScenarioContext()
-    context.container = container
+    context.container = ingest_container
     context.container.register(AnotherDependency, instance=Mock())
-    context.sut = handler
+    context.sut = ingest_handler
     context.table = database
     context.item_id = str(uuid.uuid4())
     context.scoped_vars = {"nested_prop": "this is nested"}
