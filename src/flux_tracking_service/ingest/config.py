@@ -7,5 +7,5 @@ ICOS = "ICOS"
 
 @dataclass(frozen=True, slots=True)
 class IcosSettings:
-    data_url: str = os.environ[f"{ICOS}_DATA_URL"]
-    meta_url: str = os.environ[f"{ICOS}_PORTAL_URL"]
+    data_url: str = os.environ.get(f"{ICOS}_DATA_URL", None)
+    meta_url: str = os.environ.get(f"{ICOS}_META_URL", None)

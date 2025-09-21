@@ -15,7 +15,7 @@ def icos_api_is_configured_to_return_latest_submission(
         order_desc_field="timeEnd",
         submission_object=submission_object_id,
         limit=1,
-        request_mock=context.request_mock
+        request_mock=context.requests_mock
     )
 
 @step
@@ -27,5 +27,5 @@ def icos_api_is_configured_to_return_files_for_submission(
     icos.configure_get_content(
         file_urls=file_urls,
         submission_object=submission_object_id,
-        request_mock=context.request_mock
+        request_mock=context.requests_mock
     )

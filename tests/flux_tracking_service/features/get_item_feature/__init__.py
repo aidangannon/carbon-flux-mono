@@ -6,7 +6,7 @@ from mypy_boto3_dynamodb.service_resource import Table
 from tests import BaseBddContext
 
 
-class TestScenarioContext(BaseBddContext):
+class GetItemContext(BaseBddContext):
     sut: LambdaHandle
     container: Container
     table: Table

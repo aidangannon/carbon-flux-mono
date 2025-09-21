@@ -5,7 +5,7 @@ from mypy_boto3_dynamodb.service_resource import Table
 
 from src.common.handlers import LambdaHandle
 from tests import BaseBddContext, step
-from tests.flux_tracking_service.features.get_item_feature import TestScenarioContext
+from tests.flux_tracking_service.features.get_item_feature import GetItemContext
 
 
 @step
@@ -13,7 +13,7 @@ def no_data_exists():
         ...
 
 @step
-def data_exists_in_the_db(context: TestScenarioContext):
+def data_exists_in_the_db(context: GetItemContext):
     context.item = {
         'partition_key': 'item',
         'id': context.item_id,
@@ -24,7 +24,7 @@ def data_exists_in_the_db(context: TestScenarioContext):
 
 @step
 def data_exists_in_the_db_with_other_partition_PARTITION_and_number_NUMBER_and_person_PERSON(
-    context: TestScenarioContext,
+    context: GetItemContext,
     partition: str,
     number: int,
     person: dict
@@ -51,16 +51,16 @@ def needless_step_to_test_our_args(
     }
 
 @step
-def lambda_is_called_with_data_id(context: TestScenarioContext):
+def lambda_is_called_with_data_id(context: GetItemContext):
     context.response = context.sut({
         "id": context.item_id,
         "partition_key": "item"
     }, {})
 
 @step
-def lambda_response_should_equal_data(context: TestScenarioContext):
+def lambda_response_should_equal_data(context: GetItemContext):
     assert_that(context.response["item"]).is_equal_to(context.item)
 
 @step
-def lambda_response_should_be_empty(context: TestScenarioContext):
+def lambda_response_should_be_empty(context: GetItemContext):
     assert_that(context.response["item"]).is_none()

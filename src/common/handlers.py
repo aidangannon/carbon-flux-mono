@@ -1,9 +1,12 @@
 from functools import lru_cache
-from typing import Callable, Any
+from typing import Callable, Any, Protocol
 
 from punq import Container
 
-LambdaHandle = Callable[[dict, dict], dict]
+
+class LambdaHandle(Protocol):
+    def __call__(self, event: dict, context: dict) -> dict: ...
+
 InnerLambdaHandle = Callable[[Container, dict, dict], dict]
 IocHandle = Callable[[Container], None]
 

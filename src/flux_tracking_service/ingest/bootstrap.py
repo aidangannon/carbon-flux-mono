@@ -1,11 +1,15 @@
-from punq import Container
+from punq import Container, Scope
 
 from src.common.logging import add_logging
-from src.flux_tracking_service.ingest.services import MyService, Dependency, AnotherDependency
+from src.flux_tracking_service.ingest.config import IcosSettings
 
 
 def bootstrap(container: Container):
     add_logging(container)
-    container.register(Dependency)
-    container.register(AnotherDependency)
-    container.register(MyService)
+
+def add_settings(container: Container):
+    container.register(
+        IcosSettings,
+        instance=IcosSettings(),
+        scope=Scope.singleton
+    )

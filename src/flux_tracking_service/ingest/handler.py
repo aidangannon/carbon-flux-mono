@@ -2,7 +2,6 @@ from punq import Container
 
 from src.common.handlers import lazy_handler_factory
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
-from src.flux_tracking_service.ingest.services import MyService
 
 
 def inner_handle(
@@ -10,11 +9,7 @@ def inner_handle(
     event: dict,
     context: dict
 ) -> dict:
-    service = container.resolve(MyService)
-    response = service(item_id=event.get("id", "bumbaclart"))
-    return {
-        "item": response
-    }
+    return { }
 
 handle = lazy_handler_factory(
     inner_handler=inner_handle,
