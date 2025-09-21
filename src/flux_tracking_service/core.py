@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-from typing import Protocol
+from datetime import datetime
+from typing import Protocol, Optional
+
 
 @dataclass(
     frozen=True,
@@ -10,10 +12,9 @@ class TrackedSite:
     """
     used for keeping track of which sites we need to pull data for
     """
-    id: str
     name: str
-    user_id: str
     enabled: bool
+    last_fetched: Optional[datetime] = None
 
 
 class GetAllTrackedSites(Protocol):

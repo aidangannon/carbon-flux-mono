@@ -10,11 +10,68 @@ DATA_URL = f"https://data.test-icos-{SESSION_ID}.ci"
 SPARQL_PATH = f"{META_URL}/sparql"
 
 
-def configure_get_submissions(
+def configure_get_etc_submissions_with_latest(
     station: str,
     datatype: str,
     order_desc_field: str,
     submission_object: str,
+    limit: int,
+    request_mock: RequestsMock
+):
+    configure_get_etc_submissions_with_bindings(
+        station=station,
+        datatype=datatype,
+        order_desc_field=order_desc_field,
+        bindings=[
+            {
+                "dobj": {
+                    "type": "uri",
+                    "value": f"https://meta.icos-cp.eu/objects/{submission_object}"
+                },
+                "spec": {
+                    "type": "uri",
+                    "value": "http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv"
+                },
+                "station": {
+                    "type": "uri",
+                    "value": "http://meta.icos-cp.eu/resources/stations/ES_FR-FBn"
+                },
+                "fileName": {
+                    "type": "literal",
+                    "value": "FR-FBn_EC_20250917_L05_F01.zip"
+                },
+                "size": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#long",
+                    "type": "literal",
+                    "value": "96346190"
+                },
+                "submTime": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+                    "type": "literal",
+                    "value": "2025-09-18T01:23:06.347Z"
+                },
+                "timeStart": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+                    "type": "literal",
+                    "value": "2025-09-16T23:00:00Z"
+                },
+                "timeEnd": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+                    "type": "literal",
+                    "value": "2025-09-17T23:00:00Z"
+                }
+            }
+        ],
+        limit=limit,
+        request_mock=request_mock,
+    )
+
+
+def configure_get_etc_submissions_with_bindings(
+    station: str,
+    datatype: str,
+    order_desc_field: str,
+    bindings: list[dict],
     limit: int,
     request_mock: RequestsMock
 ):
@@ -26,9 +83,9 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 select ?dobj ?spec ?station ?samplingHeight ?fileName ?size ?submTime ?timeStart ?timeEnd
 where {
-	VALUES ?spec { <http://meta.icos-cp.eu/resources/cpmeta/$datatype> }
+	VALUES ?spec { <http://meta.icos-cp.eu/resources/cpmeta/${datatype}> }
 	?dobj cpmeta:hasObjectSpec ?spec .
-	VALUES ?station { <http://meta.icos-cp.eu/resources/stations/$station> }
+	VALUES ?station { <http://meta.icos-cp.eu/resources/stations/${station}> }
 	?dobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
 	OPTIONAL{ ?dobj cpmeta:wasAcquiredBy/cpmeta:hasSamplingHeight ?samplingHeight . }
 	?dobj cpmeta:hasSizeInBytes ?size .
@@ -40,9 +97,15 @@ where {
 	
 	
 }
-order by desc(?order_desc_param)
-offset 0 limit $limit
+order by desc(?${order_desc_param})
+offset 0 limit ${limit}
         """)
+    request_body = request.substitute(
+        datatype=datatype,
+        station=station,
+        order_desc_param=order_desc_field,
+        limit=limit
+    )
     request_mock.add(
         method=POST,
         url=SPARQL_PATH,
@@ -61,54 +124,10 @@ offset 0 limit $limit
                 ]
             },
             "results": {
-                "bindings": [
-                    {
-                        "dobj": {
-                            "type": "uri",
-                            "value": f"https://meta.icos-cp.eu/objects/{submission_object}"
-                        },
-                        "spec": {
-                            "type": "uri",
-                            "value": "http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv"
-                        },
-                        "station": {
-                            "type": "uri",
-                            "value": "http://meta.icos-cp.eu/resources/stations/ES_FR-FBn"
-                        },
-                        "fileName": {
-                            "type": "literal",
-                            "value": "FR-FBn_EC_20250917_L05_F01.zip"
-                        },
-                        "size": {
-                            "datatype": "http://www.w3.org/2001/XMLSchema#long",
-                            "type": "literal",
-                            "value": "96346190"
-                        },
-                        "submTime": {
-                            "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                            "type": "literal",
-                            "value": "2025-09-18T01:23:06.347Z"
-                        },
-                        "timeStart": {
-                            "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                            "type": "literal",
-                            "value": "2025-09-16T23:00:00Z"
-                        },
-                        "timeEnd": {
-                            "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                            "type": "literal",
-                            "value": "2025-09-17T23:00:00Z"
-                        }
-                    }
-                ]
+                "bindings": bindings
             }
         },
-        body=request.substitute(
-            datatype=datatype,
-            station=station,
-            order_desc_param=order_desc_field,
-            limit=limit
-        )
+        additional_matcher=lambda req: req.text == request_body
     )
 
 

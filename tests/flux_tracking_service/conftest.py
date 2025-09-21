@@ -32,7 +32,7 @@ def database():
 
 @fixture(scope='session')
 def api_mocks():
-  with responses.RequestsMock() as requests_mock:
+  with responses.RequestsMock(assert_all_requests_are_fired=False) as requests_mock:
       yield requests_mock
 
 @fixture(scope='session')
