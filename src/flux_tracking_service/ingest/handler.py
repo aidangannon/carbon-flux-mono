@@ -14,7 +14,7 @@ def inner_handle(
     event: dict,
     context: dict
 ) -> dict:
-    table = boto3.resource('dynamodb').Table('flux-tracking-db')
+    table = boto3.resource('dynamodb', region_name="eu-west-2").Table('flux-tracking-db')
     response = table.query(
         KeyConditionExpression=
             Key('partition_key') \

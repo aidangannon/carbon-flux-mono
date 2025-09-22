@@ -33,13 +33,14 @@ def substitute_args_into_func_display_name(func_name: str, param_values: dict[st
 
 def step(func):
     def wrapper(*args, **kwargs) -> StepWrapperReturn:
-        all_args = list(args) + list(kwargs.values())
-        params = list(inspect.signature(func).parameters.keys())
-        param_values = dict(zip(params, all_args))
+        def get_param_values():
+            all_args = list(args) + list(kwargs.values())
+            params = list(inspect.signature(func).parameters.keys())
+            return dict(zip(params, all_args))
         return StepWrapperReturn(
             lambda: func(*args, **kwargs),
             func.__name__,
-            param_values
+            get_param_values
         )
 
     return wrapper
@@ -49,19 +50,19 @@ def step(func):
 class StepWrapperReturn:
     func: Callable
     func_name: str
-    param_values: dict[str, Any]
+    get_param_values: Callable[[], dict[str, Any]]
 
 
 @dataclass(frozen=True, slots=True)
 class Step:
     func: Callable
     func_name: str
-    param_values: dict[str, Any]
+    get_param_values: Callable[[], dict[str, Any]]
     name: StepName
 
     def __str__(self):
         func_name = self.func_name.replace('_', ' ')
-        display_name = substitute_args_into_func_display_name(func_name, self.param_values)
+        display_name = substitute_args_into_func_display_name(func_name, self.get_param_values())
         return f"{self.name:<5}\t{display_name}"
 
 
@@ -69,12 +70,6 @@ class Step:
 class StepFailure:
     exception: Exception
     name: str
-
-
-def step_expects_context(step: Step):
-    params = list(inspect.signature(step.func).parameters.values())
-
-    return len(params) > 0 and params[0].name == 'context'
 
 
 class ScenarioRunner:
@@ -91,14 +86,14 @@ class ScenarioRunner:
                     step: Callable,
                     func_name: str,
                     name: StepName,
-                    param_values: dict
+                    get_param_values: Callable[[], dict[str, Any]]
                     ) -> 'ScenarioRunner':
         self.steps.append(
             Step(
                 func=step,
                 func_name=func_name,
                 name=name,
-                param_values=param_values
+                get_param_values=get_param_values
             )
         )
         return self
@@ -108,7 +103,7 @@ class ScenarioRunner:
             step_wrapper_return.func,
             step_wrapper_return.func_name,
             'given',
-            step_wrapper_return.param_values,
+            step_wrapper_return.get_param_values,
         )
 
     def when(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
@@ -116,7 +111,7 @@ class ScenarioRunner:
             step_wrapper_return.func,
             step_wrapper_return.func_name,
             'when',
-            step_wrapper_return.param_values,
+            step_wrapper_return.get_param_values,
         )
 
     def then(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
@@ -124,7 +119,7 @@ class ScenarioRunner:
             step_wrapper_return.func,
             step_wrapper_return.func_name,
             'then',
-            step_wrapper_return.param_values,
+            step_wrapper_return.get_param_values,
         )
 
     def and_also(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
@@ -132,7 +127,7 @@ class ScenarioRunner:
             step_wrapper_return.func,
             step_wrapper_return.func_name,
             'and',
-            step_wrapper_return.param_values,
+            step_wrapper_return.get_param_values,
         )
 
     def run(self):
