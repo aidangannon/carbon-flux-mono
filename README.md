@@ -1,18 +1,21 @@
 # Carbon Flux Monitoring
 
-Pants monorepo with 4 AWS Lambda functions for ICOS eddy covariance data processing.
+A serverless monorepo for processing ICOS (Integrated Carbon Observation System) eddy covariance data using AWS Step Functions and Lambda microservices. Built with Pants build system for scalable carbon flux data monitoring and analysis.
 
 ## Features
 
 ### BDD-style Integration Tests
 
 ```python
-def test(get_item_feature):
-    get_item_feature.runner
-        .given(data_exists_in_the_db)
-        .when(lambda_is_called_with_data_id)
-        .then(lambda_response_should_equal_data)
-        .assert_all()
+@scenario
+def test_when_no_submissions_are_available_for_site(retrieve_flux_submissions_feature):
+    ctx = retrieve_flux_submissions_feature
+    ctx.runner \
+        .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
+        .and_also(icos_api_is_configured_with_station_STATION_ID_to_return_empty(ctx.station_id, ctx.requests_mock)) \
+        .when(lambda_is_invoked(ctx)) \
+        .then(result_is_empty(ctx)) \
+        .run_all_steps()
 ```
 
 ### LRU-cached IoC Container
@@ -59,14 +62,31 @@ pants test ::        # Run BDD integration tests
 pants list ::        # List targets
 ```
 
-## Lambda Functions
+## Architecture
+
+### Microservices
+
+**Flux Tracking Service** - Scientific site monitoring and data ingestion
+- **Ingest Lambda**: EventBridge-triggered ICOS API data collection
+- **Processing Pipeline**: Step Functions orchestrating multiple data processing Lambdas
+- **Data Storage**: DynamoDB for site tracking, S3 for flux measurements
+
+**Flux Management Service** - Data analysis and workflow management
+- **API Gateway**: RESTful endpoints for data access and management
+- **Calculation Engine**: Step Functions coordinating flux analysis workflows
+- **Data Processing**: Multiple specialized Lambdas for different calculation types
+
+### Data Flow
 
 ```
-src/datafetcher:lambda      # EventBridge → ICOS API → SQS
-src/usermanagement:lambda   # API Gateway → DynamoDB
-src/fluxprocessor:lambda    # SQS → flux calculations → DynamoDB  
-src/fluxter_scrape:lambda   # DynamoDB item retrieval
+EventBridge (hourly) → Ingest Lambda → Step Functions
+                                    ↓
+                              Processing Lambdas (parallel)
+                                    ↓
+                            DynamoDB + S3 Storage
 ```
+
+Each ingest operation triggers a Step Function that executes multiple processing Lambdas in parallel for efficient data analysis and storage.
 
 ## Dependencies
 
@@ -96,16 +116,39 @@ python_sources()
 ## Project Structure
 
 ```
-BUILD                       # Root python_requirements()
-requirements.txt            # Dependency versions
-python-default.lock         # Generated lockfile
-pants.toml                  # Pants configuration
-src/
-  common/BUILD              # Shared dependencies
-  {service}/
-    BUILD                   # Lambda + sources targets
-    handler.py             # Lambda entry point
+carbon-flux-mono/
+├── src/
+│   ├── common/                    # Shared Lambda layer
+│   │   ├── handlers.py           # Common handler utilities
+│   │   ├── logging.py            # Centralized logging setup
+│   │   └── BUILD                 # Layer packaging config
+│   ├── flux_tracking_service/    # Primary microservice
+│   │   ├── core.py              # Domain models (TrackedSite)
+│   │   ├── data.py              # DynamoDB data access
+│   │   ├── events.py            # Event commands
+│   │   ├── ingest/              # Data ingestion Lambda
+│   │   │   ├── handler.py       # Lambda entry point
+│   │   │   ├── config.py        # ICOS API configuration
+│   │   │   └── bootstrap.py     # IoC container setup
+│   │   └── BUILD                # Service build targets
+│   └── flux_management_service/  # Secondary microservice (planned)
+├── tests/                        # BDD-style integration tests
+│   ├── __init__.py              # Custom BDD testing framework
+│   └── flux_tracking_service/   # Service-specific tests
+├── BUILD                         # Root python_requirements()
+├── requirements.txt              # Dependency versions
+├── python-default.lock          # Generated lockfile
+└── pants.toml                   # Pants build configuration
 ```
+
+### Key Technologies
+
+- **Python 3.11** with type hints and dataclasses
+- **ICOS Carbon Portal** (`icoscp`) for scientific data access
+- **AWS SDK** (`boto3`) with type stubs for development
+- **Dependency Injection** (`punq`) for clean architecture
+- **Structured Logging** (`loguru`) for observability
+- **Property-Based Testing** (`hypothesis`) for robust test data
 
 ## CI/CD
 
