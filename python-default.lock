@@ -17,7 +17,8 @@
 //     "loguru~=0.7.3",
 //     "moto[dynamodb,s3]~=5.1.11",
 //     "punq~=0.7.0",
-//     "pytest~=8.4.2"
+//     "pytest~=8.4.2",
+//     "responses~=0.25.8"
 //   ],
 //   "manylinux": "manylinux2014",
 //   "requirement_constraints": [],
@@ -1468,13 +1469,13 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "6f466780b7d1db074fb473af14e3111a5dd4fe36c47fcd776cd7c480ae0a02f2",
-              "url": "https://files.pythonhosted.org/packages/7c/81/4a85771072ae39064f114f23716e312771a42bfe3a089cba3da6697dd231/hypothesis-6.139.2-py3-none-any.whl"
+              "hash": "3bfbf4e961cd05adb39cda49bcdcd74d5dc82189b19c0f9ca9d8eb10c535d85f",
+              "url": "https://files.pythonhosted.org/packages/37/5a/35963275b7d904ba3c92d14ba39ff658c05fed1302a30a0ea9dc9256e71e/hypothesis-6.139.3-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "2dc2ff36ea977a9cb7fb68f24a5dbf5d673b88a2e502212676eafe09b699f511",
-              "url": "https://files.pythonhosted.org/packages/56/8e/f408b1a6d9745bf02c3d56e0788c930add554eee6b88a39bba141e897ac4/hypothesis-6.139.2.tar.gz"
+              "hash": "53e9131517b075fb58d5b9f57cf5de3fdfe877878a80f3c08a63bbaa49472cd6",
+              "url": "https://files.pythonhosted.org/packages/f9/1c/1f2ba5ee04face4aeb20615b17057ab29e653ffa9d07e566a0a57e9fce88/hypothesis-6.139.3.tar.gz"
             }
           ],
           "project_name": "hypothesis",
@@ -1519,7 +1520,7 @@
             "watchdog>=4.0.0; extra == \"watchdog\""
           ],
           "requires_python": ">=3.9",
-          "version": "6.139.2"
+          "version": "6.139.3"
         },
         {
           "artifacts": [
@@ -2770,7 +2771,8 @@
     "loguru~=0.7.3",
     "moto[dynamodb,s3]~=5.1.11",
     "punq~=0.7.0",
-    "pytest~=8.4.2"
+    "pytest~=8.4.2",
+    "responses~=0.25.8"
   ],
   "requires_python": [
     "<3.12,>=3.11"
