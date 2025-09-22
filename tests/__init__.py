@@ -1,9 +1,9 @@
 import inspect
 import random
+import re
 import traceback
 from abc import ABC
 from dataclasses import dataclass
-from types import SimpleNamespace
 from typing import Literal, Callable, Any, Type, TypeVar, Generic
 
 import pytest
@@ -36,9 +36,10 @@ def substitute_args_into_func_display_name(func_name: str, param_values: dict[st
 def step(func):
     def wrapper(*args, **kwargs) -> StepWrapperResult:
         def get_param_values():
-            all_args = list(args) + list(kwargs.values())
-            params = list(inspect.signature(func).parameters.keys())
-            return dict(zip(params, all_args))
+            sig = inspect.signature(func)
+            bound_args = sig.bind(*args, **kwargs)
+            bound_args.apply_defaults()
+            return dict(bound_args.arguments)
         func_name = func.__name__
 
         try:
@@ -78,8 +79,8 @@ class Step:
     name: StepName
 
     def __str__(self):
-        func_name = self.step_wrapper_result.func_name.replace('_', ' ')
-        display_name = substitute_args_into_func_display_name(func_name, self.step_wrapper_result.get_param_values())
+        func_name_with_vars = substitute_args_into_func_display_name(self.step_wrapper_result.func_name, self.step_wrapper_result.get_param_values())
+        display_name = re.sub(r'_(?![^\']*\'[^\']*$)', ' ', func_name_with_vars)
         return f"{self.name:<5}\t{display_name}"
 
 
@@ -124,7 +125,7 @@ class ScenarioRunner:
     def and_also(self, step_wrapper_return: StepWrapperResult) -> 'ScenarioRunner':
         return self.append_step(step_wrapper_return, 'and')
 
-    def run(self):
+    def run_all_steps(self):
         print("\n")
         for step in self.steps:
             step_str = str(step)

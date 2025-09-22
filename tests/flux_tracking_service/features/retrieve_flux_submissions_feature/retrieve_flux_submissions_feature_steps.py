@@ -13,7 +13,7 @@ def lambda_is_invoked(ctx: RetrieveFluxSubmissionsContext):
     ctx.lambda_return = ctx.sut({}, {})
 
 @step
-def a_tracked_site_is_added(
+def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
     ctx: RetrieveFluxSubmissionsContext,
     last_fetched: datetime = None
 ):

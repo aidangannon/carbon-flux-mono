@@ -5,13 +5,14 @@ Pants monorepo with 4 AWS Lambda functions for ICOS eddy covariance data process
 ## Features
 
 ### BDD-style Integration Tests
+
 ```python
 def test(get_item_feature):
-    get_item_feature.runner\
-        .given(data_exists_in_the_db) \
-        .when(lambda_is_called_with_data_id) \
-        .then(lambda_response_should_equal_data) \
-        .run()
+    get_item_feature.runner
+        .given(data_exists_in_the_db)
+        .when(lambda_is_called_with_data_id)
+        .then(lambda_response_should_equal_data)
+        .assert_all()
 ```
 
 ### LRU-cached IoC Container
