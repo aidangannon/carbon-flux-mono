@@ -1,5 +1,6 @@
 import inspect
 import random
+import traceback
 from abc import ABC
 from dataclasses import dataclass
 from types import SimpleNamespace
@@ -15,6 +16,7 @@ from src.common.logging import Logger
 T = TypeVar('T')
 
 StepName = Literal["given", "when", "then", "and"]
+StepResult = Literal["passed", "failed", "skipped"]
 
 
 def scenario(func):
@@ -32,43 +34,59 @@ def substitute_args_into_func_display_name(func_name: str, param_values: dict[st
 
 
 def step(func):
-    def wrapper(*args, **kwargs) -> StepWrapperReturn:
+    def wrapper(*args, **kwargs) -> StepWrapperResult:
         def get_param_values():
             all_args = list(args) + list(kwargs.values())
             params = list(inspect.signature(func).parameters.keys())
             return dict(zip(params, all_args))
-        return StepWrapperReturn(
-            lambda: func(*args, **kwargs),
-            func.__name__,
-            get_param_values
-        )
+        func_name = func.__name__
+
+        try:
+            func(*args, **kwargs)
+            return StepWrapperResult(
+                func_name=func_name,
+                get_param_values=get_param_values,
+                result="passed"
+            )
+        except Exception as e:
+            return StepWrapperResult(
+                func_name=func_name,
+                get_param_values=get_param_values,
+                result="failed",
+                error_message=str(e),
+                error_stack_trace=traceback.format_exc()
+            )
 
     return wrapper
 
 
-@dataclass(frozen=True, slots=True)
-class StepWrapperReturn:
-    func: Callable
+@dataclass(slots=True)
+class StepWrapperResult:
+    result: StepResult
     func_name: str
     get_param_values: Callable[[], dict[str, Any]]
+    error_message: str = None
+    error_stack_trace: str = None
+
+    def __bool__(self) -> bool:
+        return self.result == "passed"
 
 
 @dataclass(frozen=True, slots=True)
 class Step:
-    func: Callable
-    func_name: str
-    get_param_values: Callable[[], dict[str, Any]]
+    step_wrapper_result: StepWrapperResult
     name: StepName
 
     def __str__(self):
-        func_name = self.func_name.replace('_', ' ')
-        display_name = substitute_args_into_func_display_name(func_name, self.get_param_values())
+        func_name = self.step_wrapper_result.func_name.replace('_', ' ')
+        display_name = substitute_args_into_func_display_name(func_name, self.step_wrapper_result.get_param_values())
         return f"{self.name:<5}\t{display_name}"
 
 
 @dataclass(frozen=True, slots=True)
 class StepFailure:
-    exception: Exception
+    error_message: str
+    error_stack_trace: str
     name: str
 
 
@@ -83,66 +101,48 @@ class ScenarioRunner:
         self.context = context
 
     def append_step(self,
-                    step: Callable,
-                    func_name: str,
-                    name: StepName,
-                    get_param_values: Callable[[], dict[str, Any]]
-                    ) -> 'ScenarioRunner':
+        step_wrapper_result: StepWrapperResult,
+        name: StepName
+    ) -> 'ScenarioRunner':
         self.steps.append(
             Step(
-                func=step,
-                func_name=func_name,
-                name=name,
-                get_param_values=get_param_values
+                step_wrapper_result=step_wrapper_result,
+                name=name
             )
         )
         return self
 
-    def given(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
-        return self.append_step(
-            step_wrapper_return.func,
-            step_wrapper_return.func_name,
-            'given',
-            step_wrapper_return.get_param_values,
-        )
+    def given(self, step_wrapper_return: StepWrapperResult) -> 'ScenarioRunner':
+        return self.append_step(step_wrapper_return, 'given')
 
-    def when(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
-        return self.append_step(
-            step_wrapper_return.func,
-            step_wrapper_return.func_name,
-            'when',
-            step_wrapper_return.get_param_values,
-        )
+    def when(self, step_wrapper_return: StepWrapperResult) -> 'ScenarioRunner':
+        return self.append_step(step_wrapper_return, 'when')
 
-    def then(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
-        return self.append_step(
-            step_wrapper_return.func,
-            step_wrapper_return.func_name,
-            'then',
-            step_wrapper_return.get_param_values,
-        )
+    def then(self, step_wrapper_return: StepWrapperResult) -> 'ScenarioRunner':
+        return self.append_step(step_wrapper_return, 'then')
 
-    def and_also(self, step_wrapper_return: StepWrapperReturn) -> 'ScenarioRunner':
-        return self.append_step(
-            step_wrapper_return.func,
-            step_wrapper_return.func_name,
-            'and',
-            step_wrapper_return.get_param_values,
-        )
+    def and_also(self, step_wrapper_return: StepWrapperResult) -> 'ScenarioRunner':
+        return self.append_step(step_wrapper_return, 'and')
 
     def run(self):
         print("\n")
         for step in self.steps:
             step_str = str(step)
-            try:
-                step.func()
+
+            step_result = step.step_wrapper_result
+
+            if step.step_wrapper_result:
                 print(f"passed: \t{step_str}")
-            except Exception as e:
+            else:
                 print(f"failed: \t{step_str}")
-                self.failures.append(StepFailure(exception=e, name=step_str))
+                self.failures.append(StepFailure(
+                    error_message=step_result.error_message,
+                    name=step_str,
+                    error_stack_trace=step_result.error_stack_trace)
+                )
 
         if self.failures:
-            msgs = [f"Step {failure.name} failed: {failure.exception}" for failure in self.failures]
+            msgs = [f"Step {failure.name} failed: {failure.error_message} stack track: {failure.error_stack_trace}" for failure in self.failures]
             raise AssertionError("\n".join(msgs))
 
 
