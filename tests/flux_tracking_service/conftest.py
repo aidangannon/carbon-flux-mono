@@ -9,7 +9,8 @@ from pytest import fixture
 from src.common.handlers import InnerLambdaHandle, IocHandle
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
 from src.flux_tracking_service.ingest.handler import inner_handle
-from tests import add_test_logging, common
+from tests import add_test_logging
+from tests.common import create_container_with_bootstrap, create_handler_with_inner_handle
 from tests.flux_tracking_service.infrastructure.config import override_settings
 
 
@@ -37,8 +38,7 @@ def api_mocks():
 
 @fixture(scope='session')
 def ingest_container(database):
-    return common. \
-        create_container_with_bootstrap(bootstrap)
+    return create_container_with_bootstrap(bootstrap)
 
 @fixture(scope='session')
 def ingest_settings(ingest_container):
@@ -46,5 +46,4 @@ def ingest_settings(ingest_container):
 
 @fixture(scope='session')
 def ingest_handler(ingest_settings):
-    return common. \
-        create_handler_with_inner_handle(ingest_settings, inner_handle)
+    return create_handler_with_inner_handle(ingest_settings, inner_handle)

@@ -256,7 +256,6 @@ strategies.register_type_strategy(str, strategies.text(
 strategies.register_type_strategy(float, strategies.floats(min_value=0.1))
 strategies.register_type_strategy(int, strategies.integers(min_value=1))
 
-# Force all lists to have at least 1 item - override the default min_size
 original_lists = strategies.lists
 strategies.lists = lambda elements, **kwargs: original_lists(elements, min_size=kwargs.get('min_size', 1), **kwargs)
 

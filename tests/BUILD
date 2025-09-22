@@ -1,23 +1,19 @@
-python_sources()
+python_sources(
+    sources=["**/*.py"]
+)
 
 python_tests(
     name="test_suite",
     dependencies=[
+        "tests",
         "src/flux_tracking_service/ingest",
         "src/common",
+        "//:reqs#responses",
         "//:reqs#assertpy",
         "//:reqs#moto",
         "//:reqs#pytest"
     ],
     sources=[
         "**/*_feature.py"
-    ]
-)
-
-python_test_utils(
-    name="test_utils",
-    sources=[
-        "**/conftest.py",
-        "**/*_steps.py"
     ]
 )
