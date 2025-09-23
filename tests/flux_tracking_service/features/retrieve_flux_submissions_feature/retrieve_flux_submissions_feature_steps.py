@@ -17,15 +17,21 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
     ctx: RetrieveFluxSubmissionsContext,
     last_fetched: datetime = None
 ):
+    ctx.submission = fixture.create(str)
     tracked_site = fixture \
         .build(TrackedSite) \
         .with_field(enabled=True) \
         .with_field(last_fetched=last_fetched) \
         .create()
-    ctx.station_id = tracked_site.name
+    ctx.station = tracked_site.name
     tracked_site_dict = asdict(tracked_site) | {
         "partition_key": f"TRACKED_SITE#{tracked_site.enabled}",
         "id": f"TRACKED#{tracked_site.name}",
+        "last_fetched": tracked_site \
+            .last_fetched \
+            .isoformat() \
+            .replace("+00:00", "Z") \
+            if tracked_site.last_fetched else None
     }
     ctx.table.put_item(Item=tracked_site_dict)
 

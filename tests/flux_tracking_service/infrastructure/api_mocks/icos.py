@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from string import Template
 
 from responses import RequestsMock, POST, matchers
@@ -16,6 +17,7 @@ def configure_get_etc_submissions_with_latest(
     order_desc_field: str,
     submission_object: str,
     limit: int,
+    submission_time: datetime,
     request_mock: RequestsMock
 ):
     configure_get_etc_submissions_with_bindings(
@@ -48,7 +50,9 @@ def configure_get_etc_submissions_with_latest(
                 "submTime": {
                     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
                     "type": "literal",
-                    "value": "2025-09-18T01:23:06.347Z"
+                    "value": submission_time \
+                        .isoformat() \
+                        .replace("+00:00", "Z")
                 },
                 "timeStart": {
                     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",

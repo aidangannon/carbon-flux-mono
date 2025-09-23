@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from responses import RequestsMock
 
 from tests import step
@@ -11,6 +13,7 @@ EDDY_FLUX_RAW_DATA_TYPE = "etcEddyFluxRawSeriesCsv"
 def icos_api_is_configured_with_station_STATION_ID_to_return_submission_OBJECT_ID(
     station_id: str,
     object_id: str,
+    submission_time: datetime,
     requests_mock: RequestsMock
 ):
     icos.configure_get_etc_submissions_with_latest(
@@ -18,6 +21,7 @@ def icos_api_is_configured_with_station_STATION_ID_to_return_submission_OBJECT_I
         datatype=EDDY_FLUX_RAW_DATA_TYPE,
         order_desc_field=TIME_END_FIELD,
         submission_object=object_id,
+        submission_time=submission_time,
         limit=1,
         request_mock=requests_mock
     )
