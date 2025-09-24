@@ -18,3 +18,4 @@ class RetrieveFluxSubmissionsContext(BaseBddContext):
     tracked_sites: list[TrackedSite]
     submission_contents: dict[str, Submission]
     container: Container
+    scoped_log_vars: dict

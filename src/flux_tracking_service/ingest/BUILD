@@ -1,4 +1,5 @@
 python_sources(
+    sources=["ingest/**/*.py"],
     dependencies=[
         "//:reqs#icoscp",
         "src/flux_tracking_service"

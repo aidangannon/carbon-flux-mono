@@ -12,4 +12,5 @@ def retrieve_flux_submissions_feature(ingest_handler, ingest_container, database
     ctx.container = ingest_container
     ctx.tracked_sites = []
     ctx.submission_contents = {}
+    ctx.scoped_log_vars = {"operation": "ingest"}
     return ctx

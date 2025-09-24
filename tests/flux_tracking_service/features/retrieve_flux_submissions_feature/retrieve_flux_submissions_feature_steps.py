@@ -24,7 +24,6 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
         .with_field(enabled=True) \
         .with_field(last_fetched=last_fetched) \
         .create()
-    ctx.station = tracked_site.name
     tracked_site_dict = {
         "name": tracked_site.name,
         "enabled": tracked_site.enabled,
