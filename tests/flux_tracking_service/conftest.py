@@ -1,15 +1,11 @@
-import responses
-
 import boto3
+import responses
 from moto import mock_aws
 from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefinitionTypeDef
-from punq import Container
 from pytest import fixture
 
-from src.common.handlers import InnerLambdaHandle, IocHandle
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
 from src.flux_tracking_service.ingest.handler import inner_handle
-from tests import add_test_logging
 from tests.common import create_container_with_bootstrap, create_handler_with_inner_handle
 from tests.flux_tracking_service.infrastructure.config import override_settings
 
