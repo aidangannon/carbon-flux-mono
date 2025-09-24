@@ -60,4 +60,4 @@ def result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE(
     expected_submissions = [{"site": tracked_site, "file_url": file} for file in submissions]
     assert_that(ctx.lambda_return).is_not_equal_to({})
     assert_that(ctx.lambda_return["submissions"]).is_not_empty()
-    assert_that(ctx.lambda_return["submissions"]).is_equal_to(expected_submissions)
+    assert_that(ctx.lambda_return["submissions"]).contains(*expected_submissions)

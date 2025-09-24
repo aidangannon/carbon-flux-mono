@@ -103,3 +103,29 @@ def test_when_a_new_submission_is_added_for_site(retrieve_flux_submissions_featu
             ctx
         )) \
         .run_all_steps()
+
+def test_when_first_submission_is_added_for_site(retrieve_flux_submissions_feature):
+    submission_time = datetime.now(tz=timezone.utc)
+
+    ctx = retrieve_flux_submissions_feature
+    ctx.runner \
+        .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
+        .and_also(a_submission_exists_for_tracked_site_TRACKED_SITE(ctx.tracked_sites[0].name, ctx)) \
+        .and_also(icos_api_is_configured_with_station_STATION_ID_to_return_submission_OBJECT_ID(
+            ctx.station,
+            ctx.submission_contents[ctx.tracked_sites[0].name].submission_id,
+            submission_time,
+            ctx.requests_mock
+        )) \
+        .and_also(icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission(
+            ctx.submission_contents[ctx.tracked_sites[0].name].file_urls,
+            ctx.submission_contents[ctx.tracked_sites[0].name].submission_id,
+            ctx.requests_mock
+        )) \
+        .when(lambda_is_invoked(ctx)) \
+        .then(result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE(
+            ctx.submission_contents[ctx.tracked_sites[0].name].file_urls,
+            ctx.tracked_sites[0].name,
+            ctx
+        )) \
+        .run_all_steps()
