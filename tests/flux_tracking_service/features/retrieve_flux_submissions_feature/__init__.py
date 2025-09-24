@@ -5,8 +5,9 @@ from punq import Container
 from responses import RequestsMock
 
 from src.common.handlers import LambdaHandle
+from src.flux_tracking_service.core import TrackedSite
+from src.flux_tracking_service.ingest.core import Submission
 from tests import BaseBddContext
-
 
 class RetrieveFluxSubmissionsContext(BaseBddContext):
     sut: LambdaHandle
@@ -14,5 +15,6 @@ class RetrieveFluxSubmissionsContext(BaseBddContext):
     table: Table
     requests_mock: RequestsMock
     station: str
-    submission: str
+    tracked_sites: list[TrackedSite]
+    submission_contents: dict[str, Submission]
     container: Container

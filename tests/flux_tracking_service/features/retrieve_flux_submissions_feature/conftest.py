@@ -10,4 +10,6 @@ def retrieve_flux_submissions_feature(ingest_handler, ingest_container, database
     ctx.sut = ingest_handler
     ctx.requests_mock = api_mocks
     ctx.container = ingest_container
+    ctx.tracked_sites = []
+    ctx.submission_contents = {}
     return ctx
