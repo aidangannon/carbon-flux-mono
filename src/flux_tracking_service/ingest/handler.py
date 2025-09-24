@@ -1,10 +1,14 @@
+from datetime import datetime, timezone
+
 import boto3
 from boto3.dynamodb.conditions import Key
 from dacite import from_dict
+from dacite.data import Data
 from icoscp_core.icos import meta
 from punq import Container
 
 from src.common.handlers import lazy_handler_factory
+from src.common.logging import Logger
 from src.flux_tracking_service.core import TrackedSite
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
 
@@ -14,6 +18,8 @@ def inner_handle(
     event: dict,
     context: dict
 ) -> dict:
+    logger: Logger = container.resolve(Logger)
+
     table = boto3.resource('dynamodb', region_name="eu-west-2").Table('flux-tracking-db')
     response = table.query(
         KeyConditionExpression=
@@ -21,19 +27,29 @@ def inner_handle(
                 .eq('TRACKED_SITE#True') & Key('id') \
                 .begins_with('TRACKED')
     )
-    first_item = next(iter(response.get('Items', [])), None)
-    if first_item is None:
-        return {
-            "submissions": []
-        }
+    items = response.get('Items', [])
 
-    tracked_site = from_dict(TrackedSite, first_item)
-    response_from_icos = meta.list_data_objects(
-        datatype='http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv',
-        station=f'http://meta.icos-cp.eu/resources/stations/{tracked_site.name}',
-        order_by={"prop": "timeEnd", "descending": True},
-        limit=1
-    )
+    for item in items:
+        tracked_site = TrackedSite(
+            name=item["name"],
+            enabled=item["enabled"],
+            last_fetched=int(item["last_fetched"]) if item["last_fetched"] else None
+        )
+        response_from_icos = meta.list_data_objects(
+            datatype='http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv',
+            station=f'http://meta.icos-cp.eu/resources/stations/{tracked_site.name}',
+            order_by={"prop": "timeEnd", "descending": True},
+            limit=1
+        )
+
+        if len(response_from_icos) == 0:
+            logger.error(f"no submissions found for {tracked_site.name}")
+            continue
+
+        submission = response_from_icos[0]
+
+        if tracked_site.last_fetched is not None and int(submission.submission_time.timestamp()) <= tracked_site.last_fetched:
+            logger.warning(f"no new submissions for {tracked_site.name}")
 
     return {
         "submissions": []

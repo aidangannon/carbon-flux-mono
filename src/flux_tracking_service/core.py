@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol, Optional
 
+from src.common import UnixSeconds
+
 
 @dataclass(
     frozen=True,
@@ -14,7 +16,7 @@ class TrackedSite:
     """
     name: str
     enabled: bool
-    last_fetched: Optional[datetime] = None
+    last_fetched: Optional[UnixSeconds] = None
 
 
 class GetAllTrackedSites(Protocol):

@@ -1,5 +1,6 @@
 from dataclasses import asdict
 from datetime import datetime
+from typing import Optional, Union
 
 from assertpy import assert_that
 
@@ -15,7 +16,7 @@ def lambda_is_invoked(ctx: RetrieveFluxSubmissionsContext):
 @step
 def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
     ctx: RetrieveFluxSubmissionsContext,
-    last_fetched: datetime = None
+    last_fetched: Optional[datetime] = None
 ):
     ctx.submission = fixture.create(str)
     tracked_site = fixture \
@@ -24,14 +25,12 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
         .with_field(last_fetched=last_fetched) \
         .create()
     ctx.station = tracked_site.name
-    tracked_site_dict = asdict(tracked_site) | {
+    tracked_site_dict = {
+        "name": tracked_site.name,
+        "enabled": tracked_site.enabled,
+        "last_fetched": int(last_fetched.timestamp()) if last_fetched else None,
         "partition_key": f"TRACKED_SITE#{tracked_site.enabled}",
-        "id": f"TRACKED#{tracked_site.name}",
-        "last_fetched": tracked_site \
-            .last_fetched \
-            .isoformat() \
-            .replace("+00:00", "Z") \
-            if tracked_site.last_fetched else None
+        "id": f"TRACKED#{tracked_site.name}"
     }
     ctx.table.put_item(Item=tracked_site_dict)
 
