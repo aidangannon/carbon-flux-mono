@@ -98,7 +98,7 @@ def test_when_a_new_submission_is_added_for_site(retrieve_flux_submissions_featu
         )) \
         .when(lambda_is_invoked(ctx)) \
         .then(result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE(
-            ctx.submission_contents[ctx.tracked_sites[0].name].submission_id,
+            ctx.submission_contents[ctx.tracked_sites[0].name].file_urls,
             ctx.tracked_sites[0].name,
             ctx
         )) \

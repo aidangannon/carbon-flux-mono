@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 import boto3
+import requests
 from boto3.dynamodb.conditions import Key
 from dacite import from_dict
 from dacite.data import Data
@@ -28,6 +29,7 @@ def inner_handle(
                 .begins_with('TRACKED')
     )
     items = response.get('Items', [])
+    submissions = []
 
     for item in items:
         tracked_site = TrackedSite(
@@ -50,9 +52,16 @@ def inner_handle(
 
         if tracked_site.last_fetched is not None and int(submission.submission_time.timestamp()) <= tracked_site.last_fetched:
             logger.warning(f"no new submissions for {tracked_site.name}")
+            continue
+
+        content_response = requests.get(f"https://data.icos-cp.eu/zip/{submission.uri.split('/')[4]}/listContents")
+        json_files = content_response.json()
+        paths = [file["path"] for file in json_files]
+
+        submissions.extend([{"site": tracked_site.name, "file_url": path} for path in paths])
 
     return {
-        "submissions": []
+        "submissions": submissions
     }
 
 handle = lazy_handler_factory(

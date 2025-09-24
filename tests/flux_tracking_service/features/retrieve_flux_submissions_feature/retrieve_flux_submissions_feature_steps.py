@@ -53,13 +53,11 @@ def result_is_empty(ctx: RetrieveFluxSubmissionsContext):
 
 @step
 def result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE(
-    submissions: list,
+    submissions: list[str],
     tracked_site: str,
     ctx: RetrieveFluxSubmissionsContext
 ):
+    expected_submissions = [{"site": tracked_site, "file_url": file} for file in submissions]
     assert_that(ctx.lambda_return).is_not_equal_to({})
     assert_that(ctx.lambda_return["submissions"]).is_not_empty()
-    assert_that(ctx.lambda_return["submissions"]).contains({
-        "site": tracked_site,
-        "submissions": submissions
-    })
+    assert_that(ctx.lambda_return["submissions"]).is_equal_to(expected_submissions)

@@ -2,12 +2,12 @@ import uuid
 from datetime import datetime
 from string import Template
 
-from responses import RequestsMock, POST, matchers
+from responses import RequestsMock, POST, matchers, GET
 
 SESSION_ID = str(uuid.uuid4())
 
 META_URL = f"https://meta.icos-cp.eu"
-DATA_URL = f"https://data.test-icos-{SESSION_ID}.ci"
+DATA_URL = f"https://data.icos-cp.eu"
 SPARQL_PATH = f"{META_URL}/sparql"
 
 
@@ -146,7 +146,7 @@ def configure_get_content(
     ]
 
     request_mock.add(
-        method=POST,
+        method=GET,
         url=f"{DATA_URL}/zip/{submission_object}/listContents",
         json=response
     )
