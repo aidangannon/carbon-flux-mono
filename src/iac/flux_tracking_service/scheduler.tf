@@ -45,7 +45,8 @@ module "lambda_function" {
     ICOS_DATA_URL = local.icos_data_url
     ICOS_META_URL = local.icos_meta_url
     HOME          = "/tmp"
-    BUCKET_NAME   = aws_s3_bucket.blob.id
+    DYNAMO_TABLE   = aws_dynamodb_table.db.name
+    DYNAMO_REGION   = var.region
   }
 
   tags = {

@@ -8,4 +8,6 @@ module "flux_tracking_service" {
 
   core_layer_arn    = aws_lambda_layer_version.core_layer.arn
   pandas_layer_arn  = local.pandas_layer_arn
+
+  region            = local.aws_region
 }

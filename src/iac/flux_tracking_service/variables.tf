@@ -22,7 +22,11 @@ variable "icos_password" {
   type    = string
 }
 
+variable "region" {
+  type    = string
+}
+
 locals {
-  icos_data_url = "https://data.icos-cp.eu"
-  icos_meta_url = "https://meta.icos-cp.eu"
+  icos_data_url = "http://data.icos-cp.eu"
+  icos_meta_url = "http://meta.icos-cp.eu"
 }
