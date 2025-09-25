@@ -4,6 +4,8 @@ from typing import Protocol, Optional
 
 from src.common import UnixSeconds
 
+FileUrl = str
+SiteId = str
 
 @dataclass(
     frozen=True,
@@ -14,12 +16,6 @@ class TrackedSite:
     """
     used for keeping track of which sites we need to pull data for
     """
-    name: str
+    name: SiteId
     enabled: bool
     last_fetched: Optional[UnixSeconds] = None
-
-
-class GetAllTrackedSites(Protocol):
-
-    def __call__(self) -> list[TrackedSite]:
-        ...

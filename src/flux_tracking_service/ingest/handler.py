@@ -1,10 +1,6 @@
-from datetime import datetime, timezone
-
 import boto3
 import requests
 from boto3.dynamodb.conditions import Key
-from dacite import from_dict
-from dacite.data import Data
 from icoscp_core.icos import meta
 from punq import Container
 

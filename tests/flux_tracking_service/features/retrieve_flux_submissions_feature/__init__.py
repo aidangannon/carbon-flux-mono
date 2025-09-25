@@ -6,7 +6,7 @@ from responses import RequestsMock
 
 from src.common.handlers import LambdaHandle
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.ingest.core import Submission
+from src.flux_tracking_service.ingest.infrastructure.icos import Submission
 from tests import BaseBddContext
 
 class RetrieveFluxSubmissionsContext(BaseBddContext):

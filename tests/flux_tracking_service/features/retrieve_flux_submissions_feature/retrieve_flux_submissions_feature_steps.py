@@ -5,7 +5,7 @@ from typing import Optional, Union
 from assertpy import assert_that
 
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.ingest.core import Submission
+from src.flux_tracking_service.ingest.infrastructure.icos import Submission
 from tests import step, fixture
 from tests.flux_tracking_service.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
 
