@@ -6,8 +6,9 @@ from responses import RequestsMock, POST, matchers, GET
 
 SESSION_ID = str(uuid.uuid4())
 
-META_URL = f"https://meta.icos-cp.eu"
-DATA_URL = f"https://data.icos-cp.eu"
+META_URL = "https://meta.icos-cp.eu"
+DATA_URL = "http://data.icos-cp.eu"
+META_URL_NON_HTTPS = "http://meta.icos-cp.eu"
 SPARQL_PATH = f"{META_URL}/sparql"
 
 

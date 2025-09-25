@@ -7,15 +7,16 @@ from pytest import fixture
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
 from src.flux_tracking_service.ingest.handler import inner_handle
 from tests.common import create_container_with_bootstrap, create_handler_with_inner_handle
+from tests.flux_tracking_service.infrastructure import config
 from tests.flux_tracking_service.infrastructure.config import override_settings
 
 
 @fixture(scope='session')
 def database():
     with mock_aws():
-        dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
+        dynamodb = boto3.resource('dynamodb', region_name=config.AWS_REGION)
         yield dynamodb.create_table(
-            TableName='flux-tracking-db',
+            TableName=config.DYNAMO_DB_TABLE,
             AttributeDefinitions=[
                 AttributeDefinitionTypeDef(AttributeName="partition_key", AttributeType='S'),
                 AttributeDefinitionTypeDef(AttributeName="id", AttributeType='S')
