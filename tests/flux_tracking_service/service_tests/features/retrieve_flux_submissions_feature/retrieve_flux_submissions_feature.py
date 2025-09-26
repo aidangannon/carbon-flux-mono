@@ -1,14 +1,13 @@
 from datetime import datetime, timezone, timedelta
 
-from tests import scenario
-from tests.flux_tracking_service.features.retrieve_flux_submissions_feature.retrieve_flux_submissions_feature_steps import \
+from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature.retrieve_flux_submissions_feature_steps import \
     lambda_is_invoked, result_is_empty, a_tracked_site_is_added_with_last_fetched_LAST_FETCHED, \
     a_submission_exists_for_tracked_site_TRACKED_SITE, result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE
-from tests.flux_tracking_service.infrastructure.common_steps.icos_steps import \
+from tests.flux_tracking_service.service_tests.infrastructure.common_steps.icos_steps import \
     icos_api_is_configured_with_station_STATION_ID_to_return_empty, \
     icos_api_is_configured_with_station_STATION_ID_to_return_submission_OBJECT_ID, \
     icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission
-from tests.flux_tracking_service.infrastructure.common_steps.log_steps import \
+from tests.flux_tracking_service.service_tests.infrastructure.common_steps.log_steps import \
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE, \
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS
 

@@ -1,13 +1,12 @@
-from dataclasses import asdict
 from datetime import datetime
-from typing import Optional, Union
+from typing import Optional
 
 from assertpy import assert_that
 
 from src.flux_tracking_service.core import TrackedSite
 from src.flux_tracking_service.ingest.infrastructure.icos import Submission
 from tests import step, fixture
-from tests.flux_tracking_service.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
+from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
 
 
 @step
@@ -26,7 +25,6 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
         .create()
     tracked_site_dict = {
         "name": tracked_site.name,
-        "enabled": tracked_site.enabled,
         "last_fetched": int(last_fetched.timestamp()) if last_fetched else None,
         "partition_key": f"TRACKED_SITE#{tracked_site.enabled}",
         "id": f"TRACKED#{tracked_site.name}"

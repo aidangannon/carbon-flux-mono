@@ -27,5 +27,5 @@ class DynamoGetAllTrackedSites:
         return [TrackedSite(
             name=item["name"],
             last_fetched=int(item["last_fetched"]) if item["last_fetched"] else None,
-            enabled=item["enabled"]
+            enabled=True
         ) for item in items]

@@ -2,6 +2,7 @@ import inspect
 import random
 import re
 import traceback
+import uuid
 from abc import ABC
 from dataclasses import dataclass
 from typing import Literal, Callable, Any, Type, TypeVar, Generic
@@ -244,11 +245,7 @@ class ObjectBuilder(Generic[T]):
         return [self.create() for _ in range(count)]
 
 
-
-strategies.register_type_strategy(str, strategies.text(
-    min_size=1,
-    alphabet='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-)
+strategies.register_type_strategy(str, strategies.builds(lambda: str(uuid.uuid4())))
 strategies.register_type_strategy(float, strategies.floats(min_value=0.1))
 strategies.register_type_strategy(int, strategies.integers(min_value=1))
 

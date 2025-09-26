@@ -1,6 +1,6 @@
 from pytest import fixture
 
-from tests.flux_tracking_service.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
+from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
 
 
 @fixture

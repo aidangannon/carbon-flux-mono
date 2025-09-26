@@ -3,7 +3,7 @@ from datetime import datetime
 from responses import RequestsMock
 
 from tests import step
-from tests.flux_tracking_service.infrastructure.api_mocks import icos
+from tests.flux_tracking_service.service_tests.infrastructure.api_mocks import icos
 
 TIME_END_FIELD = "timeEnd"
 EDDY_FLUX_RAW_DATA_TYPE = "etcEddyFluxRawSeriesCsv"

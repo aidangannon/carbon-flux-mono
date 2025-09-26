@@ -7,8 +7,8 @@ from pytest import fixture
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
 from src.flux_tracking_service.ingest.handler import inner_handle
 from tests.common import create_container_with_bootstrap, create_handler_with_inner_handle
-from tests.flux_tracking_service.infrastructure import config
-from tests.flux_tracking_service.infrastructure.config import override_settings
+from tests.flux_tracking_service.service_tests.infrastructure import config
+from tests.flux_tracking_service.service_tests.infrastructure.config import override_settings
 
 
 @fixture(scope='session')
