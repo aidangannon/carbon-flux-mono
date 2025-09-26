@@ -4,7 +4,11 @@ from typing import Protocol
 from src.flux_tracking_service.core import TrackedSite, FileUrl, SiteId
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(
+    frozen=True,
+    slots=True,
+    unsafe_hash=True,
+)
 class FluxFile:
     site: SiteId
     file: FileUrl
