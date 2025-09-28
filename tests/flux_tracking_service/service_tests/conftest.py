@@ -28,7 +28,7 @@ def database():
             BillingMode='PAY_PER_REQUEST'
         )
 
-@fixture(scope='session')
+@fixture
 def api_mocks():
   with responses.RequestsMock(assert_all_requests_are_fired=False) as requests_mock:
       yield requests_mock
