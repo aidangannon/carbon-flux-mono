@@ -51,3 +51,18 @@ def icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_f
         submission_object=object_id,
         request_mock=requests_mock
     )
+
+@step
+def icos_api_is_configured_with_station_STATION_ID_to_return_invalid_submission_url(
+    station_id: str,
+    submission_time: datetime,
+    requests_mock: RequestsMock
+):
+    icos.configure_get_etc_submissions_with_invalid_submission_id(
+        station=station_id,
+        datatype=EDDY_FLUX_RAW_DATA_TYPE,
+        order_desc_field=TIME_END_FIELD,
+        submission_time=submission_time,
+        limit=1,
+        request_mock=requests_mock
+    )

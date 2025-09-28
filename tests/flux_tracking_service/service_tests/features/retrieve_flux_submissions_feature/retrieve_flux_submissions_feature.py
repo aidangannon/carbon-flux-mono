@@ -1,12 +1,16 @@
 from datetime import datetime, timezone, timedelta
 
+from src.flux_tracking_service.ingest.infrastructure.icos import SubmissionObjectIdMalformed
+from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature import STATIC_TEST_ID
 from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature.retrieve_flux_submissions_feature_steps import \
     lambda_is_invoked, result_is_empty, a_tracked_site_is_added_with_last_fetched_LAST_FETCHED, \
-    a_submission_exists_for_tracked_site_TRACKED_SITE, result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE
+    a_submission_exists_for_tracked_site_TRACKED_SITE, result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE, \
+    lambda_should_throw_error
 from tests.flux_tracking_service.service_tests.infrastructure.common_steps.icos_steps import \
     icos_api_is_configured_with_station_STATION_ID_to_return_empty, \
     icos_api_is_configured_with_station_STATION_ID_to_return_submission_OBJECT_ID, \
-    icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission
+    icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission, \
+    icos_api_is_configured_with_station_STATION_ID_to_return_invalid_submission_url
 from tests.flux_tracking_service.service_tests.infrastructure.common_steps.log_steps import \
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE, \
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS
@@ -23,12 +27,34 @@ def test_when_no_submissions_are_available_for_site(retrieve_flux_submissions_fe
     ctx = retrieve_flux_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
-        .and_also(icos_api_is_configured_with_station_STATION_ID_to_return_empty(ctx.tracked_sites[0].name, ctx.requests_mock)) \
+        .and_also(icos_api_is_configured_with_station_STATION_ID_to_return_empty(
+            ctx.tracked_sites[0].name,
+            STATIC_TEST_ID,
+            ctx.requests_mock)) \
         .when(lambda_is_invoked(ctx)) \
         .then(result_is_empty(ctx)) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE(
             f"no submissions found for {ctx.tracked_sites[0].name}",
             "ERROR",
+            ctx.container)) \
+        .run_all_steps()
+
+def test_when_submission_url_is_malformed(retrieve_flux_submissions_feature_with_test_id):
+    submission_time = datetime.now(tz=timezone.utc)
+
+    ctx = retrieve_flux_submissions_feature_with_test_id
+    ctx.runner \
+        .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
+        .and_also(icos_api_is_configured_with_station_STATION_ID_to_return_invalid_submission_url(
+            ctx.tracked_sites[0].name,
+            submission_time,
+            ctx.requests_mock)
+        ) \
+        .then(lambda_should_throw_error(ctx, SubmissionObjectIdMalformed)) \
+        .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS(
+            f"ingestion failed: submission object id malformed for site {ctx.tracked_sites[0].name}",
+            "ERROR",
+            ctx.scoped_log_vars,
             ctx.container)) \
         .run_all_steps()
 

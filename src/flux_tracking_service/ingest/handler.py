@@ -9,27 +9,28 @@ from src.common.logging import Logger
 from src.flux_tracking_service.core import TrackedSite
 from src.flux_tracking_service.ingest.application.commands import FetchNewFluxFilesToProcess
 from src.flux_tracking_service.ingest.bootstrap import bootstrap
+from src.flux_tracking_service.ingest.crosscutting.mappers import map_core_flux_files_to_responses
 
 
-def inner_handle(
-    container: Container,
-    event: dict,
-    context: dict
-) -> dict:
+def inner_handle(container: Container, _: dict, __: dict) -> dict:
     logger: Logger = container.resolve(Logger)
 
     with logger.contextualize(operation="ingest"):
 
-        logger.info("ingestion started")
+        try:
+            logger.info("ingestion started")
 
-        fetch_new_files_to_process: FetchNewFluxFilesToProcess = container.resolve(FetchNewFluxFilesToProcess)
-        new_files = fetch_new_files_to_process()
+            fetch_new_files_to_process: FetchNewFluxFilesToProcess = container.resolve(FetchNewFluxFilesToProcess)
+            new_files = fetch_new_files_to_process()
 
-        logger.info("ingestion completed")
+            logger.info("ingestion completed")
 
-        return {
-            "submissions": [{"site": file.site, "file_url": file.file} for file in new_files]
-        }
+            return {
+                "submissions": map_core_flux_files_to_responses(new_files)
+            }
+        except Exception as e:
+            logger.error(f"ingestion failed: {str(e)}", exc_info=e)
+            raise e
 
 
 handle = lazy_handler_factory(

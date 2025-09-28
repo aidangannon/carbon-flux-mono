@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Type
 
 from assertpy import assert_that
 
@@ -12,6 +12,13 @@ from tests.flux_tracking_service.service_tests.features.retrieve_flux_submission
 @step
 def lambda_is_invoked(ctx: RetrieveFluxSubmissionsContext):
     ctx.lambda_return = ctx.sut({}, {})
+
+@step
+def lambda_should_throw_error(
+    ctx: RetrieveFluxSubmissionsContext,
+    exception: Type[Exception]
+):
+    assert_that(ctx.sut).raises(exception).when_called_with({}, {})
 
 @step
 def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(

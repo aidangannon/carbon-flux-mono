@@ -12,7 +12,7 @@ from src.flux_tracking_service.ingest.core import FileUrl
 def parse_submission_id(uri: str, site: SiteId) -> str:
     parts = uri.split('/')
 
-    if len(parts) < 4:
+    if len(parts) < 5:
         raise SubmissionObjectIdMalformed(site)
 
     return parts[4]
