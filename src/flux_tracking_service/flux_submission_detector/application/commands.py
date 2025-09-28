@@ -1,18 +1,40 @@
 from dataclasses import dataclass
 
-from src.flux_tracking_service.flux_submission_detector.core import FluxFile
-from src.flux_tracking_service.flux_submission_detector.core import GetAllTrackedSites, GetFileUrlsForSite
+from src.common.logging import Logger
+from src.flux_tracking_service.flux_submission_detector.core import FluxSubmission
+from src.flux_tracking_service.flux_submission_detector.core import GetAllTrackedSites, GetLatestSubmissionFeed
 
 @dataclass(frozen=True, slots=True)
 class FetchNewFluxFilesToProcess:
     get_tracked_sites: GetAllTrackedSites
-    get_files_for_site: GetFileUrlsForSite
+    get_latest_submission_feed: GetLatestSubmissionFeed
+    logger: Logger
 
-    def __call__(self) -> list[FluxFile]:
+    def __call__(self) -> list[FluxSubmission]:
         sites = self.get_tracked_sites()
 
-        return list(
-            FluxFile(site.name, file)
+        if len(sites) == 0:
+            return []
+
+        submissions = self.get_latest_submission_feed()
+
+        if len(submissions) == 0:
+            self.logger.error("no submissions found")
+            return []
+
+        union_submissions = [
+            (site.name, submissions[site.name])
             for site in sites
-            for file in self.get_files_for_site(site)
-        )
+            if site.name in submissions and
+               (site.last_fetched is None or
+                submissions[site.name].submission_time > site.last_fetched)
+        ]
+
+        return [
+            FluxSubmission(
+                site=site,
+                submission=submission.submission,
+                submission_time=submission.submission_time
+            )
+            for site, submission in union_submissions
+        ]

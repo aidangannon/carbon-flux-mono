@@ -1,7 +1,7 @@
 from typing import Optional
 
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.flux_submission_detector.core import FluxFile
+from src.flux_tracking_service.flux_submission_detector.core import FluxSubmission
 
 
 def map_data_tracked_site_to_core(site: Optional[dict]) -> Optional[TrackedSite]:
@@ -20,17 +20,18 @@ def map_data_tracked_sites_to_core_tracked_sites(sites: Optional[list[dict]]) ->
 
     return [map_data_tracked_site_to_core(site) for site in sites]
 
-def map_core_flux_file_to_response(flux_file: Optional[FluxFile]) -> Optional[dict]:
-    if flux_file is None:
+def map_core_flux_submission_to_response(flux_submission: Optional[FluxSubmission]) -> Optional[dict]:
+    if flux_submission is None:
         return None
 
     return {
-        "site": flux_file.site,
-        "file_url": flux_file.file
+        "site": flux_submission.site,
+        "submission": flux_submission.submission,
+        "submission_time": flux_submission.submission_time
     }
 
-def map_core_flux_files_to_responses(flux_files: Optional[list[FluxFile]]) -> Optional[list[dict]]:
-    if flux_files is None:
+def map_core_flux_submissions_to_responses(flux_submissions: Optional[list[FluxSubmission]]) -> Optional[list[dict]]:
+    if flux_submissions is None:
         return None
 
-    return [map_core_flux_file_to_response(flux_file) for flux_file in flux_files]
+    return [map_core_flux_submission_to_response(flux_submission) for flux_submission in flux_submissions]

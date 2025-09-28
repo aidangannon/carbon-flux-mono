@@ -19,6 +19,25 @@ class Submission:
     id: str
     submission_time: datetime
 
+def create_binding(site: str, submission_time: datetime, dobj_uri: str) -> dict:
+    return {
+        "dobj": {
+            "type": "uri",
+            "value": dobj_uri
+        },
+        "submTime": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+            "type": "literal",
+            "value": submission_time \
+                .isoformat() \
+                .replace("+00:00", "Z")
+        },
+        "station": {
+            "type": "uri",
+            "value": f"http://meta.icos-cp.eu/resources/stations/{site}"
+        }
+    }
+
 def configure_get_etc_submissions_with_latest(
     datatype: str,
     submissions: dict[str, Submission],
@@ -28,45 +47,23 @@ def configure_get_etc_submissions_with_latest(
     configure_get_etc_submissions_with_bindings(
         datatype=datatype,
         bindings=[
-            {
-                "dobj": {
-                    "type": "uri",
-                    "value": f"https://meta.icos-cp.eu/objects/{submission.id}"
-                },
-                "submTime": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                    "type": "literal",
-                    "value": submission.submission_time \
-                        .isoformat() \
-                        .replace("+00:00", "Z")
-                }
-            }
-        for submission in submissions.values()],
+            create_binding(site, submission.submission_time, f"https://meta.icos-cp.eu/objects/{submission.id}")
+            for site, submission in submissions.items()
+        ],
         request_mock=request_mock,
     )
 
 
 def configure_get_etc_submissions_with_invalid_submission_id(
     datatype: str,
+    site: str,
     submission_time: datetime,
     request_mock: RequestsMock
 ):
     configure_get_etc_submissions_with_bindings(
         datatype=datatype,
         bindings=[
-            {
-                "dobj": {
-                    "type": "uri",
-                    "value": f"invalid_unparsable"
-                },
-                "submTime": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                    "type": "literal",
-                    "value": submission_time \
-                        .isoformat() \
-                        .replace("+00:00", "Z")
-                }
-            }
+            create_binding(site, submission_time, "invalid_unparsable")
         ],
         request_mock=request_mock,
     )
@@ -82,7 +79,7 @@ prefix cpmeta: <http://meta.icos-cp.eu/ontologies/cpmeta/>
 prefix prov: <http://www.w3.org/ns/prov#>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
-select ?dobj ?submTime where {
+select ?dobj ?submTime ?station where {
     ?dobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/${datatype}> .
     ?dobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
     ?dobj cpmeta:wasSubmittedBy/prov:endedAtTime ?submTime .
@@ -100,8 +97,7 @@ select ?dobj ?submTime where {
 
     FILTER(?submTime = ?latestSubmTime)
 }
-order by desc(?submTime)
-""")
+order by desc(?submTime)""")
     request_body = request.substitute(datatype=datatype)
     request_mock.add(
         method=POST,

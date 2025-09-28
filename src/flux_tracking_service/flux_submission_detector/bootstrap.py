@@ -4,9 +4,9 @@ from src.common.logging import add_logging
 from src.flux_tracking_service.config import DynamoSettings
 from src.flux_tracking_service.flux_submission_detector.application.commands import FetchNewFluxFilesToProcess
 from src.flux_tracking_service.flux_submission_detector.config import IcosSettings
-from src.flux_tracking_service.flux_submission_detector.core import GetFileUrlsForSite, GetAllTrackedSites
+from src.flux_tracking_service.flux_submission_detector.core import GetLatestSubmissionFeed, GetAllTrackedSites
 from src.flux_tracking_service.flux_submission_detector.infrastructure.dynamo import DynamoGetAllTrackedSites
-from src.flux_tracking_service.flux_submission_detector.infrastructure.icos import IcosGetFileUrlsForSite
+from src.flux_tracking_service.flux_submission_detector.infrastructure.icos import IcosGetLatestSubmissionFeed
 
 
 def bootstrap(container: Container):
@@ -31,5 +31,5 @@ def add_application(container: Container):
     container.register(FetchNewFluxFilesToProcess, scope=Scope.singleton)
 
 def add_infrastructure(container: Container):
-    container.register(GetFileUrlsForSite, IcosGetFileUrlsForSite, scope=Scope.singleton)
+    container.register(GetLatestSubmissionFeed, IcosGetLatestSubmissionFeed, scope=Scope.singleton)
     container.register(GetAllTrackedSites, DynamoGetAllTrackedSites, scope=Scope.singleton)

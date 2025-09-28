@@ -39,9 +39,14 @@ def icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_f
     )
 
 @step
-def icos_api_is_configured_to_return_invalid_submission_url(submission_time: datetime, requests_mock: RequestsMock):
+def icos_api_is_configured_to_return_invalid_submission_url_with_submission_time_SUBMISSION_TIME_and_tracked_site_TRACKED_SITE(
+    submission_time: datetime,
+    site: str,
+    requests_mock: RequestsMock
+):
     icos.configure_get_etc_submissions_with_invalid_submission_id(
         datatype=EDDY_FLUX_RAW_DATA_TYPE,
         submission_time=submission_time,
+        site=site,
         request_mock=requests_mock
     )

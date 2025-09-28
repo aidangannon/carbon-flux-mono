@@ -61,8 +61,9 @@ def result_has_submissions_SUBMISSIONS_for_tracked_sites(
     expected_submissions = [
         {
             "site": tracked_site,
-            "submission_object": submission.id,
-            "submission_time": submission.submission_time}
+            "submission": submission.id,
+            "submission_time": int(submission.submission_time.timestamp())
+        }
     for tracked_site, submission in submissions.items()]
     assert_that(ctx.lambda_return).is_not_equal_to({})
     assert_that(ctx.lambda_return["submissions"]).is_not_empty()

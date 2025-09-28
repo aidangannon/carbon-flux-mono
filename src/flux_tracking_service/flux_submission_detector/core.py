@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Protocol, Optional
 
 from src.flux_tracking_service.core import TrackedSite, FileUrl, SiteId
 
@@ -9,9 +9,20 @@ from src.flux_tracking_service.core import TrackedSite, FileUrl, SiteId
     slots=True,
     unsafe_hash=True,
 )
-class FluxFile:
+class FluxSubmission:
     site: SiteId
-    file: FileUrl
+    submission: str
+    submission_time: int
+
+
+@dataclass(
+    frozen=True,
+    slots=True,
+    unsafe_hash=True,
+)
+class Submission:
+    submission: str
+    submission_time: int
 
 
 class GetAllTrackedSites(Protocol):
@@ -19,7 +30,7 @@ class GetAllTrackedSites(Protocol):
     def __call__(self) -> list[TrackedSite]:
         ...
 
-class GetFileUrlsForSite(Protocol):
+class GetLatestSubmissionFeed(Protocol):
 
-    def __call__(self, site: TrackedSite) -> list[FileUrl]:
+    def __call__(self) -> dict[str, Submission]:
         ...

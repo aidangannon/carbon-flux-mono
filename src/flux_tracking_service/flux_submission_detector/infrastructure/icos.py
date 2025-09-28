@@ -1,21 +1,42 @@
 from dataclasses import dataclass
+from datetime import datetime
+from string import Template
 
 import requests
 from icoscp_core.icos import meta
+from icoscp_core.sparql import SparqlResults
 
 from src.common.logging import Logger
 from src.flux_tracking_service.core import TrackedSite, SiteId
 from src.flux_tracking_service.flux_submission_detector.config import IcosSettings
-from src.flux_tracking_service.flux_submission_detector.core import FileUrl
+from src.flux_tracking_service.flux_submission_detector.core import FileUrl, Submission
 
 
-def parse_submission_id(uri: str, site: SiteId) -> str:
+def parse_icos_submissions(submissions: SparqlResults) -> dict[str ,Submission]:
+    return {
+        parse_site_uri(binding["station"].uri): Submission(
+            submission=parse_submission_id(binding["dobj"].uri),
+            submission_time=int(datetime.fromisoformat(binding["submTime"].value).timestamp())
+        )
+        for binding in submissions.bindings
+    }
+
+def parse_submission_id(uri: str) -> str:
     parts = uri.split('/')
 
     if len(parts) < 5:
-        raise SubmissionObjectIdMalformed(site)
+        raise SubmissionObjectIdMalformed(uri)
 
     return parts[4]
+
+
+def parse_site_uri(uri: str) -> str:
+    parts = uri.split('/')
+
+    if len(parts) < 6:
+        raise SiteUriMalformed(uri)
+
+    return parts[5]
 
 
 def get_file_paths_for_submission(api_url: str, submission_id: str):
@@ -27,41 +48,43 @@ def get_file_paths_for_submission(api_url: str, submission_id: str):
 
 class SubmissionObjectIdMalformed(Exception):
 
-    def __init__(self, site: SiteId):
-        super().__init__(f"submission object id malformed for site {site}")
+    def __init__(self, uri: str):
+        super().__init__(f"submission object id malformed: {uri}")
+
+class SiteUriMalformed(Exception):
+
+    def __init__(self, uri: str):
+        super().__init__(f"site uri malformed: {uri}")
 
 @dataclass(frozen=True, slots=True)
-class Submission:
-    submission_id: str
-    file_urls: list[FileUrl]
-
-@dataclass(frozen=True, slots=True)
-class IcosGetFileUrlsForSite:
+class IcosGetLatestSubmissionFeed:
     settings: IcosSettings
-    logger: Logger
 
-    def __call__(self, site: TrackedSite) -> list[FileUrl]:
-        response_from_icos = meta.list_data_objects(
-            datatype=f'{self.settings.meta_url}/resources/cpmeta/etcEddyFluxRawSeriesCsv',
-            station=f'{self.settings.meta_url}/resources/stations/{site.name}',
-            order_by={"prop": "timeEnd", "descending": True},
-            limit=1
-        )
+    def __call__(self) -> dict[str, Submission]:
+        request = """
+prefix cpmeta: <http://meta.icos-cp.eu/ontologies/cpmeta/>
+prefix prov: <http://www.w3.org/ns/prov#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
-        if len(response_from_icos) == 0:
-            self.logger.error(f"no submissions found for {site.name}", site=site.name)
-            return []
+select ?dobj ?submTime ?station where {
+    ?dobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv> .
+    ?dobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
+    ?dobj cpmeta:wasSubmittedBy/prov:endedAtTime ?submTime .
+    FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?dobj}
 
-        # get first, we're only getting latest submission
-        submission = response_from_icos[0]
-        submission_timestamp_seconds = int(submission.submission_time.timestamp())
+    {
+        select ?station (max(?maxSubmTime) as ?latestSubmTime) where {
+            ?anyDobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv> .
+            ?anyDobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
+            ?anyDobj cpmeta:wasSubmittedBy/prov:endedAtTime ?maxSubmTime .
+            FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?anyDobj}
+        }
+        group by ?station
+    }
 
-        if site.last_fetched is not None and submission_timestamp_seconds <= site.last_fetched:
-            self.logger.warning(f"no new submissions for {site.name}", site=site.name)
-            return []
+    FILTER(?submTime = ?latestSubmTime)
+}
+order by desc(?submTime)"""
+        response_from_icos = meta.sparql_select(request)
 
-        submission_object_id = parse_submission_id(submission.uri, site.name)
-
-        self.logger.info(f"fetching file contents for submission {submission_object_id}", site=site.name, submission=submission_object_id)
-
-        return get_file_paths_for_submission(self.settings.data_url, submission_object_id)
+        return parse_icos_submissions(response_from_icos)
