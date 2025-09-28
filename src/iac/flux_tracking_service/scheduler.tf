@@ -1,9 +1,9 @@
 module "lambda_function" {
   source = "terraform-aws-modules/lambda/aws"
 
-  function_name = "${var.name}-ingest"
+  function_name = "${var.name}-flux-submission-detector"
   description   = "Manages tracking site's for raw etc data"
-  handler       = "src.flux_tracking_service.ingest.handler.handle"
+  handler       = "src.flux_tracking_service.flux_submission_detector.handler.handle"
   runtime       = var.python_runtime
 
   timeout = 30
@@ -13,7 +13,7 @@ module "lambda_function" {
   ]
 
   create_package         = false
-  local_existing_package = "../../dist/src.flux_tracking_service.ingest/lambda.zip"
+  local_existing_package = "../../dist/src.flux_tracking_service.flux_submission_detector/lambda.zip"
 
   attach_policy_statements = true
   attach_cloudwatch_logs_policy = true

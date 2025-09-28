@@ -34,13 +34,13 @@ def api_mocks():
       yield requests_mock
 
 @fixture(scope='session')
-def ingest_container(database):
+def flux_submission_detector_container(database):
     return create_container_with_bootstrap(bootstrap)
 
 @fixture(scope='session')
-def ingest_settings(ingest_container):
-    return override_settings(ingest_container)
+def flux_submission_detector_settings(flux_submission_detector_container):
+    return override_settings(flux_submission_detector_container)
 
 @fixture(scope='session')
-def ingest_handler(ingest_settings):
-    return create_handler_with_inner_handle(ingest_settings, inner_handle)
+def flux_submission_detector_handler(flux_submission_detector_settings):
+    return create_handler_with_inner_handle(flux_submission_detector_settings, inner_handle)

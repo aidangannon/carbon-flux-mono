@@ -52,7 +52,7 @@ def test_when_submission_url_is_malformed(retrieve_flux_submissions_feature_with
         ) \
         .then(lambda_should_throw_error(ctx, SubmissionObjectIdMalformed)) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS(
-            f"ingestion failed: submission object id malformed for site {ctx.tracked_sites[0].name}",
+            f"handler failed: submission object id malformed for site {ctx.tracked_sites[0].name}",
             "ERROR",
             ctx.scoped_log_vars,
             ctx.container)) \
@@ -129,13 +129,13 @@ def test_when_a_new_submission_is_added_for_site(retrieve_flux_submissions_featu
             ctx
         )) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS(
-            f"ingestion started",
+            f"handler started",
             "INFO",
             ctx.scoped_log_vars,
             ctx.container,
         )) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS(
-            f"ingestion completed",
+            f"handler completed",
             "INFO",
             ctx.scoped_log_vars,
             ctx.container

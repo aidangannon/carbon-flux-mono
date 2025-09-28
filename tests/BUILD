@@ -6,7 +6,7 @@ python_tests(
     name="test_suite",
     dependencies=[
         "tests",
-        "src/flux_tracking_service/ingest",
+        "src/flux_tracking_service/flux_submission_detector",
         "src/common",
         "//:reqs#responses",
         "//:reqs#assertpy",

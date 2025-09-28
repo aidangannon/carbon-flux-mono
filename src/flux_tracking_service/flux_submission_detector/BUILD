@@ -8,8 +8,8 @@ python_sources(
 
 python_aws_lambda_function(
     name="lambda",
-    handler="src/flux_tracking_service/ingest/handler:handle",
+    handler="src/flux_tracking_service/flux_submission_detector/handler:handle",
     dependencies=[
-        ":ingest"
+        ":flux_submission_detector"
     ]
 )
