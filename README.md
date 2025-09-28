@@ -18,6 +18,27 @@ def test_when_no_submissions_are_available_for_site(retrieve_flux_submissions_fe
         .run_all_steps()
 ```
 
+#### Test Isolation Strategy
+
+- **Session-scoped fixtures**: DynamoDB table creation (expensive operations)
+- **Function-scoped fixtures**: HTTP request mocking via `responses` library
+- **Test data isolation**: Dynamic partition key prefixing with test IDs
+- **Request header isolation**: Patched requests with unique test headers per test
+
+```python
+# Session scope for expensive resources
+@fixture(scope='session')
+def database():
+    with mock_aws():
+        yield dynamodb.create_table(...)
+
+# Function scope for lightweight mocking
+@fixture
+def api_mocks():
+    with responses.RequestsMock() as requests_mock:
+        yield requests_mock
+```
+
 ### LRU-cached IoC Container
 ```python
 @lru_cache(maxsize=1)
@@ -67,9 +88,11 @@ pants list ::        # List targets
 ### Microservices
 
 **Flux Tracking Service** - Scientific site monitoring and data ingestion
-- **Ingest Lambda**: EventBridge-triggered ICOS API data collection
-- **Processing Pipeline**: Step Functions orchestrating multiple data processing Lambdas
-- **Data Storage**: DynamoDB for site tracking, S3 for flux measurements
+- **flux-site-tracker**: Handles SQS `trackedsiteadded` events, adds new tracking sites to DynamoDB
+- **flux-submission-detector**: Compares ICOS feed with tracked site timestamps to identify new submissions
+- **flux-submission-resolver**: Fetches file URLs from submission objects and updates tracked site timestamps
+- **flux-file-processor**: Downloads and processes individual files, emits SQS events for downstream processing
+- **flux-ingestion-pipeline**: Step Function orchestrating detector → resolver → processor workflow
 
 **Flux Management Service** - Data analysis and workflow management
 - **API Gateway**: RESTful endpoints for data access and management
@@ -78,15 +101,27 @@ pants list ::        # List targets
 
 ### Data Flow
 
+#### Site Tracking Flow
 ```
-EventBridge (hourly) → Ingest Lambda → Step Functions
-                                    ↓
-                              Processing Lambdas (parallel)
-                                    ↓
-                            DynamoDB + S3 Storage
+SQS trackedsiteadded → flux-site-tracker → DynamoDB (tracked sites)
 ```
 
-Each ingest operation triggers a Step Function that executes multiple processing Lambdas in parallel for efficient data analysis and storage.
+#### Ingestion Pipeline Flow
+```
+EventBridge (scheduled) → flux-ingestion-pipeline Step Function
+                                    ↓
+1. flux-submission-detector: Query tracked sites + ICOS API
+                                    ↓
+   Output: [{submission_obj, submission_time, site_id}, ...]
+                                    ↓
+2. flux-submission-resolver: Fetch file URLs + Update timestamps
+                                    ↓
+   Output: [{site_id, file_url}, ...]
+                                    ↓
+3. flux-file-processor: Download files + Process + Emit SQS events
+```
+
+The ingestion pipeline processes multiple sites and files in parallel for efficient data collection and analysis.
 
 ## Dependencies
 

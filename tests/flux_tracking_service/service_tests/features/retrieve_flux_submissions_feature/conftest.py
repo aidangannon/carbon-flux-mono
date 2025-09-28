@@ -11,6 +11,6 @@ def retrieve_flux_submissions_feature(flux_submission_detector_handler, flux_sub
     ctx.requests_mock = api_mocks
     ctx.container = flux_submission_detector_container
     ctx.tracked_sites = []
-    ctx.submission_contents = {}
+    ctx.submissions = {}
     ctx.scoped_log_vars = {"operation": "flux_submission_detector"}
     return ctx

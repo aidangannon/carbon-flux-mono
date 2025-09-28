@@ -1,4 +1,5 @@
 import uuid
+from dataclasses import dataclass
 from datetime import datetime
 from string import Template
 
@@ -13,162 +14,95 @@ DATA_URL = "http://data.icos-cp.eu"
 META_URL_NON_HTTPS = "http://meta.icos-cp.eu"
 SPARQL_PATH = f"{META_URL}/sparql"
 
+@dataclass
+class Submission:
+    id: str
+    submission_time: datetime
 
 def configure_get_etc_submissions_with_latest(
-    station: str,
     datatype: str,
-    order_desc_field: str,
-    submission_object: str,
-    limit: int,
-    submission_time: datetime,
+    submissions: dict[str, Submission],
     request_mock: RequestsMock
 ):
+
     configure_get_etc_submissions_with_bindings(
-        station=station,
         datatype=datatype,
-        order_desc_field=order_desc_field,
         bindings=[
             {
                 "dobj": {
                     "type": "uri",
-                    "value": f"https://meta.icos-cp.eu/objects/{submission_object}"
-                },
-                "spec": {
-                    "type": "uri",
-                    "value": "http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv"
-                },
-                "station": {
-                    "type": "uri",
-                    "value": "http://meta.icos-cp.eu/resources/stations/ES_FR-FBn"
-                },
-                "fileName": {
-                    "type": "literal",
-                    "value": "FR-FBn_EC_20250917_L05_F01.zip"
-                },
-                "size": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#long",
-                    "type": "literal",
-                    "value": "96346190"
+                    "value": f"https://meta.icos-cp.eu/objects/{submission.id}"
                 },
                 "submTime": {
                     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
                     "type": "literal",
-                    "value": submission_time \
+                    "value": submission.submission_time \
                         .isoformat() \
                         .replace("+00:00", "Z")
-                },
-                "timeStart": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                    "type": "literal",
-                    "value": "2025-09-16T23:00:00Z"
-                },
-                "timeEnd": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                    "type": "literal",
-                    "value": "2025-09-17T23:00:00Z"
                 }
             }
-        ],
-        limit=limit,
+        for submission in submissions.values()],
         request_mock=request_mock,
     )
 
 
 def configure_get_etc_submissions_with_invalid_submission_id(
-    station: str,
     datatype: str,
-    order_desc_field: str,
-    limit: int,
     submission_time: datetime,
-    test_id: str,
     request_mock: RequestsMock
 ):
     configure_get_etc_submissions_with_bindings(
-        station=station,
         datatype=datatype,
-        order_desc_field=order_desc_field,
         bindings=[
             {
                 "dobj": {
                     "type": "uri",
                     "value": f"invalid_unparsable"
                 },
-                "spec": {
-                    "type": "uri",
-                    "value": "http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv"
-                },
-                "station": {
-                    "type": "uri",
-                    "value": "http://meta.icos-cp.eu/resources/stations/ES_FR-FBn"
-                },
-                "fileName": {
-                    "type": "literal",
-                    "value": "FR-FBn_EC_20250917_L05_F01.zip"
-                },
-                "size": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#long",
-                    "type": "literal",
-                    "value": "96346190"
-                },
                 "submTime": {
                     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
                     "type": "literal",
                     "value": submission_time \
                         .isoformat() \
                         .replace("+00:00", "Z")
-                },
-                "timeStart": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                    "type": "literal",
-                    "value": "2025-09-16T23:00:00Z"
-                },
-                "timeEnd": {
-                    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
-                    "type": "literal",
-                    "value": "2025-09-17T23:00:00Z"
                 }
             }
         ],
-        limit=limit,
         request_mock=request_mock,
     )
 
 
 def configure_get_etc_submissions_with_bindings(
-    station: str,
     datatype: str,
-    order_desc_field: str,
     bindings: list[dict],
-    limit: int,
     request_mock: RequestsMock
 ):
     request = Template("""
 prefix cpmeta: <http://meta.icos-cp.eu/ontologies/cpmeta/>
 prefix prov: <http://www.w3.org/ns/prov#>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
-select ?dobj ?spec ?station ?samplingHeight ?fileName ?size ?submTime ?timeStart ?timeEnd
-where {
-	VALUES ?spec { <http://meta.icos-cp.eu/resources/cpmeta/${datatype}> }
-	?dobj cpmeta:hasObjectSpec ?spec .
-	VALUES ?station { <http://meta.icos-cp.eu/resources/stations/${station}> }
-	?dobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
-	OPTIONAL{ ?dobj cpmeta:wasAcquiredBy/cpmeta:hasSamplingHeight ?samplingHeight . }
-	?dobj cpmeta:hasSizeInBytes ?size .
-	?dobj cpmeta:hasName ?fileName .
-	?dobj cpmeta:wasSubmittedBy/prov:endedAtTime ?submTime .
-	?dobj cpmeta:hasStartTime | (cpmeta:wasAcquiredBy / prov:startedAtTime) ?timeStart .
-	?dobj cpmeta:hasEndTime | (cpmeta:wasAcquiredBy / prov:endedAtTime) ?timeEnd .
-	FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?dobj}
-\t
+
+select ?dobj ?submTime where {
+    ?dobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/${datatype}> .
+    ?dobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
+    ?dobj cpmeta:wasSubmittedBy/prov:endedAtTime ?submTime .
+    FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?dobj}
+
+    {
+        select ?station (max(?maxSubmTime) as ?latestSubmTime) where {
+            ?anyDobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/${datatype}> .
+            ?anyDobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
+            ?anyDobj cpmeta:wasSubmittedBy/prov:endedAtTime ?maxSubmTime .
+            FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?anyDobj}
+        }
+        group by ?station
+    }
+
+    FILTER(?submTime = ?latestSubmTime)
 }
-order by desc(?${order_desc_param})
-offset 0 limit ${limit}""")
-    request_body = request.substitute(
-        datatype=datatype,
-        station=station,
-        order_desc_param=order_desc_field,
-        limit=limit
-    )
+order by desc(?submTime)
+""")
+    request_body = request.substitute(datatype=datatype)
     request_mock.add(
         method=POST,
         url=SPARQL_PATH,
@@ -176,14 +110,7 @@ offset 0 limit ${limit}""")
             "head": {
                 "vars": [
                     "dobj",
-                    "spec",
-                    "station",
-                    "samplingHeight",
-                    "fileName",
-                    "size",
-                    "submTime",
-                    "timeStart",
-                    "timeEnd"
+                    "submTime"
                 ]
             },
             "results": {

@@ -6,8 +6,9 @@ from responses import RequestsMock
 
 from src.common.handlers import LambdaHandle
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.flux_submission_detector.infrastructure.icos import Submission
 from tests import BaseBddContext
+from tests.flux_tracking_service.service_tests.infrastructure.api_mocks.icos import Submission
+
 
 class RetrieveFluxSubmissionsContext(BaseBddContext):
     sut: LambdaHandle
@@ -16,6 +17,6 @@ class RetrieveFluxSubmissionsContext(BaseBddContext):
     requests_mock: RequestsMock
     station: str
     tracked_sites: list[TrackedSite]
-    submission_contents: dict[str, Submission]
+    submissions: dict[str, Submission]
     container: Container
     scoped_log_vars: dict

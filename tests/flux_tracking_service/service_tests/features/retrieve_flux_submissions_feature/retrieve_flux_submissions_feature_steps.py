@@ -4,9 +4,9 @@ from typing import Optional, Type
 from assertpy import assert_that
 
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.flux_submission_detector.infrastructure.icos import Submission
 from tests import step, fixture
 from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
+from tests.flux_tracking_service.service_tests.infrastructure.api_mocks.icos import Submission
 
 
 @step
@@ -42,13 +42,11 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
 @step
 def a_submission_exists_for_tracked_site_TRACKED_SITE(
     tracked_site: str,
+    submission_time: datetime,
     ctx: RetrieveFluxSubmissionsContext
 ):
-    submission = Submission(
-        submission_id=fixture.create(str),
-        file_urls=fixture.create_many(str)
-    )
-    ctx.submission_contents[tracked_site] = submission
+    submission = fixture.create(str)
+    ctx.submissions[tracked_site] = Submission(submission, submission_time)
 
 @step
 def result_is_empty(ctx: RetrieveFluxSubmissionsContext):
@@ -56,12 +54,16 @@ def result_is_empty(ctx: RetrieveFluxSubmissionsContext):
     assert_that(ctx.lambda_return["submissions"]).is_empty()
 
 @step
-def result_has_submissions_SUBMISSIONS_for_tracked_site_TRACKED_SITE(
-    submissions: list[str],
-    tracked_site: str,
+def result_has_submissions_SUBMISSIONS_for_tracked_sites(
+    submissions: dict[str, Submission],
     ctx: RetrieveFluxSubmissionsContext
 ):
-    expected_submissions = [{"site": tracked_site, "file_url": file} for file in submissions]
+    expected_submissions = [
+        {
+            "site": tracked_site,
+            "submission_object": submission.id,
+            "submission_time": submission.submission_time}
+    for tracked_site, submission in submissions.items()]
     assert_that(ctx.lambda_return).is_not_equal_to({})
     assert_that(ctx.lambda_return["submissions"]).is_not_empty()
     assert_that(ctx.lambda_return["submissions"]).contains(*expected_submissions)
