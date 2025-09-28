@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from src.flux_tracking_service.ingest.core import FluxFile
-from src.flux_tracking_service.ingest.core import GetAllTrackedSites, GetFileUrlsForSite
+from src.flux_tracking_service.flux_submission_detector.core import FluxFile
+from src.flux_tracking_service.flux_submission_detector.core import GetAllTrackedSites, GetFileUrlsForSite
 
 @dataclass(frozen=True, slots=True)
 class FetchNewFluxFilesToProcess:

@@ -4,8 +4,8 @@ from decimal import Decimal
 from assertpy import assert_that
 
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.ingest.core import FluxFile
-from src.flux_tracking_service.ingest.crosscutting.mappers import map_data_tracked_site_to_core, \
+from src.flux_tracking_service.flux_submission_detector.core import FluxFile
+from src.flux_tracking_service.flux_submission_detector.crosscutting.mappers import map_data_tracked_site_to_core, \
     map_core_flux_file_to_response, map_data_tracked_sites_to_core_tracked_sites, map_core_flux_files_to_responses
 from tests import fixture
 from tests.flux_tracking_service.unit_tests import create_dynamo_tracked_site, create_dynamo_tracked_sites

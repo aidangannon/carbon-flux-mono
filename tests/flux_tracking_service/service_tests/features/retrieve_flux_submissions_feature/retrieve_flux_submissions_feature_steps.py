@@ -4,7 +4,7 @@ from typing import Optional, Type
 from assertpy import assert_that
 
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.ingest.infrastructure.icos import Submission
+from src.flux_tracking_service.flux_submission_detector.infrastructure.icos import Submission
 from tests import step, fixture
 from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
 

@@ -7,7 +7,7 @@ from mypy_boto3_dynamodb.service_resource import Table
 from src.flux_tracking_service.core import TrackedSite
 from src.flux_tracking_service.dynamo import get_table
 from src.flux_tracking_service.config import DynamoSettings
-from src.flux_tracking_service.ingest.crosscutting.mappers import map_data_tracked_sites_to_core_tracked_sites
+from src.flux_tracking_service.flux_submission_detector.crosscutting.mappers import map_data_tracked_sites_to_core_tracked_sites
 
 
 class DynamoGetAllTrackedSites:

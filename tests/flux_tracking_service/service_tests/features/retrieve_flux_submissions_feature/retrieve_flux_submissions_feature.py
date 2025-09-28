@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
 
-from src.flux_tracking_service.ingest.infrastructure.icos import SubmissionObjectIdMalformed
+from src.flux_tracking_service.flux_submission_detector.infrastructure.icos import SubmissionObjectIdMalformed
 from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature import STATIC_TEST_ID
 from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature.retrieve_flux_submissions_feature_steps import \
     lambda_is_invoked, result_is_empty, a_tracked_site_is_added_with_last_fetched_LAST_FETCHED, \

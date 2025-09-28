@@ -5,8 +5,8 @@ from icoscp_core.icos import meta
 
 from src.common.logging import Logger
 from src.flux_tracking_service.core import TrackedSite, SiteId
-from src.flux_tracking_service.ingest.config import IcosSettings
-from src.flux_tracking_service.ingest.core import FileUrl
+from src.flux_tracking_service.flux_submission_detector.config import IcosSettings
+from src.flux_tracking_service.flux_submission_detector.core import FileUrl
 
 
 def parse_submission_id(uri: str, site: SiteId) -> str:

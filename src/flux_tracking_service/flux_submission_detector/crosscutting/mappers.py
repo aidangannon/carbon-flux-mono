@@ -1,7 +1,7 @@
 from typing import Optional
 
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.ingest.core import FluxFile
+from src.flux_tracking_service.flux_submission_detector.core import FluxFile
 
 
 def map_data_tracked_site_to_core(site: Optional[dict]) -> Optional[TrackedSite]:

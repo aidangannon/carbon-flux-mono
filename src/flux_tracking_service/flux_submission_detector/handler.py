@@ -7,15 +7,15 @@ from punq import Container
 from src.common.handlers import lazy_handler_factory
 from src.common.logging import Logger
 from src.flux_tracking_service.core import TrackedSite
-from src.flux_tracking_service.ingest.application.commands import FetchNewFluxFilesToProcess
-from src.flux_tracking_service.ingest.bootstrap import bootstrap
-from src.flux_tracking_service.ingest.crosscutting.mappers import map_core_flux_files_to_responses
+from src.flux_tracking_service.flux_submission_detector.application.commands import FetchNewFluxFilesToProcess
+from src.flux_tracking_service.flux_submission_detector.bootstrap import bootstrap
+from src.flux_tracking_service.flux_submission_detector.crosscutting.mappers import map_core_flux_files_to_responses
 
 
 def inner_handle(container: Container, _: dict, __: dict) -> dict:
     logger: Logger = container.resolve(Logger)
 
-    with logger.contextualize(operation="ingest"):
+    with logger.contextualize(operation="flux_submission_detector"):
 
         try:
             logger.info("ingestion started")

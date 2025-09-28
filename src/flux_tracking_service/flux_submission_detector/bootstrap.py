@@ -2,11 +2,11 @@ from punq import Container, Scope
 
 from src.common.logging import add_logging
 from src.flux_tracking_service.config import DynamoSettings
-from src.flux_tracking_service.ingest.application.commands import FetchNewFluxFilesToProcess
-from src.flux_tracking_service.ingest.config import IcosSettings
-from src.flux_tracking_service.ingest.core import GetFileUrlsForSite, GetAllTrackedSites
-from src.flux_tracking_service.ingest.infrastructure.dynamo import DynamoGetAllTrackedSites
-from src.flux_tracking_service.ingest.infrastructure.icos import IcosGetFileUrlsForSite
+from src.flux_tracking_service.flux_submission_detector.application.commands import FetchNewFluxFilesToProcess
+from src.flux_tracking_service.flux_submission_detector.config import IcosSettings
+from src.flux_tracking_service.flux_submission_detector.core import GetFileUrlsForSite, GetAllTrackedSites
+from src.flux_tracking_service.flux_submission_detector.infrastructure.dynamo import DynamoGetAllTrackedSites
+from src.flux_tracking_service.flux_submission_detector.infrastructure.icos import IcosGetFileUrlsForSite
 
 
 def bootstrap(container: Container):
