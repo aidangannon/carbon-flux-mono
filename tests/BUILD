@@ -14,6 +14,7 @@ python_tests(
         "//:reqs#pytest"
     ],
     sources=[
-        "**/*_feature.py"
+        "**/*_feature.py",
+        "**/*_tests.py"
     ]
 )
