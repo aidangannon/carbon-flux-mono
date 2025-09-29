@@ -5,24 +5,24 @@ from assertpy import assert_that
 
 from src.flux_tracking_service.core import TrackedSite
 from tests import step, fixture
-from tests.flux_tracking_service.service_tests.features.retrieve_flux_submissions_feature import RetrieveFluxSubmissionsContext
+from tests.flux_tracking_service.service_tests.features.discover_flux_submissions_feature import DiscoverFluxSubmissionsContext
 from tests.flux_tracking_service.service_tests.infrastructure.api_mocks.icos import Submission
 
 
 @step
-def lambda_is_invoked(ctx: RetrieveFluxSubmissionsContext):
+def lambda_is_invoked(ctx: DiscoverFluxSubmissionsContext):
     ctx.lambda_return = ctx.sut({}, {})
 
 @step
 def lambda_should_throw_error(
-    ctx: RetrieveFluxSubmissionsContext,
+    ctx: DiscoverFluxSubmissionsContext,
     exception: Type[Exception]
 ):
     assert_that(ctx.sut).raises(exception).when_called_with({}, {})
 
 @step
 def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
-    ctx: RetrieveFluxSubmissionsContext,
+    ctx: DiscoverFluxSubmissionsContext,
     last_fetched: Optional[datetime] = None
 ):
     tracked_site = fixture \
@@ -43,20 +43,20 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
 def a_submission_exists_for_tracked_site_TRACKED_SITE(
     tracked_site: str,
     submission_time: datetime,
-    ctx: RetrieveFluxSubmissionsContext
+    ctx: DiscoverFluxSubmissionsContext
 ):
     submission = fixture.create(str)
     ctx.submissions[tracked_site] = Submission(submission, submission_time)
 
 @step
-def result_is_empty(ctx: RetrieveFluxSubmissionsContext):
+def result_is_empty(ctx: DiscoverFluxSubmissionsContext):
     assert_that(ctx.lambda_return).is_not_equal_to({})
     assert_that(ctx.lambda_return["submissions"]).is_empty()
 
 @step
 def result_has_submissions_SUBMISSIONS_for_tracked_sites(
     submissions: dict[str, Submission],
-    ctx: RetrieveFluxSubmissionsContext
+    ctx: DiscoverFluxSubmissionsContext
 ):
     expected_submissions = [
         {

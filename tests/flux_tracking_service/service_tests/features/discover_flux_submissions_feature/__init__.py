@@ -10,7 +10,7 @@ from tests import BaseBddContext
 from tests.flux_tracking_service.service_tests.infrastructure.api_mocks.icos import Submission
 
 
-class RetrieveFluxSubmissionsContext(BaseBddContext):
+class DiscoverFluxSubmissionsContext(BaseBddContext):
     sut: LambdaHandle
     lambda_return: dict
     table: Table
