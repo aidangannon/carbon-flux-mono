@@ -7,9 +7,9 @@ python_sources(
 )
 
 python_aws_lambda_function(
-    name="flux_submission_detector_lambda",
-    handler="src/flux_tracking_service/flux_submission_detector/handler:handle",
+    name="flux_submission_resolver_lambda",
+    handler="src/flux_tracking_service/flux_submission_resolver/handler:handle",
     dependencies=[
-        ":flux_submission_detector"
+        ":flux_submission_resolver"
     ]
 )

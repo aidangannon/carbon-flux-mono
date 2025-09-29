@@ -15,7 +15,6 @@ class DiscoverFluxSubmissionsContext(BaseBddContext):
     lambda_return: dict
     table: Table
     requests_mock: RequestsMock
-    station: str
     tracked_sites: list[TrackedSite]
     submissions: dict[str, Submission]
     container: Container

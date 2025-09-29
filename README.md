@@ -13,11 +13,11 @@ A serverless monorepo for processing ICOS (Integrated Carbon Observation System)
 def test_when_no_submissions_are_available_for_site(retrieve_flux_submissions_feature):
     ctx = retrieve_flux_submissions_feature
     ctx.runner
-        .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx))
-        .and_also(icos_api_is_configured_with_station_STATION_ID_to_return_empty(ctx.station, ctx.requests_mock))
-        .when(lambda_is_invoked(ctx))
-        .then(result_is_empty(ctx))
-        .run_all_steps()
+    .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx))
+    .and_also(icos_api_is_configured_with_station_STATION_ID_to_return_empty(ctx.site, ctx.requests_mock))
+    .when(lambda_is_invoked(ctx))
+    .then(result_is_empty(ctx))
+    .run_all_steps()
 ```
 
 #### Test Isolation Strategy

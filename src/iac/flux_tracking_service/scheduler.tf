@@ -13,7 +13,7 @@ module "lambda_function" {
   ]
 
   create_package         = false
-  local_existing_package = "../../dist/src.flux_tracking_service.flux_submission_detector/lambda.zip"
+  local_existing_package = "../../dist/src.flux_tracking_service.flux_submission_detector/flux_submission_detector_lambda.zip"
 
   attach_policy_statements = true
   attach_cloudwatch_logs_policy = true
