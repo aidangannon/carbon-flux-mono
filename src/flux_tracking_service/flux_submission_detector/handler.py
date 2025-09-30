@@ -3,9 +3,9 @@ from punq import Container
 from src.common.handlers import lazy_handler_factory
 from src.common.ioc import resolve_service
 from src.common.logging import Logger
-from src.flux_tracking_service.flux_submission_detector.application.commands import FetchNewFluxFilesToProcess
+from src.flux_tracking_service.flux_submission_detector.application import FetchNewFluxFilesToProcess
 from src.flux_tracking_service.flux_submission_detector.bootstrap import bootstrap
-from src.flux_tracking_service.flux_submission_detector.crosscutting.mappers import map_core_flux_submissions_to_responses
+from src.flux_tracking_service.flux_submission_detector.mappers import map_core_flux_submissions_to_responses
 
 
 def inner_handle(container: Container, _: dict, __: dict) -> dict:

@@ -1,15 +1,12 @@
 from dataclasses import dataclass
 from datetime import datetime
-from string import Template
 
 import requests
 from icoscp_core.icos import meta
 from icoscp_core.sparql import SparqlResults
 
-from src.common.logging import Logger
-from src.flux_tracking_service.core import TrackedSite, SiteId
 from src.flux_tracking_service.flux_submission_detector.config import IcosSettings
-from src.flux_tracking_service.flux_submission_detector.core import FileUrl, Submission
+from src.flux_tracking_service.flux_submission_detector.core import Submission
 
 
 def parse_icos_submissions(submissions: SparqlResults) -> dict[str ,Submission]:

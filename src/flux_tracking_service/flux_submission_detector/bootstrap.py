@@ -2,7 +2,7 @@ from punq import Container, Scope
 
 from src.common.logging import add_logging
 from src.flux_tracking_service.config import DynamoSettings
-from src.flux_tracking_service.flux_submission_detector.application.commands import FetchNewFluxFilesToProcess
+from src.flux_tracking_service.flux_submission_detector.application import FetchNewFluxFilesToProcess
 from src.flux_tracking_service.flux_submission_detector.config import IcosSettings
 from src.flux_tracking_service.flux_submission_detector.core import GetLatestSubmissionFeed, GetAllTrackedSites
 from src.flux_tracking_service.flux_submission_detector.infrastructure.dynamo import DynamoGetAllTrackedSites
@@ -16,16 +16,8 @@ def bootstrap(container: Container):
     add_infrastructure(container)
 
 def add_settings(container: Container):
-    container.register(
-        IcosSettings,
-        instance=IcosSettings(),
-        scope=Scope.singleton
-    )
-    container.register(
-        DynamoSettings,
-        instance=DynamoSettings(),
-        scope=Scope.singleton
-    )
+    container.register(IcosSettings, scope=Scope.singleton)
+    container.register(DynamoSettings, scope=Scope.singleton)
 
 def add_application(container: Container):
     container.register(FetchNewFluxFilesToProcess, scope=Scope.singleton)

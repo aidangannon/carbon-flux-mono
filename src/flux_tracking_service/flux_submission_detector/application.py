@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 
 from src.common.logging import Logger
-from src.flux_tracking_service.flux_submission_detector.core import FluxSubmission
-from src.flux_tracking_service.flux_submission_detector.core import GetAllTrackedSites, GetLatestSubmissionFeed
+from src.flux_tracking_service.flux_submission_detector.core import GetAllTrackedSites, GetLatestSubmissionFeed, \
+    FluxSubmission
+
 
 @dataclass(frozen=True, slots=True)
 class FetchNewFluxFilesToProcess:

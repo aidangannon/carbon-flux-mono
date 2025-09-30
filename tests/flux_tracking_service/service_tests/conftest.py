@@ -2,13 +2,11 @@ import boto3
 import responses
 from moto import mock_aws
 from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefinitionTypeDef
-from pytest import fixture
 
-from src.flux_tracking_service.flux_submission_detector.bootstrap import bootstrap
-from src.flux_tracking_service.flux_submission_detector.handler import inner_handle
-from tests.common import create_container_with_bootstrap, create_handler_with_inner_handle
 from tests.flux_tracking_service.service_tests.infrastructure import config
-from tests.flux_tracking_service.service_tests.infrastructure.config import override_settings
+
+# register all fixtures from submodule here
+from tests.flux_tracking_service.service_tests.infrastructure.lambda_config.flux_submission_detector.fixtures import *
 
 
 @fixture(scope='session')
