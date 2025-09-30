@@ -6,14 +6,14 @@ from tests.flux_tracking_service.service_tests.features.resolve_flux_submission_
 
 
 @step
-def lambda_is_invoked(ctx: ResolveFluxSubmissionContext):
-    ctx.sut({}, {})
-
-@step
-def lambda_is_invoked(ctx: ResolveFluxSubmissionContext):
-    ctx.result = ctx.sut({}, {})
+def lambda_is_invoked_with_submission_id_SUBMISSION_ID_and_site_SITE(
+    submission_id: str,
+    site: str,
+    ctx: ResolveFluxSubmissionContext
+):
+    ctx.result = ctx.sut({"submission_id": submission_id, "site": site}, {})
 
 @step
 def result_should_be_empty(ctx: ResolveFluxSubmissionContext):
     assert_that(ctx.result).is_not_empty()
-    assert_that(ctx.result["file_urls"]).is_empty()
+    assert_that(ctx.result["submissions"]).is_empty()

@@ -10,4 +10,6 @@ class ResolveFluxSubmissionContext(BaseBddContext):
     requests_mock: RequestsMock
     container: Container
     result: dict
+    submission_id: str
+    site: str
     scoped_log_vars: dict

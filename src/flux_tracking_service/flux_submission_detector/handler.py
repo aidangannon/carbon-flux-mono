@@ -10,7 +10,7 @@ from src.flux_tracking_service.flux_submission_detector.mappers import map_core_
 
 
 def inner_handle(container: Container, _: dict, __: dict) -> dict:
-    logger: Logger = container.resolve(Logger)
+    logger: Logger = resolve_service(container, Logger)
 
     with logger.contextualize(**{OPERATION: DETECT_SUBMISSIONS}):
 
