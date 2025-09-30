@@ -7,7 +7,7 @@ python_tests(
     dependencies=[
         "tests",
         ":flux_tracking_service",
-        "tests/common"
+        "tests/common",
         "src/flux_tracking_service/flux_submission_detector",
         "src/flux_tracking_service/flux_submission_resolver",
         "src/common",
