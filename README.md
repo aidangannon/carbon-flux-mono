@@ -1,6 +1,6 @@
 # Carbon Flux Monitoring
 
-![Logo](/assets/logo_25.jpg)
+![Logo](/assets/logo_25-removebg-preview.png)
 
 A serverless monorepo for processing ICOS (Integrated Carbon Observation System) eddy covariance data using AWS Step Functions and Lambda microservices. Built with Pants build system for scalable carbon flux data monitoring and analysis.
 
