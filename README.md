@@ -1,4 +1,4 @@
-![Logo](/assets/logo.jpg)
+![Logo](/assets/logo_25.jpg)
 
 # Carbon Flux Monitoring
 
