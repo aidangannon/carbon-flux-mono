@@ -17,5 +17,6 @@ class DiscoverFluxSubmissionsContext(BaseBddContext):
     requests_mock: RequestsMock
     tracked_sites: list[TrackedSite]
     submissions: dict[str, Submission]
+    submission_id: str
     container: Container
     scoped_log_vars: dict

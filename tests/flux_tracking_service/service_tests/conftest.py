@@ -32,15 +32,3 @@ def database():
 def api_mocks():
   with responses.RequestsMock(assert_all_requests_are_fired=False) as requests_mock:
       yield requests_mock
-
-@fixture(scope='session')
-def flux_submission_detector_container(database):
-    return create_container_with_bootstrap(bootstrap)
-
-@fixture(scope='session')
-def flux_submission_detector_settings(flux_submission_detector_container):
-    return override_settings(flux_submission_detector_container)
-
-@fixture(scope='session')
-def flux_submission_detector_handler(flux_submission_detector_settings):
-    return create_handler_with_inner_handle(flux_submission_detector_settings, inner_handle)

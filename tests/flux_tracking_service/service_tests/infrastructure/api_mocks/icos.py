@@ -136,3 +136,16 @@ def configure_get_content(
         url=f"{DATA_URL}/zip/{submission_object}/listContents",
         json=response
     )
+
+def configure_get_content_with_string(
+    submission_object: str,
+    body: str,
+    request_mock: RequestsMock,
+    status: int
+):
+    request_mock.add(
+        method=GET,
+        url=f"{DATA_URL}/zip/{submission_object}/listContents",
+        body=body,
+        status=status
+    )

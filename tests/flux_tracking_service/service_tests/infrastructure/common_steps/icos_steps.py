@@ -27,6 +27,32 @@ def icos_api_is_configured_to_return_empty(requests_mock: RequestsMock):
     )
 
 @step
+def icos_api_is_configured_with_submission_OBJECT_ID_to_submission_not_found(
+    object_id: str,
+    requests_mock: RequestsMock
+):
+    icos.configure_get_content_with_string(
+        body=f"""No metadata found for data object with SHA-256 hash of {object_id}
+se.lu.nateko.cp.data.api.MetadataObjectNotFound: No metadata found for data object with SHA-256 hash of {object_id}
+""",
+        submission_object=object_id,
+        request_mock=requests_mock,
+        status=500
+    )
+
+@step
+def icos_api_is_configured_with_submission_OBJECT_ID_to_submission_id_invalid(
+    object_id: str,
+    requests_mock: RequestsMock
+):
+    icos.configure_get_content_with_string(
+        body="Expected base64Url- or hex-encoded SHA-256 hash",
+        submission_object=object_id,
+        request_mock=requests_mock,
+        status=400
+    )
+
+@step
 def icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission(
     file_urls: list[str],
     object_id: str,
