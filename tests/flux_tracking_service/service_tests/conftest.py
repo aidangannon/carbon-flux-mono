@@ -1,12 +1,15 @@
+from tests.flux_tracking_service.service_tests.infrastructure.lambda_infra.flux_submission_detector.fixtures import \
+    flux_submission_detector_container, flux_submission_detector_handler, flux_submission_detector_settings
+from tests.flux_tracking_service.service_tests.infrastructure.lambda_infra.flux_submission_resolver.fixtures import \
+    flux_submission_resolver_container, flux_submission_resolver_handler, flux_submission_resolver_settings
+
 import boto3
 import responses
+from pytest import fixture
 from moto import mock_aws
 from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefinitionTypeDef
 
 from tests.flux_tracking_service.service_tests.infrastructure import config
-
-# register all fixtures from submodule here
-from tests.flux_tracking_service.service_tests.infrastructure.lambda_config.flux_submission_detector.fixtures import *
 
 
 @fixture(scope='session')

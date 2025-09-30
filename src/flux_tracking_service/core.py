@@ -19,3 +19,7 @@ class TrackedSite:
     name: SiteId
     enabled: bool
     last_fetched: Optional[UnixSeconds] = None
+
+OPERATION = "operation"
+DETECT_SUBMISSIONS = "detect_submissions"
+RESOLVE_SUBMISSIONS = "resolve_submissions"

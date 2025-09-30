@@ -16,8 +16,8 @@ def bootstrap(container: Container):
     add_infrastructure(container)
 
 def add_settings(container: Container):
-    container.register(IcosSettings, scope=Scope.singleton)
-    container.register(DynamoSettings, scope=Scope.singleton)
+    container.register(IcosSettings, instance=IcosSettings(), scope=Scope.singleton)
+    container.register(DynamoSettings, instance=DynamoSettings(), scope=Scope.singleton)
 
 def add_application(container: Container):
     container.register(FetchNewFluxFilesToProcess, scope=Scope.singleton)

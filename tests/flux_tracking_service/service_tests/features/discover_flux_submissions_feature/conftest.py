@@ -1,5 +1,6 @@
 from pytest import fixture
 
+from src.flux_tracking_service.core import DETECT_SUBMISSIONS, OPERATION
 from tests.flux_tracking_service.service_tests.features.discover_flux_submissions_feature import DiscoverFluxSubmissionsContext
 
 
@@ -12,5 +13,5 @@ def discover_flux_submissions_feature(flux_submission_detector_handler, flux_sub
     ctx.container = flux_submission_detector_container
     ctx.tracked_sites = []
     ctx.submissions = {}
-    ctx.scoped_log_vars = {"operation": "flux_submission_detector"}
+    ctx.scoped_log_vars = {OPERATION: DETECT_SUBMISSIONS}
     return ctx
