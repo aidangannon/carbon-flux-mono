@@ -16,6 +16,14 @@ se.lu.nateko.cp.data.api.MetadataObjectNotFound: No metadata found for data obje
     return False
 
 
+def is_submission_id_malformed(response: Response) -> bool:
+    not_found_message = "Expected base64Url- or hex-encoded SHA-256 hash"
+    if response.status_code == 400 and response.text == not_found_message:
+        return True
+
+    return False
+
+
 @dataclass(frozen=True, slots=True)
 class IcosRetrieveFilesForSubmission:
     settings: IcosSettings
@@ -23,6 +31,9 @@ class IcosRetrieveFilesForSubmission:
 
     def __call__(self, submission: str) -> list[str]:
         response = requests.get(f"{self.settings.data_url}/zip/{submission}/listContents")
+
+        if is_submission_id_malformed(response):
+            self.logger.error(f"invalid submission id: {submission}")
 
         if is_submission_not_found(response, submission):
             self.logger.error(f"no submission contents found for {submission}")

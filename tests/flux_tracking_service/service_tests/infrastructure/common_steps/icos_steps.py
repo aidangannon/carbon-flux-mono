@@ -41,7 +41,7 @@ se.lu.nateko.cp.data.api.MetadataObjectNotFound: No metadata found for data obje
     )
 
 @step
-def icos_api_is_configured_with_submission_OBJECT_ID_to_submission_id_invalid(
+def icos_api_is_configured_with_submission_OBJECT_ID_to_submission_id_malformed(
     object_id: str,
     requests_mock: RequestsMock
 ):
