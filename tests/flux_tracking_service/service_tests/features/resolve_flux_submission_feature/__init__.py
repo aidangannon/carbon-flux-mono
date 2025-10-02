@@ -12,4 +12,5 @@ class ResolveFluxSubmissionContext(BaseBddContext):
     result: dict
     submission_id: str
     site: str
+    file_urls: list[str]
     scoped_log_vars: dict

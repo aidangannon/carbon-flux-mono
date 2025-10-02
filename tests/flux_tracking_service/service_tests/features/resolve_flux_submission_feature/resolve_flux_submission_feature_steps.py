@@ -1,3 +1,5 @@
+from typing import Type
+
 from assertpy import assert_that
 
 from tests import step
@@ -12,6 +14,17 @@ def lambda_is_invoked_with_submission_id_SUBMISSION_ID_and_site_SITE(
     ctx: ResolveFluxSubmissionContext
 ):
     ctx.result = ctx.sut({"submission_id": submission_id, "site": site}, {})
+
+@step
+def lambda_should_throw_with_submission_id_SUBMISSION_ID_and_site_SITE(
+    submission_id: str,
+    site: str,
+    exception: Type[Exception],
+    ctx: ResolveFluxSubmissionContext
+):
+    assert_that(ctx.sut) \
+        .raises(exception) \
+        .when_called_with({"submission_id": submission_id, "site": site}, {})
 
 @step
 def result_should_be_empty(ctx: ResolveFluxSubmissionContext):
