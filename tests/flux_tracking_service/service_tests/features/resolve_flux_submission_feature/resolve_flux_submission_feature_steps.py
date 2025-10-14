@@ -57,4 +57,5 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
         "id": f"TRACKED#{tracked_site.name}"
     }
     ctx.table.put_item(Item=tracked_site_dict)
+    ctx.site = tracked_site.name
     ctx.tracked_site = tracked_site
