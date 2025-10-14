@@ -16,5 +16,6 @@ def resolve_flux_submission_feature(flux_submission_resolver_handler, flux_submi
     ctx.submission_id = tests.fixture.create(str)
     ctx.site = tests.fixture.create(str)
     ctx.file_urls = tests.fixture.create_many(str)
+    ctx.submission_timestamp = tests.fixture.create_many(int)
     ctx.scoped_log_vars = {OPERATION: RESOLVE_SUBMISSIONS}
     return ctx

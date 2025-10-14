@@ -17,7 +17,7 @@ def inner_handle(container: Container, event: dict, __: dict) -> dict:
             logger.info("handler started")
 
             resolve_files_for_submission = resolve_service(container, ResolveFilesForSubmission)
-            resolve_files_for_submission(event["submission_id"])
+            resolve_files_for_submission(event["site"], event["submission_id"], event["submission_timestamp"])
 
             logger.info("handler completed")
 
