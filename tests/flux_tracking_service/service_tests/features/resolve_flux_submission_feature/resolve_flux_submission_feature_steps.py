@@ -22,7 +22,7 @@ def lambda_is_invoked_with_submission_id_SUBMISSION_ID_and_site_SITE(
     }, {})
 
 @step
-def lambda_should_throw_with_submission_id_SUBMISSION_ID_and_site_SITE(
+def lambda_should_throw_when_called_with_submission_id_SUBMISSION_ID_and_site_SITE_and_submission_timestamp_SUBMISSION_TIMESTAMP(
     site: str,
     submission_id: str,
     submission_timestamp: str,
