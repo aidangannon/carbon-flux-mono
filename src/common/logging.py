@@ -1,7 +1,5 @@
-import logging
-from typing import Protocol, Any, ContextManager
-
 import sys
+from typing import Protocol, Any, ContextManager
 
 from loguru import logger
 from punq import Container, Scope
