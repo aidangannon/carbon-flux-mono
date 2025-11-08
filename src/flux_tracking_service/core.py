@@ -1,6 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Protocol, Optional
 
 from src.common import UnixSeconds
 
@@ -18,7 +16,7 @@ class TrackedSite:
     """
     name: SiteId
     enabled: bool
-    last_fetched: Optional[UnixSeconds] = None
+    last_fetched: UnixSeconds | None = None
 
 OPERATION = "operation"
 DETECT_SUBMISSIONS = "detect_submissions"

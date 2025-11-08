@@ -23,7 +23,7 @@ def lambda_should_throw_error(
 @step
 def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
     ctx: DiscoverFluxSubmissionsContext,
-    last_fetched: Optional[datetime] = None
+    last_fetched: datetime | None = None
 ):
     tracked_site = fixture \
         .build(TrackedSite) \
