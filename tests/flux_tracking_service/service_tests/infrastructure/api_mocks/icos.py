@@ -5,8 +5,6 @@ from string import Template
 
 from responses import RequestsMock, POST, matchers, GET
 
-from tests.flux_tracking_service.service_tests.infrastructure import api_mocks
-
 SESSION_ID = str(uuid.uuid4())
 
 META_URL = "https://meta.icos-cp.eu"

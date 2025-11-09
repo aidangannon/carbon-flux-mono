@@ -1,5 +1,4 @@
-from punq import Container
-
+from src.common import logging
 from tests import step, assert_that_logs
 
 
@@ -8,7 +7,7 @@ def there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXT
     message: str,
     level: str,
     extras: dict,
-    container: Container
+    logger: logging.Logger
 ):
     assert_that_logs(container) \
         .contains_message(message) \
@@ -20,7 +19,7 @@ def there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXT
 def there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE(
     message: str,
     level: str,
-    container: Container
+    logger: logging.Logger
 ):
     assert_that_logs(container) \
         .contains_message(message) \

@@ -9,7 +9,7 @@ from typing import Literal, Callable, Any, Type, TypeVar, Generic
 
 import pytest
 from hypothesis import strategies
-from loguru import logger
+import loguru
 from punq import Container
 
 from src.common.logging import Logger
@@ -169,7 +169,6 @@ class LoguruTestCapture:
 
 class LogAssertions:
     def __init__(self, container: Container):
-        self.container = container
         self.logs = container.resolve(LoguruTestCapture).get_logs()
 
     def contains_message(self, message: str):
@@ -195,15 +194,13 @@ class LogAssertions:
         assert len(matching_logs) > 0, f"No logs found matching criteria"
 
 
-def assert_that_logs(container: Container):
+def assert_that_logs():
     return LogAssertions(container)
 
-def add_test_logging(container: Container):
-    logger.remove()
+def add_test_logging():
+    loguru.logger.remove()
     capture = LoguruTestCapture()
-    logger.add(capture.capture_logs)
-    container.register(LoguruTestCapture, instance=capture)
-    container.register(Logger, instance=logger)
+    loguru.logger.add(capture.capture_logs)
 
 
 class Fixture:
