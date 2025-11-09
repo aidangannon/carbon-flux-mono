@@ -1,8 +1,10 @@
 import sys
 from typing import Protocol, Any, ContextManager
 
-from loguru import logger
-from punq import Container, Scope
+import loguru
+
+
+__all__ = ["logger", "Logger"]
 
 
 class Logger(Protocol):
@@ -18,7 +20,6 @@ class Logger(Protocol):
     def contextualize(self, *args: Any, **kwargs: Any) -> ContextManager[Any]: ...
 
 
-def add_logging(container: Container):
-    logger.remove()
-    logger.add(sys.stdout, serialize=True)
-    container.register(Logger, instance=logger, scope=Scope.singleton)
+loguru.logger.remove()
+loguru.logger.add(sys.stdout, serialize=True)
+logger: Logger = loguru.logger

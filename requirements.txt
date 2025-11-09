@@ -1,6 +1,4 @@
 # application
-punq~=0.7.0
-assertpy~=1.1
 loguru~=0.7.3
 boto3-stubs[essential]~=1.40.25
 icoscp~=0.2.2
@@ -10,6 +8,7 @@ dacite~=1.9.2
 numpy>=1.23.0,<2.0
 
 # testing
+assertpy~=1.1
 pytest~=8.4.2
 moto[dynamodb, s3]~=5.1.11
 hypothesis~=6.139.2
