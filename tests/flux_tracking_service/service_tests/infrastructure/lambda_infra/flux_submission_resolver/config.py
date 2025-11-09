@@ -1,7 +1,7 @@
 from punq import Container
 
 from src.flux_tracking_service.config import DynamoSettings
-from src.flux_tracking_service.flux_submission_resolver.config import IcosSettings
+from src.flux_tracking_service.crosscutting.config import IcosSettings
 from tests.flux_tracking_service.service_tests.infrastructure.api_mocks import icos
 from tests.flux_tracking_service.service_tests.infrastructure.config import DYNAMO_DB_TABLE, AWS_REGION
 

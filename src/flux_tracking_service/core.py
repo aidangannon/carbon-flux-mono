@@ -18,6 +18,32 @@ class TrackedSite:
     enabled: bool
     last_fetched: UnixSeconds | None = None
 
-OPERATION = "operation"
-DETECT_SUBMISSIONS = "detect_submissions"
-RESOLVE_SUBMISSIONS = "resolve_submissions"
+
+
+@dataclass(
+    frozen=True,
+    slots=True,
+    unsafe_hash=True,
+)
+class Submission:
+    """
+    flux submission identifier and time
+    """
+
+    submission: str
+    submission_time: int
+
+
+@dataclass(
+    frozen=True,
+    slots=True,
+    unsafe_hash=True,
+)
+class SiteSubmission:
+    """
+    flux submission for a particular site
+    """
+
+    site: SiteId
+    submission: str
+    submission_time: int

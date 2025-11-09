@@ -3,7 +3,7 @@ from punq import Container, Scope
 from src.common.logging import add_logging
 from src.flux_tracking_service.config import DynamoSettings
 from src.flux_tracking_service.flux_submission_resolver.application import ResolveFilesForSubmission
-from src.flux_tracking_service.flux_submission_resolver.config import IcosSettings
+from src.flux_tracking_service.crosscutting.config import IcosSettings
 from src.flux_tracking_service.flux_submission_resolver.core import RetrieveFilesForSubmission, UpdateSiteLastFetched
 from src.flux_tracking_service.flux_submission_resolver.infrastructure.dynamo import DynamoUpdateSiteLastFetched
 from src.flux_tracking_service.flux_submission_resolver.infrastructure.icos import IcosRetrieveFilesForSubmission
