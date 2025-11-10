@@ -4,7 +4,7 @@ from typing import Optional, Type
 from assertpy import assert_that
 
 from src.carbon_tracking_service.core import TrackedSite
-from tests import step, fixture
+from tests import step, auto_fixture
 from tests.carbon_tracking_service.service_tests.features.get_latest_submissions_feature import DiscoverFluxSubmissionsContext
 from tests.carbon_tracking_service.service_tests.infrastructure.api_mocks.icos import Submission
 
@@ -25,7 +25,7 @@ def a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(
     ctx: DiscoverFluxSubmissionsContext,
     last_fetched: datetime | None = None
 ):
-    tracked_site = fixture \
+    tracked_site = auto_fixture \
         .build(TrackedSite) \
         .with_field(enabled=True) \
         .with_field(last_fetched=last_fetched) \
@@ -45,7 +45,7 @@ def a_submission_exists_for_tracked_site_TRACKED_SITE(
     submission_time: datetime,
     ctx: DiscoverFluxSubmissionsContext
 ):
-    submission = fixture.create(str)
+    submission = auto_fixture.create(str)
     ctx.submissions[tracked_site] = Submission(submission, submission_time)
 
 @step

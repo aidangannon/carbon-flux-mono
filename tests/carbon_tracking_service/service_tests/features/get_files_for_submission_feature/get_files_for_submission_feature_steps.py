@@ -4,7 +4,7 @@ from assertpy import assert_that
 from boto3.dynamodb.conditions import Key
 
 from src.carbon_tracking_service.core import TrackedSite
-from tests import step, fixture
+from tests import step, auto_fixture
 from tests.carbon_tracking_service.service_tests.features.get_files_for_submission_feature import \
     ResolveFluxSubmissionContext
 
@@ -45,7 +45,7 @@ def result_should_contain_map_file_url_and_site(ctx: ResolveFluxSubmissionContex
 def a_tracked_site_is_added(
     ctx: ResolveFluxSubmissionContext
 ):
-    tracked_site = fixture \
+    tracked_site = auto_fixture \
         .build(TrackedSite) \
         .with_field(enabled=True) \
         .create()

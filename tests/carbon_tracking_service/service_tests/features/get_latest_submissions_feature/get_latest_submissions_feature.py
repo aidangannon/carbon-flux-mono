@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
 
-from src.carbon_tracking_service.flux_submission_detector.infrastructure.icos import SubmissionObjectIdMalformed
+from src.carbon_tracking_service.infrastructure.icos import SubmissionObjectIdMalformed
 from tests.carbon_tracking_service.service_tests.features.get_latest_submissions_feature.get_latest_submissions_feature_steps import \
     lambda_is_invoked, result_is_empty, a_tracked_site_is_added_with_last_fetched_LAST_FETCHED, \
     a_submission_exists_for_tracked_site_TRACKED_SITE, \
@@ -13,15 +13,15 @@ from tests.carbon_tracking_service.service_tests.infrastructure.common_steps.log
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS
 
 
-def test_when_no_tracked_sites_are_present_in_db(discover_flux_submissions_feature):
-    ctx = discover_flux_submissions_feature
+def test_when_no_tracked_sites_are_present_in_db(get_latest_submissions_feature):
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .when(lambda_is_invoked(ctx)) \
         .then(result_is_empty(ctx)) \
         .run_all_steps()
 
-def test_when_no_submissions_are_available_for_site(discover_flux_submissions_feature):
-    ctx = discover_flux_submissions_feature
+def test_when_no_submissions_are_available_for_site(get_latest_submissions_feature):
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
         .and_also(icos_api_is_configured_to_return_empty(ctx.requests_mock)) \
@@ -33,10 +33,10 @@ def test_when_no_submissions_are_available_for_site(discover_flux_submissions_fe
             ctx.container)) \
         .run_all_steps()
 
-def test_when_submission_url_is_malformed(discover_flux_submissions_feature):
+def test_when_submission_url_is_malformed(get_latest_submissions_feature):
     submission_time = datetime.now(tz=timezone.utc)
 
-    ctx = discover_flux_submissions_feature
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
         .and_also(icos_api_is_configured_to_return_invalid_submission_url_with_submission_time_SUBMISSION_TIME_and_tracked_site_TRACKED_SITE(
@@ -52,10 +52,10 @@ def test_when_submission_url_is_malformed(discover_flux_submissions_feature):
             ctx.container)) \
         .run_all_steps()
 
-def test_when_a_submission_is_has_already_been_processed_for_the_site(discover_flux_submissions_feature):
+def test_when_a_submission_is_has_already_been_processed_for_the_site(get_latest_submissions_feature):
     submission_time = datetime.now(tz=timezone.utc)
 
-    ctx = discover_flux_submissions_feature
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx, submission_time)) \
         .and_also(a_submission_exists_for_tracked_site_TRACKED_SITE(ctx.tracked_sites[0].name, submission_time, ctx)) \
@@ -64,11 +64,11 @@ def test_when_a_submission_is_has_already_been_processed_for_the_site(discover_f
         .then(result_is_empty(ctx)) \
         .run_all_steps()
 
-def test_when_a_submission_is_deleted_for_site(discover_flux_submissions_feature):
+def test_when_a_submission_is_deleted_for_site(get_latest_submissions_feature):
     last_fetched_for_site = datetime.now(tz=timezone.utc)
     submission_time = last_fetched_for_site - timedelta(days=5)
 
-    ctx = discover_flux_submissions_feature
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx, last_fetched_for_site)) \
         .and_also(a_submission_exists_for_tracked_site_TRACKED_SITE(ctx.tracked_sites[0].name, submission_time, ctx)) \
@@ -77,11 +77,11 @@ def test_when_a_submission_is_deleted_for_site(discover_flux_submissions_feature
         .then(result_is_empty(ctx)) \
         .run_all_steps()
 
-def test_when_a_new_submission_is_added_for_site(discover_flux_submissions_feature):
+def test_when_a_new_submission_is_added_for_site(get_latest_submissions_feature):
     submission_time = datetime.now(tz=timezone.utc)
     last_fetched_for_site = submission_time - timedelta(days=1)
 
-    ctx = discover_flux_submissions_feature
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx, last_fetched=last_fetched_for_site)) \
         .and_also(a_submission_exists_for_tracked_site_TRACKED_SITE(ctx.tracked_sites[0].name, submission_time, ctx)) \
@@ -102,10 +102,10 @@ def test_when_a_new_submission_is_added_for_site(discover_flux_submissions_featu
         )) \
         .run_all_steps()
 
-def test_when_first_submission_is_added_for_site(discover_flux_submissions_feature):
+def test_when_first_submission_is_added_for_site(get_latest_submissions_feature):
     submission_time = datetime.now(tz=timezone.utc)
 
-    ctx = discover_flux_submissions_feature
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
         .and_also(a_submission_exists_for_tracked_site_TRACKED_SITE(ctx.tracked_sites[0].name, submission_time, ctx)) \
@@ -114,11 +114,11 @@ def test_when_first_submission_is_added_for_site(discover_flux_submissions_featu
         .then(result_has_submissions_SUBMISSIONS_for_tracked_sites(ctx.submissions, ctx)) \
         .run_all_steps()
 
-def test_when_multiple_submissions_are_added_for_different_sites(discover_flux_submissions_feature):
+def test_when_multiple_submissions_are_added_for_different_sites(get_latest_submissions_feature):
     submission_time = datetime.now(tz=timezone.utc)
     last_fetched = datetime.now(tz=timezone.utc) - timedelta(days=5)
 
-    ctx = discover_flux_submissions_feature
+    ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx, last_fetched)) \
         .and_also(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \

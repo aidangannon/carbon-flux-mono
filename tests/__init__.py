@@ -197,10 +197,6 @@ class LogAssertions:
 def assert_that_logs(capture: LogCapture):
     return LogAssertions(capture)
 
-def add_test_logging(capture: LogCapture):
-    loguru.logger.remove()
-    loguru.logger.add(capture.capture_logs)
-
 
 class Fixture:
     @staticmethod
@@ -248,4 +244,4 @@ strategies.register_type_strategy(int, strategies.integers(min_value=1))
 original_lists = strategies.lists
 strategies.lists = lambda elements, **kwargs: original_lists(elements, min_size=kwargs.get('min_size', 1), **kwargs)
 
-fixture = Fixture()
+auto_fixture = Fixture()

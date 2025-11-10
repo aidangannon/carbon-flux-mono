@@ -1,4 +1,4 @@
-from src.carbon_tracking_service.flux_submission_resolver.infrastructure.dynamo import SiteNotFoundException
+from src.carbon_tracking_service.application.exceptions import SiteNotFoundException
 from tests.carbon_tracking_service.service_tests.features.get_files_for_submission_feature.get_files_for_submission_feature_steps import \
     result_should_be_empty, lambda_is_invoked, \
     lambda_should_throw, \
@@ -11,8 +11,8 @@ from tests.carbon_tracking_service.service_tests.infrastructure.common_steps.log
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE
 
 
-def test_when_submission_is_not_found(resolve_flux_submission_feature):
-    ctx = resolve_flux_submission_feature
+def test_when_submission_is_not_found(get_files_for_submission_feature):
+    ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_submission_not_found(
             ctx.submission_id,
@@ -24,12 +24,12 @@ def test_when_submission_is_not_found(resolve_flux_submission_feature):
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE(
             f"no submission contents found for {ctx.submission_id}",
             "ERROR",
-            ctx.container
+            ctx.log_capture
         )) \
         .run_all_steps()
 
-def test_when_submission_is_not_valid_sha256(resolve_flux_submission_feature):
-    ctx = resolve_flux_submission_feature
+def test_when_submission_is_not_valid_sha256(get_files_for_submission_feature):
+    ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_submission_id_malformed(
             ctx.submission_id,
@@ -41,12 +41,12 @@ def test_when_submission_is_not_valid_sha256(resolve_flux_submission_feature):
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE(
             f"invalid submission id: {ctx.submission_id}",
             "ERROR",
-            ctx.container
+            ctx.log_capture
         )) \
         .run_all_steps()
 
-def test_when_site_is_not_found(resolve_flux_submission_feature):
-    ctx = resolve_flux_submission_feature
+def test_when_site_is_not_found(get_files_for_submission_feature):
+    ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission(
             ctx.file_urls,
@@ -62,8 +62,8 @@ def test_when_site_is_not_found(resolve_flux_submission_feature):
         .run_all_steps()
     
     
-def test_when_files_are_fetched_for_site(resolve_flux_submission_feature):
-    ctx = resolve_flux_submission_feature
+def test_when_files_are_fetched_for_site(get_files_for_submission_feature):
+    ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission(
             ctx.file_urls,

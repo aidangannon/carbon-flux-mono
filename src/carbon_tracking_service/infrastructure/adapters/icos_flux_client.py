@@ -1,14 +1,9 @@
-from dataclasses import dataclass
-from datetime import datetime
-
 import requests
 from icoscp_core.icos import meta
-from icoscp_core.sparql import SparqlResults
-from requests import Response
 
-from src.common import logging
 from src.carbon_tracking_service.core import Submission
 from src.carbon_tracking_service.crosscutting import config
+from src.common import logging
 
 __all__ = ["retrieve_files", "get_all_latest"]
 
@@ -17,7 +12,7 @@ from src.carbon_tracking_service.infrastructure.icos import is_submission_not_fo
 
 
 def retrieve_files(submission: str) -> list[str]:
-    response = requests.get(f"{config.icos_settings.data_url}/zip/{submission}/listContents")
+    response = requests.get(f"{config.lazy_icos_settings().data_url}/zip/{submission}/listContents")
 
     if is_submission_id_malformed(response):
         logging.logger.error(f"invalid submission id: {submission}")

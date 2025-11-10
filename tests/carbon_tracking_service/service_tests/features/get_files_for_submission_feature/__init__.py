@@ -4,13 +4,13 @@ from responses import RequestsMock
 
 from src.common.handlers import LambdaHandle
 from src.carbon_tracking_service.core import TrackedSite
-from tests import BaseBddContext
+from tests import BaseBddContext, LogCapture
 
 
 class ResolveFluxSubmissionContext(BaseBddContext):
     sut: LambdaHandle
     requests_mock: RequestsMock
-    container: Container
+    log_capture: LogCapture
     result: dict
     submission_id: str
     site: str

@@ -1,6 +1,9 @@
+import functools
+
 import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
+from mypy_boto3_dynamodb.service_resource import Table
 
 from src.carbon_tracking_service.core import TrackedSite
 from src.carbon_tracking_service.crosscutting import config
@@ -10,13 +13,15 @@ from src.carbon_tracking_service.application.exceptions import SiteNotFoundExcep
 __all__ = ["get_all", "update_last_fetched"]
 
 
-_table = boto3 \
-    .resource('dynamodb', region_name=config.dynamo_settings.region) \
-    .Table(name=config.dynamo_settings.table_name)
+@functools.lru_cache(maxsize=1)
+def lazy_table() -> Table:
+    return boto3 \
+        .resource('dynamodb', region_name=config.lazy_dynamo_settings().region) \
+        .Table(name=config.lazy_dynamo_settings().table_name)
 
 
 def get_all() -> list[TrackedSite]:
-    response = _table.query(
+    response = lazy_table().query(
         KeyConditionExpression=
             Key('partition_key') \
                 .eq('TRACKED_SITE#True') & Key('id') \
@@ -36,7 +41,7 @@ def get_all() -> list[TrackedSite]:
 
 def update_last_fetched(site: str, submission_timestamp: int) -> None:
     try:
-        _table.update_item(
+        lazy_table().update_item(
             Key={
                 "partition_key": "TRACKED_SITE#True",
                 "id": f"TRACKED#{site}"

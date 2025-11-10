@@ -1,11 +1,11 @@
 from pytest import fixture
 
-from src.carbon_tracking_service.core import DETECT_SUBMISSIONS, OPERATION
+from src.carbon_tracking_service.crosscutting import logging_values
 from tests.carbon_tracking_service.service_tests.features.get_latest_submissions_feature import DiscoverFluxSubmissionsContext
 
 
 @fixture
-def discover_flux_submissions_feature(flux_submission_detector_handler, flux_submission_detector_container, database, api_mocks):
+def get_latest_submissions_feature(flux_submission_detector_handler, flux_submission_detector_container, database, api_mocks):
     ctx = DiscoverFluxSubmissionsContext()
     ctx.table = database
     ctx.sut = flux_submission_detector_handler
@@ -13,5 +13,5 @@ def discover_flux_submissions_feature(flux_submission_detector_handler, flux_sub
     ctx.container = flux_submission_detector_container
     ctx.tracked_sites = []
     ctx.submissions = {}
-    ctx.scoped_log_vars = {OPERATION: DETECT_SUBMISSIONS}
+    ctx.scoped_log_vars = {logging_values.OPERATION: logging_values.DETECT_SUBMISSIONS}
     return ctx

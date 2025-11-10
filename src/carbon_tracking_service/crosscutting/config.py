@@ -1,7 +1,8 @@
+import functools
 import os
 from dataclasses import dataclass
 
-__all__ = ["dynamo_settings", "icos_settings"]
+__all__ = ["lazy_dynamo_settings", "lazy_icos_settings"]
 
 DYNAMO = "DYNAMO"
 ICOS = "ICOS"
@@ -16,5 +17,10 @@ class IcosSettings:
     data_url: str = os.environ.get(f"{ICOS}_DATA_URL", None)
 
 
-dynamo_settings = DynamoSettings()
-icos_settings = IcosSettings()
+@functools.lru_cache(maxsize=1)
+def lazy_dynamo_settings() -> DynamoSettings:
+    return DynamoSettings()
+
+@functools.lru_cache(maxsize=1)
+def lazy_icos_settings() -> IcosSettings:
+    return IcosSettings()
