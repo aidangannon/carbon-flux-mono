@@ -156,7 +156,7 @@ class BaseBddContext(ABC):
 
 
 @dataclass(frozen=True, slots=True)
-class LoguruTestCapture:
+class LogCapture:
     logs = []
 
     def capture_logs(self, message):
@@ -168,8 +168,8 @@ class LoguruTestCapture:
 
 
 class LogAssertions:
-    def __init__(self, container: Container):
-        self.logs = container.resolve(LoguruTestCapture).get_logs()
+    def __init__(self, capture: LogCapture):
+        self.logs = capture.get_logs()
 
     def contains_message(self, message: str):
         self._message = message
@@ -194,12 +194,11 @@ class LogAssertions:
         assert len(matching_logs) > 0, f"No logs found matching criteria"
 
 
-def assert_that_logs():
-    return LogAssertions(container)
+def assert_that_logs(capture: LogCapture):
+    return LogAssertions(capture)
 
-def add_test_logging():
+def add_test_logging(capture: LogCapture):
     loguru.logger.remove()
-    capture = LoguruTestCapture()
     loguru.logger.add(capture.capture_logs)
 
 

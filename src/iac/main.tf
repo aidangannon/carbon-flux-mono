@@ -1,7 +1,7 @@
-module "flux_tracking_service" {
-  source            = "./flux_tracking_service"
+module "carbon_tracking_service" {
+  source            = "./carbon_tracking_service"
   python_runtime    = local.python_runtime
-  name              = "flux-tracking"
+  name              = "carbon-tracking"
 
   icos_username     = var.icos_username
   icos_password     = var.icos_password

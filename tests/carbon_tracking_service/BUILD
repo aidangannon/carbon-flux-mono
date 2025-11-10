@@ -1,0 +1,23 @@
+python_sources(
+    sources=["**/*.py"]
+)
+
+python_tests(
+    name="test_suite",
+    dependencies=[
+        "tests",
+        ":carbon_tracking_service",
+        "tests/common",
+        "src/carbon_tracking_service/handlers/get_files_for_submission",
+        "src/carbon_tracking_service/handlers/get_latest_submissions",
+        "src/common",
+        "//:reqs#responses",
+        "//:reqs#assertpy",
+        "//:reqs#moto",
+        "//:reqs#pytest"
+    ],
+    sources=[
+        "**/*_feature.py",
+        "**/*_tests.py"
+    ]
+)
