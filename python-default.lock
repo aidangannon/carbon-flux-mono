@@ -11,7 +11,6 @@
 //   "generated_with_requirements": [
 //     "assertpy~=1.1",
 //     "boto3-stubs[essential]~=1.40.25",
-//     "dacite~=1.8.1",
 //     "hypothesis~=6.139.2",
 //     "icoscp_core~=0.3.11",
 //     "icoscp~=0.2.2",
@@ -2670,7 +2669,6 @@
   "requirements": [
     "assertpy~=1.1",
     "boto3-stubs[essential]~=1.40.25",
-    "dacite~=1.8.1",
     "hypothesis~=6.139.2",
     "icoscp_core~=0.3.11",
     "icoscp~=0.2.2",
