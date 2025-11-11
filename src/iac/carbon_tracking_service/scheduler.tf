@@ -3,7 +3,7 @@ module "lambda_function" {
 
   function_name = "${var.name}-get-latest-submissions"
   description   = "Gets latest submissions for tracked sites"
-  handler       = "src.carbon_tracking_service.handlers.get_latest_submissions.handler.handle"
+  handler       = "src.carbon_tracking_service.entry_points.get_latest_submissions.handle"
   runtime       = var.python_runtime
 
   timeout = 30
@@ -13,7 +13,7 @@ module "lambda_function" {
   ]
 
   create_package         = false
-  local_existing_package = "../../dist/src.carbon_tracking_service.handlers.get_latest_submissions/get_latest_submissions_lambda.zip"
+  local_existing_package = "../../dist/src.carbon_tracking_service.entry_points/get_latest_submissions_lambda.zip"
 
   attach_policy_statements = true
   attach_cloudwatch_logs_policy = true
