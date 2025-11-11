@@ -11,8 +11,9 @@
 //   "generated_with_requirements": [
 //     "assertpy~=1.1",
 //     "boto3-stubs[essential]~=1.40.25",
-//     "dacite~=1.9.2",
+//     "dacite~=1.8.1",
 //     "hypothesis~=6.139.2",
+//     "icoscp_core~=0.3.11",
 //     "icoscp~=0.2.2",
 //     "loguru~=0.7.3",
 //     "moto[dynamodb,s3]~=5.1.11",
@@ -1352,13 +1353,8 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "053f7c3f5128ca2e9aceb66892b1a3c8936d02c686e707bee96e19deef4bc4a0",
-              "url": "https://files.pythonhosted.org/packages/94/35/386550fd60316d1e37eccdda609b074113298f23cef5bddb2049823fe666/dacite-1.9.2-py3-none-any.whl"
-            },
-            {
-              "algorithm": "sha256",
-              "hash": "6ccc3b299727c7aa17582f0021f6ae14d5de47c7227932c47fec4cdfefd26f09",
-              "url": "https://files.pythonhosted.org/packages/55/a0/7ca79796e799a3e782045d29bf052b5cde7439a2bbb17f15ff44f7aacc63/dacite-1.9.2.tar.gz"
+              "hash": "cc31ad6fdea1f49962ea42db9421772afe01ac5442380d9a99fcf3d188c61afe",
+              "url": "https://files.pythonhosted.org/packages/21/0f/cf0943f4f55f0fbc7c6bd60caf1343061dff818b02af5a0d444e473bb78d/dacite-1.8.1-py3-none-any.whl"
             }
           ],
           "project_name": "dacite",
@@ -1373,8 +1369,8 @@
             "pytest-cov; extra == \"dev\"",
             "pytest>=5; extra == \"dev\""
           ],
-          "requires_python": ">=3.7",
-          "version": "1.9.2"
+          "requires_python": ">=3.6",
+          "version": "1.8.1"
         },
         {
           "artifacts": [
@@ -1517,22 +1513,22 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "0a2759f671a12b4293de00dcd265fbe45b01ffdcf3c383285d1afdbe0837c092",
-              "url": "https://files.pythonhosted.org/packages/e2/ad/51d6d058ae202c85d483a85ef3fcb66eeeaa3ca34c4160e003b16bc8fa8a/icoscp_core-0.2.0-py3-none-any.whl"
+              "hash": "94b88f87777e15056f856390fcbf755d1228bf28f3f020d187ea6d70a37dd49b",
+              "url": "https://files.pythonhosted.org/packages/4a/9c/73aed867300b0493696426416b53a68e0dd613c8a7173ea7b2416da26a48/icoscp_core-0.3.11-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "1d20e3105f43b9179f4a4f34e371bdbd1d622df4a54267db420ad2b08e677bb6",
-              "url": "https://files.pythonhosted.org/packages/87/96/effc418ac6f9394feb72d002f93e69c0d7ac5e8df3d3395f68cea53b9697/icoscp_core-0.2.0.tar.gz"
+              "hash": "b11d2c2b3f43102ad38ce307c21a97db1b2cb495a7dd08926e2c34620514d10e",
+              "url": "https://files.pythonhosted.org/packages/63/2e/7eec8e163b50688bd85ce49a6444533000e5e1a6e4877c4f8c295442776a/icoscp_core-0.3.11.tar.gz"
             }
           ],
           "project_name": "icoscp-core",
           "requires_dists": [
-            "dacite",
+            "dacite==1.8.1",
             "numpy>=1.23"
           ],
           "requires_python": ">=3.10",
-          "version": "0.2.0"
+          "version": "0.3.11"
         },
         {
           "artifacts": [
@@ -2674,8 +2670,9 @@
   "requirements": [
     "assertpy~=1.1",
     "boto3-stubs[essential]~=1.40.25",
-    "dacite~=1.9.2",
+    "dacite~=1.8.1",
     "hypothesis~=6.139.2",
+    "icoscp_core~=0.3.11",
     "icoscp~=0.2.2",
     "loguru~=0.7.3",
     "moto[dynamodb,s3]~=5.1.11",
