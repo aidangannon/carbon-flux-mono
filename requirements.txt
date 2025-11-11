@@ -3,7 +3,6 @@ loguru~=0.7.3
 boto3-stubs[essential]~=1.40.25
 icoscp~=0.2.2
 dacite~=1.9.2
-icoscp_core~=0.3.11
 
 # adding for known incompatibility for icoscp
 numpy>=1.23.0,<2.0
