@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Protocol
 
 from src.carbon_tracking_service.core import TrackedSite, Submission
@@ -22,3 +23,8 @@ class FluxClient(Protocol):
 
     def retrieve_files(self, submission: str) -> list[str]:
         ...
+
+@dataclass(slots=True)
+class SubmissionsFacade:
+    client: FluxClient
+    repo: TrackedSiteRepository

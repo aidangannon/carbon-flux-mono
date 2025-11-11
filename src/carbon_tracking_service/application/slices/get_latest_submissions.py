@@ -3,16 +3,13 @@ from src.carbon_tracking_service.application import ports
 from src.carbon_tracking_service.core import SiteSubmission
 
 
-def execute(
-    submission_client: ports.FluxClient,
-    tracked_site_repo: ports.TrackedSiteRepository
-) -> list[SiteSubmission]:
-    sites = tracked_site_repo.get_all()
+def execute(facade: ports.SubmissionsFacade) -> list[SiteSubmission]:
+    sites = facade.repo.get_all()
 
     if len(sites) == 0:
         return []
 
-    submissions = submission_client.get_all_latest()
+    submissions = facade.client.get_all_latest()
 
     if len(submissions) == 0:
         logging.logger.error("no submissions found")

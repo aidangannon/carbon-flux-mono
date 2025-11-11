@@ -16,7 +16,7 @@ class TrackedSite:
     """
     name: SiteId
     enabled: bool
-    last_fetched: UnixSeconds | None = None
+    last_fetched: UnixSeconds | None
 
 
 

@@ -11,14 +11,28 @@ from src.carbon_tracking_service.infrastructure.icos import is_submission_not_fo
     parse_icos_submissions
 
 
+class SubmissionMalformedException(Exception):
+
+    def __init__(self, sub_id: str):
+        super().__init__(f"Submission ID {sub_id} malformed")
+
+
+class SubmissionNotFoundException(Exception):
+
+    def __init__(self, sub_id: str):
+        super().__init__(f"Submission {sub_id} not found")
+
+
 def retrieve_files(submission: str) -> list[str]:
     response = requests.get(f"{config.lazy_icos_settings().data_url}/zip/{submission}/listContents")
 
     if is_submission_id_malformed(response):
         logging.logger.error(f"invalid submission id: {submission}")
+        raise SubmissionMalformedException(submission)
 
     if is_submission_not_found(response, submission):
         logging.logger.error(f"no submission contents found for {submission}")
+        raise SubmissionNotFoundException(submission)
 
     json_files = response.json()
 

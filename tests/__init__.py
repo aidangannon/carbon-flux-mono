@@ -9,10 +9,6 @@ from typing import Literal, Callable, Any, Type, TypeVar, Generic
 
 import pytest
 from hypothesis import strategies
-import loguru
-from punq import Container
-
-from src.common.logging import Logger
 
 T = TypeVar('T')
 

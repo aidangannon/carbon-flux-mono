@@ -15,14 +15,19 @@ def handle(event: dict, _: dict) -> dict:
                 site=event["site"],
                 submission=event["submission_id"],
                 submission_timestamp=event["submission_timestamp"],
-                submission_client=bootstrapping.container[ports.FluxClient],
-                tracked_site_repo=bootstrapping.container[ports.TrackedSiteRepository]
+                facade=bootstrapping.container[ports.SubmissionsFacade]
             )
 
             logging.logger.info("handler completed")
 
             return {
-                "submissions": []
+                "submissions": [
+                    {
+                        "site": event["site"],
+                        "file_url": file
+                    }
+                    for file in files
+                ]
             }
         except Exception as e:
             logging.logger.error(f"handler failed: {str(e)}", exc_info=e)

@@ -5,11 +5,17 @@ def execute(
     site: str,
     submission: str,
     submission_timestamp: int,
-    submission_client: ports.FluxClient,
-    tracked_site_repo: ports.TrackedSiteRepository
+    facade: ports.SubmissionsFacade
 ) -> list[str]:
-    submission_client.retrieve_files(submission)
+    files = facade \
+        .client \
+        .retrieve_files(submission)
 
-    tracked_site_repo.update_last_fetched(site, submission_timestamp)
+    if len(files) == 0:
+        return []
 
-    return []
+    facade \
+        .repo \
+        .update_last_fetched(site, submission_timestamp)
+
+    return files

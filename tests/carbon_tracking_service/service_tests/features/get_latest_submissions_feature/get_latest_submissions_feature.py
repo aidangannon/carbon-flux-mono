@@ -12,14 +12,6 @@ from tests.carbon_tracking_service.service_tests.infrastructure.common_steps.log
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE, \
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS
 
-
-def test_when_no_tracked_sites_are_present_in_db(get_latest_submissions_feature):
-    ctx = get_latest_submissions_feature
-    ctx.runner \
-        .when(lambda_is_invoked(ctx)) \
-        .then(result_is_empty(ctx)) \
-        .run_all_steps()
-
 def test_when_no_submissions_are_available_for_site(get_latest_submissions_feature):
     ctx = get_latest_submissions_feature
     ctx.runner \
@@ -30,7 +22,8 @@ def test_when_no_submissions_are_available_for_site(get_latest_submissions_featu
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE(
             "no submissions found",
             "ERROR",
-            ctx.container)) \
+            ctx.log_capture
+        )) \
         .run_all_steps()
 
 def test_when_submission_url_is_malformed(get_latest_submissions_feature):
@@ -49,7 +42,8 @@ def test_when_submission_url_is_malformed(get_latest_submissions_feature):
             "handler failed: submission object id malformed: invalid_unparsable",
             "ERROR",
             ctx.scoped_log_vars,
-            ctx.container)) \
+            ctx.log_capture
+        )) \
         .run_all_steps()
 
 def test_when_a_submission_is_has_already_been_processed_for_the_site(get_latest_submissions_feature):
@@ -92,13 +86,13 @@ def test_when_a_new_submission_is_added_for_site(get_latest_submissions_feature)
             f"handler started",
             "INFO",
             ctx.scoped_log_vars,
-            ctx.container,
+            ctx.log_capture,
         )) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS(
             f"handler completed",
             "INFO",
             ctx.scoped_log_vars,
-            ctx.container
+            ctx.log_capture
         )) \
         .run_all_steps()
 

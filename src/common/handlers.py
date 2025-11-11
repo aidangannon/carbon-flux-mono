@@ -1,7 +1,4 @@
-from functools import lru_cache
-from typing import Callable, Any, Protocol
-
-from punq import Container
+from typing import Protocol
 
 
 class LambdaHandle(Protocol):

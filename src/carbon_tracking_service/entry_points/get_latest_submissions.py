@@ -11,10 +11,7 @@ def handle(_: dict, __: dict) -> dict:
         try:
             logging.logger.info("handler started")
 
-            flux_submissions = get_latest_submissions.execute(
-                submission_client=bootstrapping.container[ports.FluxClient],
-                tracked_site_repo=bootstrapping.container[ports.TrackedSiteRepository]
-            )
+            flux_submissions = get_latest_submissions.execute(bootstrapping.container[ports.SubmissionsFacade])
 
             logging.logger.info("handler completed")
 

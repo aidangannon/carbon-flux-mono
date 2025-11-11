@@ -1,26 +1,32 @@
 import functools
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 __all__ = ["lazy_dynamo_settings", "lazy_icos_settings"]
 
-DYNAMO = "DYNAMO"
-ICOS = "ICOS"
+def get_from_env_var(key: str) -> str:
+    return os.environ.get(key, None)
+
 
 @dataclass(frozen=True, slots=True)
 class DynamoSettings:
-    table_name: str = os.environ.get(f"{DYNAMO}_TABLE", None)
-    region: str = os.environ.get(f"{DYNAMO}_REGION", None)
+    table_name: str | None
+    region: str | None
 
 @dataclass(frozen=True, slots=True)
 class IcosSettings:
-    data_url: str = os.environ.get(f"{ICOS}_DATA_URL", None)
+    data_url: str | None
 
 
 @functools.lru_cache(maxsize=1)
 def lazy_dynamo_settings() -> DynamoSettings:
-    return DynamoSettings()
+    return DynamoSettings(
+        table_name=get_from_env_var("DYNAMO_TABLE"),
+        region=get_from_env_var("DYNAMO_REGION"),
+    )
 
 @functools.lru_cache(maxsize=1)
 def lazy_icos_settings() -> IcosSettings:
-    return IcosSettings()
+    return IcosSettings(
+        data_url=get_from_env_var("ICOS_DATA_URL"),
+    )

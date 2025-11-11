@@ -23,5 +23,4 @@ class Container:
         self.dependencies[key] = value
 
 container = Container()
-container[ports.TrackedSiteRepository] = dynamo_tracked_site_repository
-container[ports.FluxClient] = icos_flux_client
+container[ports.SubmissionsFacade] = ports.SubmissionsFacade(icos_flux_client, dynamo_tracked_site_repository)

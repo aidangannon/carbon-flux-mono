@@ -33,10 +33,10 @@ def result_should_be_empty(ctx: ResolveFluxSubmissionContext):
     assert_that(ctx.result["submissions"]).is_empty()
 
 @step
-def result_should_contain_map_file_url_and_site(ctx: ResolveFluxSubmissionContext):
+def result_should_equal_file_url_and_site(ctx: ResolveFluxSubmissionContext):
     assert_that(ctx.result).is_not_empty()
     assert_that(ctx.result["submissions"]).is_not_empty()
-    assert_that(ctx.result["submissions"]).contains([
+    assert_that(ctx.result["submissions"]).is_equal_to([
         {"site": ctx.site, "file_url": url}
         for url in ctx.file_urls
     ])
@@ -67,7 +67,7 @@ def the_tracked_sites_last_fetched_is_updated(
         KeyConditionExpression=
         Key('partition_key') \
             .eq('TRACKED_SITE#True') & Key('id') \
-            .begins_with('TRACKED')
+            .eq(f'TRACKED#{ctx.site}')
     )
     raw_tracked_site = response.get('Items', [])[0]
     tracked_site = TrackedSite(
