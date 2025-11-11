@@ -7,7 +7,7 @@ from pytest import fixture
 from moto import mock_aws
 from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefinitionTypeDef
 
-from tests import LogCapture, add_test_logging
+from tests import LogCapture
 from tests.carbon_tracking_service.service_tests.infrastructure import config
 
 

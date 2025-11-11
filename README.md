@@ -70,7 +70,7 @@ resource "aws_lambda_function" "fluxter_scrape" {
 
 ### Common Lambda Layer
 ```python
-# src/common/handlers.py - Shared across all lambdas
+# src/common/entry_points.py - Shared across all lambdas
 # src/common/logging_values.py  - Centralized logging
 # Packaged as reusable Lambda layer
 ```
