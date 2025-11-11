@@ -1,9 +1,8 @@
 from mypy_boto3_dynamodb.service_resource import Table
-from punq import Container
 from responses import RequestsMock
 
-from src.common.handlers import LambdaHandle
 from src.carbon_tracking_service.core import TrackedSite
+from src.common.handlers import LambdaHandle
 from tests import BaseBddContext, LogCapture
 
 

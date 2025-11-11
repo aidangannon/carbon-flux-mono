@@ -19,6 +19,7 @@ def env_vars():
 
 @fixture(scope='session')
 def logging():
+    loguru.logger.remove()
     capture = LogCapture()
     loguru.logger.add(capture.capture_logs)
     return capture

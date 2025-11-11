@@ -1,7 +1,10 @@
 python_sources(
-    sources=["**/*.py", "!handlers/**"]
+    sources=["**/*.py", "!entry_points/**"],
+    dependencies=[
+        ":carbon_tracking_service",
+        "src/common",
+    ]
 )
-
 
 python_sources(
     name="carbon_tracking_events",

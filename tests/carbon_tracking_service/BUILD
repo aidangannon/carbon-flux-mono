@@ -7,9 +7,7 @@ python_tests(
     dependencies=[
         "tests",
         ":carbon_tracking_service",
-        "tests/common",
-        "src/carbon_tracking_service/handlers/get_files_for_submission",
-        "src/carbon_tracking_service/handlers/get_latest_submissions",
+        "src/carbon_tracking_service/entry_points",
         "src/common",
         "//:reqs#responses",
         "//:reqs#assertpy",
