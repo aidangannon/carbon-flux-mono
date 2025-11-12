@@ -6,6 +6,18 @@ from requests import Response
 from src.carbon_tracking_service.core import Submission
 
 
+class SubmissionMalformedException(Exception):
+
+    def __init__(self, sub_id: str):
+        super().__init__(f"Submission ID {sub_id} malformed")
+
+
+class SubmissionNotFoundException(Exception):
+
+    def __init__(self, sub_id: str):
+        super().__init__(f"Submission {sub_id} not found")
+
+
 class SubmissionObjectIdMalformed(Exception):
 
     def __init__(self, uri: str):
@@ -49,6 +61,7 @@ def parse_submission_id(uri: str) -> str:
     parts = uri.split('/')
 
     if len(parts) < 5:
+        print("TEST TESTY TEST")
         raise SubmissionObjectIdMalformed(uri)
 
     return parts[4]

@@ -1,7 +1,7 @@
 from src.carbon_tracking_service.application.exceptions import SiteNotFoundException
-from src.carbon_tracking_service.infrastructure.adapters import icos_flux_client
+from src.carbon_tracking_service.infrastructure import icos
 from tests.carbon_tracking_service.service_tests.features.get_files_for_submission_feature.get_files_for_submission_feature_steps import \
-    result_should_be_empty, lambda_is_invoked, \
+    lambda_is_invoked, \
     lambda_should_throw, \
     a_tracked_site_is_added, result_should_equal_file_url_and_site, the_tracked_sites_last_fetched_is_updated
 from tests.carbon_tracking_service.service_tests.infrastructure.common_steps.icos_steps import \
@@ -20,7 +20,7 @@ def test_when_submission_is_not_found(get_files_for_submission_feature):
             ctx.requests_mock
         )) \
         .and_also(a_tracked_site_is_added(ctx)) \
-        .then(lambda_should_throw(icos_flux_client.SubmissionNotFoundException, ctx)) \
+        .then(lambda_should_throw(icos.SubmissionNotFoundException, ctx)) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE(
             f"no submission contents found for {ctx.submission_id}",
             "ERROR",
@@ -36,7 +36,7 @@ def test_when_submission_is_not_valid_sha256(get_files_for_submission_feature):
             ctx.requests_mock
         )) \
         .and_also(a_tracked_site_is_added(ctx)) \
-        .then(lambda_should_throw(icos_flux_client.SubmissionMalformedException, ctx)) \
+        .then(lambda_should_throw(icos.SubmissionMalformedException, ctx)) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE(
             f"invalid submission id: {ctx.submission_id}",
             "ERROR",

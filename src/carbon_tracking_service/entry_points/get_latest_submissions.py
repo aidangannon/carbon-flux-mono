@@ -15,15 +15,17 @@ def handle(_: dict, __: dict) -> dict:
 
             logging.logger.info("handler completed")
 
+            flux_submissions_to_return = [
+                {
+                    "site": flux_submission.site,
+                    "submission": flux_submission.submission,
+                    "submission_time": flux_submission.submission_time
+                }
+                for flux_submission in flux_submissions
+            ]
+
             return {
-                "submissions": [
-                    {
-                        "site": flux_submission.site,
-                        "submission": flux_submission.submission,
-                        "submission_time": flux_submission.submission_time
-                    }
-                    for flux_submission in flux_submissions
-                ]
+                "submissions": flux_submissions_to_return
             }
         except Exception as e:
             logging.logger.error(f"handler failed: {str(e)}", exc_info=e)

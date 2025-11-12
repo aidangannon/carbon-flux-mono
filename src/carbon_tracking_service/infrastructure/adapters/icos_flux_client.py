@@ -3,36 +3,22 @@ from icoscp_core.icos import meta
 
 from src.carbon_tracking_service.core import Submission
 from src.carbon_tracking_service.crosscutting import config
+from src.carbon_tracking_service.infrastructure import icos
 from src.common import logging
 
 __all__ = ["retrieve_files", "get_all_latest"]
-
-from src.carbon_tracking_service.infrastructure.icos import is_submission_not_found, is_submission_id_malformed, \
-    parse_icos_submissions
-
-
-class SubmissionMalformedException(Exception):
-
-    def __init__(self, sub_id: str):
-        super().__init__(f"Submission ID {sub_id} malformed")
-
-
-class SubmissionNotFoundException(Exception):
-
-    def __init__(self, sub_id: str):
-        super().__init__(f"Submission {sub_id} not found")
 
 
 def retrieve_files(submission: str) -> list[str]:
     response = requests.get(f"{config.lazy_icos_settings().data_url}/zip/{submission}/listContents")
 
-    if is_submission_id_malformed(response):
+    if icos.is_submission_id_malformed(response):
         logging.logger.error(f"invalid submission id: {submission}")
-        raise SubmissionMalformedException(submission)
+        raise icos.SubmissionMalformedException(submission)
 
-    if is_submission_not_found(response, submission):
+    if icos.is_submission_not_found(response, submission):
         logging.logger.error(f"no submission contents found for {submission}")
-        raise SubmissionNotFoundException(submission)
+        raise icos.SubmissionNotFoundException(submission)
 
     json_files = response.json()
 
@@ -66,4 +52,4 @@ select ?dobj ?submTime ?station where {
 order by desc(?submTime)"""
     response_from_icos = meta.sparql_select(request)
 
-    return parse_icos_submissions(response_from_icos)
+    return icos.parse_icos_submissions(response_from_icos)
