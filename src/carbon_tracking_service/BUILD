@@ -3,6 +3,7 @@ python_sources(
     dependencies=[
         ":carbon_tracking_service",
         "src/common",
+        "//:reqs#icoscp"
     ]
 )
 
