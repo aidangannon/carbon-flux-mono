@@ -13,7 +13,7 @@ module "lambda_function" {
   ]
 
   create_package         = false
-  local_existing_package = "../../dist/src.carbon_tracking_service.entry_points/get_latest_submissions_lambda.zip"
+  local_existing_package = "../../../dist/src.carbon_tracking_service.entry_points/get_latest_submissions_lambda.zip"
 
   attach_policy_statements = true
   attach_cloudwatch_logs_policy = true
