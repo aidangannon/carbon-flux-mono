@@ -11,6 +11,7 @@
 //   "generated_with_requirements": [
 //     "assertpy~=1.1",
 //     "boto3-stubs[essential]~=1.40.25",
+//     "dacite~=1.9.2",
 //     "hypothesis~=6.139.2",
 //     "icoscp~=0.2.2",
 //     "loguru~=0.7.3",
@@ -71,42 +72,42 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "4ac9ee8d1629e45d6b6adc727795d1fc9852e998cd1a73e4eda50f6120677bab",
-              "url": "https://files.pythonhosted.org/packages/3e/5c/e1ef895ceaf42826b21c2a85b281cb31d3fc7056fb03d5d2d4beeb0ee574/boto3-1.40.71-py3-none-any.whl"
+              "hash": "1063a295712f2605d3e463e4dc1fe32fce17cf77a0f4d3bb14249d68533ee856",
+              "url": "https://files.pythonhosted.org/packages/03/52/ec01e9814379a049852a1eec7d0bd9afd92a3176cbc6ec54e9c70c1afe7f/boto3-1.40.72-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "6d38e0250154552658be92a62cd48adf8ca8fd4abc181fb52d13371b53179503",
-              "url": "https://files.pythonhosted.org/packages/2e/d8/c316637525560e01cbf048fd88f29be73214411ad26e743f3b1950df76f0/boto3-1.40.71.tar.gz"
+              "hash": "58d30dd5e046789a760db7a49f817650b8ff08d8d169e127976a61f44b7c59ad",
+              "url": "https://files.pythonhosted.org/packages/32/23/a2015ca755f11cbc3080aa1fe17af3c97225388aa4a10de1a22b1ae46152/boto3-1.40.72.tar.gz"
             }
           ],
           "project_name": "boto3",
           "requires_dists": [
-            "botocore<1.41.0,>=1.40.71",
+            "botocore<1.41.0,>=1.40.72",
             "botocore[crt]<2.0a0,>=1.21.0; extra == \"crt\"",
             "jmespath<2.0.0,>=0.7.1",
             "s3transfer<0.15.0,>=0.14.0"
           ],
           "requires_python": ">=3.9",
-          "version": "1.40.71"
+          "version": "1.40.72"
         },
         {
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "0bdd1033b789bc0a145101f4e27f1770d3a65d5f6841db63f774fceef23e48c5",
-              "url": "https://files.pythonhosted.org/packages/ba/bb/3d407b34e2c01e8294b7304f7856d6f0712871f3f0e1b7e2db6c31fe1bdc/boto3_stubs-1.40.71-py3-none-any.whl"
+              "hash": "4807f334b87914f75db3c6cd85f7eb706b5777e6ddaf117f8d63219cc01fb4b2",
+              "url": "https://files.pythonhosted.org/packages/7a/ea/0f2814edc61c2e6fedd9b7a7fbc55149d1ffac7f7cd02d04cc51d1a3b1ca/boto3_stubs-1.40.72-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "4f9ccbfc51eada139803fadd7b247a806bdb2ae9b26260b8750aa9a776c7b1ac",
-              "url": "https://files.pythonhosted.org/packages/fa/d8/afe08e0c3740d7f04f4a1c5b9960ee26d3878b56df57d8abad87131565dc/boto3_stubs-1.40.71.tar.gz"
+              "hash": "cbcf7b6e8a7f54e77fcb2b8d00041993fe4f76554c716b1d290e48650d569cd0",
+              "url": "https://files.pythonhosted.org/packages/4f/db/90881ac0b8afdfa9b95ae66b4094ed33f88b6086a8945229a95156257ca9/boto3_stubs-1.40.72.tar.gz"
             }
           ],
           "project_name": "boto3-stubs",
           "requires_dists": [
             "boto3-stubs-full<1.41.0,>=1.40.0; extra == \"full\"",
-            "boto3==1.40.71; extra == \"boto3\"",
+            "boto3==1.40.72; extra == \"boto3\"",
             "botocore-stubs",
             "mypy-boto3-accessanalyzer<1.41.0,>=1.40.0; extra == \"accessanalyzer\"",
             "mypy-boto3-accessanalyzer<1.41.0,>=1.40.0; extra == \"all\"",
@@ -931,19 +932,19 @@
             "typing-extensions>=4.1.0; python_version < \"3.12\""
           ],
           "requires_python": ">=3.9",
-          "version": "1.40.71"
+          "version": "1.40.72"
         },
         {
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "4c05907b2a56b1f6fd70403fbae0f09a4758b95758192db5ff93c0e9940a11bb",
-              "url": "https://files.pythonhosted.org/packages/cf/a3/b44efd9db38d4426740f42c550c0c23502a91328e2cdcbe6f0795191002a/botocore-1.40.71-py3-none-any.whl"
+              "hash": "4f859e5aaf871fe59aac431d6bba59cc0c8ed8a38da2a6a5345700bdc5c74b32",
+              "url": "https://files.pythonhosted.org/packages/05/25/7332e9443d5eda0ccb06270e058aed385199be1035b1a8f58c24eb7378db/botocore-1.40.72-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "7ed28c2e092fc0d67fbfba818fbdccc92426b452cc936bf034db6de717e0d068",
-              "url": "https://files.pythonhosted.org/packages/5f/2f/7e5b9a0f9f9c958e1b70734be9b5cbcef64a1bfa9a570bcaafea0c997840/botocore-1.40.71.tar.gz"
+              "hash": "f69199ff6570695556e733fa052f2739e01e0c592c9b60f843f84c77ba3bcdf3",
+              "url": "https://files.pythonhosted.org/packages/58/f3/dad4057d13a6b2c72a62b4477d81b2273be2a565e07440e76c54d72acad5/botocore-1.40.72.tar.gz"
             }
           ],
           "project_name": "botocore",
@@ -955,19 +956,19 @@
             "urllib3<1.27,>=1.25.4; python_version < \"3.10\""
           ],
           "requires_python": ">=3.9",
-          "version": "1.40.71"
+          "version": "1.40.72"
         },
         {
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "0d97505567bd1b427a222fbecc78aedbc0a95872cf11592de8caf86e4d4c7c30",
-              "url": "https://files.pythonhosted.org/packages/0c/16/732ffdf8f4fd191e180639eee35bdb5dc95762fb0339e6ad12e615d026be/botocore_stubs-1.40.71-py3-none-any.whl"
+              "hash": "1166a81074714312d3843be3f879d16966cbffdc440ab61ad6f0cd8922fde679",
+              "url": "https://files.pythonhosted.org/packages/3c/99/9387b31ec1d980af83ca097366cc10714757d2c1390b4ac6b692c07a9e7f/botocore_stubs-1.40.72-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "6524ccba435229edd46a463bbd3ea7c795b572444695318395337ada2d405b07",
-              "url": "https://files.pythonhosted.org/packages/08/37/0fc2fd396b707e93e07ae6104e2fa5ce67ec4f9bb4971a7ea0557ad5c50a/botocore_stubs-1.40.71.tar.gz"
+              "hash": "6d268d0dd9366dc15e7af52cbd0d3a3f3cd14e2191de0e280badc69f8d34708c",
+              "url": "https://files.pythonhosted.org/packages/51/c9/17d5337cc81f107fd0a6d04b5b20c75bea0fe8b77bcc644de324487f8310/botocore_stubs-1.40.72.tar.gz"
             }
           ],
           "project_name": "botocore-stubs",
@@ -976,7 +977,7 @@
             "types-awscrt"
           ],
           "requires_python": ">=3.9",
-          "version": "1.40.71"
+          "version": "1.40.72"
         },
         {
           "artifacts": [
@@ -1002,19 +1003,19 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "0f212c2744a9bb6de0c56639a6f68afe01ecd92d91f14ae897c4fe7bbeeef0de",
-              "url": "https://files.pythonhosted.org/packages/e4/37/af0d2ef3967ac0d6113837b44a4f0bfe1328c2b9763bd5b1744520e5cfed/certifi-2025.10.5-py3-none-any.whl"
+              "hash": "97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b",
+              "url": "https://files.pythonhosted.org/packages/70/7d/9bc192684cea499815ff478dfcdc13835ddf401365057044fb721ec6bddb/certifi-2025.11.12-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "47c09d31ccf2acf0be3f701ea53595ee7e0b8fa08801c6624be771df09ae7b43",
-              "url": "https://files.pythonhosted.org/packages/4c/5b/b6ce21586237c77ce67d01dc5507039d444b630dd76611bbca2d8e5dcd91/certifi-2025.10.5.tar.gz"
+              "hash": "d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316",
+              "url": "https://files.pythonhosted.org/packages/a2/8c/58f469717fa48465e4a50c014a0400602d3c437d7c0c468e17ada824da3a/certifi-2025.11.12.tar.gz"
             }
           ],
           "project_name": "certifi",
           "requires_dists": [],
           "requires_python": ">=3.7",
-          "version": "2025.10.5"
+          "version": "2025.11.12"
         },
         {
           "artifacts": [
@@ -1351,8 +1352,13 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "cc31ad6fdea1f49962ea42db9421772afe01ac5442380d9a99fcf3d188c61afe",
-              "url": "https://files.pythonhosted.org/packages/21/0f/cf0943f4f55f0fbc7c6bd60caf1343061dff818b02af5a0d444e473bb78d/dacite-1.8.1-py3-none-any.whl"
+              "hash": "053f7c3f5128ca2e9aceb66892b1a3c8936d02c686e707bee96e19deef4bc4a0",
+              "url": "https://files.pythonhosted.org/packages/94/35/386550fd60316d1e37eccdda609b074113298f23cef5bddb2049823fe666/dacite-1.9.2-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "6ccc3b299727c7aa17582f0021f6ae14d5de47c7227932c47fec4cdfefd26f09",
+              "url": "https://files.pythonhosted.org/packages/55/a0/7ca79796e799a3e782045d29bf052b5cde7439a2bbb17f15ff44f7aacc63/dacite-1.9.2.tar.gz"
             }
           ],
           "project_name": "dacite",
@@ -1367,8 +1373,8 @@
             "pytest-cov; extra == \"dev\"",
             "pytest>=5; extra == \"dev\""
           ],
-          "requires_python": ">=3.6",
-          "version": "1.8.1"
+          "requires_python": ">=3.7",
+          "version": "1.9.2"
         },
         {
           "artifacts": [
@@ -1511,22 +1517,22 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "94b88f87777e15056f856390fcbf755d1228bf28f3f020d187ea6d70a37dd49b",
-              "url": "https://files.pythonhosted.org/packages/4a/9c/73aed867300b0493696426416b53a68e0dd613c8a7173ea7b2416da26a48/icoscp_core-0.3.11-py3-none-any.whl"
+              "hash": "0a2759f671a12b4293de00dcd265fbe45b01ffdcf3c383285d1afdbe0837c092",
+              "url": "https://files.pythonhosted.org/packages/e2/ad/51d6d058ae202c85d483a85ef3fcb66eeeaa3ca34c4160e003b16bc8fa8a/icoscp_core-0.2.0-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "b11d2c2b3f43102ad38ce307c21a97db1b2cb495a7dd08926e2c34620514d10e",
-              "url": "https://files.pythonhosted.org/packages/63/2e/7eec8e163b50688bd85ce49a6444533000e5e1a6e4877c4f8c295442776a/icoscp_core-0.3.11.tar.gz"
+              "hash": "1d20e3105f43b9179f4a4f34e371bdbd1d622df4a54267db420ad2b08e677bb6",
+              "url": "https://files.pythonhosted.org/packages/87/96/effc418ac6f9394feb72d002f93e69c0d7ac5e8df3d3395f68cea53b9697/icoscp_core-0.2.0.tar.gz"
             }
           ],
           "project_name": "icoscp-core",
           "requires_dists": [
-            "dacite==1.8.1",
+            "dacite",
             "numpy>=1.23"
           ],
           "requires_python": ">=3.10",
-          "version": "0.3.11"
+          "version": "0.2.0"
         },
         {
           "artifacts": [
@@ -1864,13 +1870,13 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "dc417a1106b3f1b52217be40d6176ee507931e22b161346a9ce9bd7996f2d385",
-              "url": "https://files.pythonhosted.org/packages/7d/c4/9f574b7afcb7ef107661e5dfdd648ef5f42819f2d4c8ec05690b8b116f52/mypy_boto3_ec2-1.40.71-py3-none-any.whl"
+              "hash": "24d0af3a1639813328eaefc7c60ae3f37e694f81e4e36de2fa0c1f4d6bb391bf",
+              "url": "https://files.pythonhosted.org/packages/91/4a/c0b6f3d4fffe8f2fb15d6d5ae24c4fd196e71942997b68f93df5c0847191/mypy_boto3_ec2-1.40.72-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "6632f8e9a4f923f26dce719090688f180c16e39951f9e85740ce52d2825c4a0d",
-              "url": "https://files.pythonhosted.org/packages/b0/c9/b62f5c618c157e5c438173e451397f8e8abe631ea051db08f61f14dcfb38/mypy_boto3_ec2-1.40.71.tar.gz"
+              "hash": "b403b52c528bf90ae66d00454b19bf22fc331680dc39f8c6a1ccab837192d17b",
+              "url": "https://files.pythonhosted.org/packages/6c/d7/5b711738ca7c893af10399e7e3f90b595389c899f4974b290892eb8504c9/mypy_boto3_ec2-1.40.72.tar.gz"
             }
           ],
           "project_name": "mypy-boto3-ec2",
@@ -1878,7 +1884,7 @@
             "typing-extensions; python_version < \"3.12\""
           ],
           "requires_python": ">=3.9",
-          "version": "1.40.71"
+          "version": "1.40.72"
         },
         {
           "artifacts": [
@@ -2668,6 +2674,7 @@
   "requirements": [
     "assertpy~=1.1",
     "boto3-stubs[essential]~=1.40.25",
+    "dacite~=1.9.2",
     "hypothesis~=6.139.2",
     "icoscp~=0.2.2",
     "loguru~=0.7.3",
