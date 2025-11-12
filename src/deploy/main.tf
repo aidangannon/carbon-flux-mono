@@ -1,5 +1,5 @@
 module "carbon_tracking_service" {
-  source            = "./carbon_tracking_service"
+  source            = "../carbon_tracking_service/deploy"
   python_runtime    = local.python_runtime
   name              = "carbon-tracking"
 
