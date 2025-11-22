@@ -17,3 +17,7 @@ terraform.tfstate.backup
 
 # aws cli
 response.json
+
+# testing
+.pytest_cache
+__pycache__/
