@@ -1,10 +1,10 @@
 import functools
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 __all__ = ["lazy_dynamo_settings", "lazy_icos_settings"]
 
-def get_from_env_var(key: str) -> str:
+def get_from_env_var(key: str) -> str | None:
     return os.environ.get(key, None)
 
 

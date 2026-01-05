@@ -1,9 +1,9 @@
+from mypy_boto3_dynamodb.service_resource import Table
 import functools
 
 import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
-from mypy_boto3_dynamodb.service_resource import Table
 
 from src.carbon_tracking_service.core import TrackedSite
 from src.carbon_tracking_service.crosscutting import config
