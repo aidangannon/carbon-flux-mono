@@ -1,4 +1,5 @@
 # ide config
+.venv
 venv
 .idea
 

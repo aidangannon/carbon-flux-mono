@@ -8,3 +8,14 @@ python_classes = ["Test*"]
 python_functions = ["test*"]
 addopts = "-v"
 testpaths = ["tests"]
+
+[tool.pyright]
+venvPath = "."
+venv = "venv"
+extraPaths = ["."]
+exclude = [
+    "venv",
+    "__pycache__",
+    ".pants.d",
+    "dist"
+]

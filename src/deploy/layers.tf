@@ -11,11 +11,11 @@ locals {
 }
 
 locals {
-  klayers_runtime = "p311"
+  klayers_runtime = "p313"
 }
 
 locals {
-  # find latest version at https://api.klayers.cloud/api/v2/p3.11/layers/latest/eu-west-2
+  # find latest version at https://api.klayers.cloud/api/v2/p3.13/layers/latest/eu-west-2
   pandas_layer_arn = "arn:aws:lambda:${local.aws_region}:770693421928:layer:Klayers-${local.klayers_runtime}-pandas:22"
   numpy_layer_arn = "arn:aws:lambda:${local.aws_region}:770693421928:layer:Klayers-${local.klayers_runtime}-numpy:14"
 }
