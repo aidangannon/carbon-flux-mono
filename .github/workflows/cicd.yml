@@ -18,7 +18,7 @@ jobs:
           named-caches-hash: ${{ hashFiles('python-default.lock') }}
       - name: Test with Pants
         run: |
-          pants test tests::
+          pants test ::
       - name: Build with Pants
         run: |
           pants package src::
