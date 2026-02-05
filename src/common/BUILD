@@ -9,5 +9,5 @@ python_aws_lambda_layer(
     name="common_layer",
     dependencies=[":common"],
     description="Flux Common",
-    runtime="python3.13"
+    runtime="python3.12"
 )

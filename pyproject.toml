@@ -19,3 +19,23 @@ exclude = [
     ".pants.d",
     "dist"
 ]
+
+[project]
+dependencies = [
+    "loguru~=0.7.3",
+    "boto3-stubs[essential]~=1.40.25",
+    "icoscp~=0.2.2",
+    "dacite~=1.9.2",
+    "assertpy~=1.1",
+    "pytest~=9.0.2",
+    # needed for icos compatibility
+    "numpy>=1.26.0,<2.0",
+    "moto[dynamodb,s3]~=5.1.11",
+    "hypothesis~=6.139.2",
+    "responses~=0.25.8",
+]
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

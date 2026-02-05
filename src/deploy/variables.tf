@@ -1,5 +1,5 @@
 locals {
-  python_runtime = "python3.13"
+  python_runtime = "python3.12"
   aws_region = "eu-west-2"
 }
 
