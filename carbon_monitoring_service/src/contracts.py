@@ -12,3 +12,4 @@ class MonitorSiteCommand:
     """
     name: str
     user_id: str
+    
