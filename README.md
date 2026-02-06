@@ -1,6 +1,6 @@
 # Carbon Flux Monitoring
 
-![Logo](/assets/logo_25-removebg-preview.png)
+![Logo](/assets/7500DS-thumb.webp)
 
 Serverless monorepo for processing ICOS eddy covariance data with AWS Step Functions and Lambda.
 
