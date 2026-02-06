@@ -1,6 +1,6 @@
 # Carbon Flux Monitoring
 
-![Logo](/assets/7500DS-thumb.webp)
+<img src="/assets/7500DS-thumb.webp" alt="Carbon Flux Monitoring Logo" width="300">
 
 Serverless monorepo for processing ICOS eddy covariance data with AWS Step Functions and Lambda.
 
