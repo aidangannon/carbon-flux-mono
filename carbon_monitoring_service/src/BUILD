@@ -2,7 +2,7 @@ python_sources(
     sources=["**/*.py", "!entry_points/**", "!contracts.py"],
     dependencies=[
         "lambda_common",
-        "carbon_monitoring_contracts",
+        ":carbon_monitoring_contracts",
         "//:reqs#icoscp"
     ]
 )
