@@ -55,7 +55,6 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
       - name: Terraform Deploy
-        working-directory: ${{ github.workspace }}/shared_deploy
         env:
           TF_VAR_icos_username: ${{ secrets.ICOS_USERNAME }}
           TF_VAR_icos_password: ${{ secrets.ICOS_PASSWORD }}

@@ -15,10 +15,16 @@ locals {
   name           = "carbon-monitoring"
   icos_data_url  = "http://data.icos-cp.eu"
   icos_meta_url  = "http://meta.icos-cp.eu"
+  pandas_layer_arn = "arn:aws:lambda:${var.aws_region}:770693421928:layer:Klayers-${var.klayers_runtime}-pandas:22"
+  numpy_layer_arn = "arn:aws:lambda:${var.aws_region}:770693421928:layer:Klayers-${var.klayers_runtime}-numpy:14"
 }
 
 provider "aws" {
   region = var.aws_region
+}
+
+variable "klayers_runtime" {
+  type = string
 }
 
 variable "python_runtime" {
@@ -26,14 +32,6 @@ variable "python_runtime" {
 }
 
 variable "aws_region" {
-  type = string
-}
-
-variable "pandas_layer_arn" {
-  type = string
-}
-
-variable "core_layer_arn" {
   type = string
 }
 
@@ -47,6 +45,10 @@ variable "icos_password" {
 
 resource "aws_s3_bucket" "blob" {
   bucket_prefix = "${local.name}-blob"
+}
+
+data "aws_lambda_layer_version" "core_layer" {
+  layer_name = "common"
 }
 
 resource "aws_dynamodb_table" "db" {
@@ -81,7 +83,7 @@ module "lambda_function" {
   timeout = 30
 
   layers = [
-    var.core_layer_arn
+    data.aws_lambda_layer_version.core_layer.arn
   ]
 
   create_package         = false
