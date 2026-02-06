@@ -1,5 +1,5 @@
 python_sources(
-    sources=["**/*.py", "!entry_points/**", "!contracts.py"],
+    sources=["**/*.py", "!contracts.py"],
     dependencies=[
         "lambda_common",
         ":carbon_monitoring_contracts",
