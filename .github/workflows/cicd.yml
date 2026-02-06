@@ -77,8 +77,11 @@ jobs:
         env:
           TF_VAR_icos_username: ${{ secrets.ICOS_USERNAME }}
           TF_VAR_icos_password: ${{ secrets.ICOS_PASSWORD }}
+          TF_VAR_aws_region: eu-west-2
+          TF_VAR_python_runtime: python3.12
+          TF_VAR_klayers_runtime: p312
         run: |
           pants experimental-deploy \
             --changed-since=HEAD~1 \
             --changed-dependents=transitive \
-            --download-terraform-args="-auto-approve -var=aws_region=eu-west-2 -var=python_runtime=python3.12" \
+            --download-terraform-args="-auto-approve" \

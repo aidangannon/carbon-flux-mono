@@ -32,4 +32,4 @@ args = [
 output = "all"
 
 [download-terraform]
-extra_env_vars = ["PATH"]
+extra_env_vars = ["PATH", "AWS_*", "TF_VAR_*"]
