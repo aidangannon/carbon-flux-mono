@@ -30,3 +30,6 @@ args = [
 
 [test]
 output = "all"
+
+[download-terraform]
+extra_tools = ["git"]

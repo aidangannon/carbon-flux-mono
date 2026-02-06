@@ -8,7 +8,6 @@ from carbon_monitoring_service.src.crosscutting import logging_values
 def handle(event: dict, _: dict) -> dict:
     with logging.logger.contextualize(**{logging_values.OPERATION: logging_values.RESOLVE_SUBMISSIONS}):
 
-
         try:
             logging.logger.info("handler started")
 
