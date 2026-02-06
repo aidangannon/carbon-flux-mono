@@ -27,10 +27,27 @@ def lazy_table() -> Table:
         .Table(name=config.lazy_dynamo_settings().table_name)
 ```
 
+## Namespaces
+
+Packages follow a `<service>.<layer>` namespace convention:
+```
+carbon_monitoring_service.src
+carbon_monitoring_service.tests
+```
+
 ## Build & Test
+
+Locally, run everything:
 ```bash
 pants package ::
 pants test ::
+```
+
+Uses transitive dependencies to build a dependency chain of what's changed against the previous commit, then tests, packages and deploys:
+```bash
+pants test --changed-since=HEAD~1 --changed-dependents=transitive
+pants package --changed-since=HEAD~1 --changed-dependents=transitive
+pants experimental-deploy --changed-since=HEAD~1 --changed-dependents=transitive
 ```
 
 ## Architecture
