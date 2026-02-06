@@ -32,4 +32,4 @@ args = [
 output = "all"
 
 [download-terraform]
-extra_tools = ["git"]
+extra_env_vars = ["PATH"]
