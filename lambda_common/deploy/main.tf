@@ -7,7 +7,7 @@ variable "aws_region" {
 }
 
 locals {
-  file_name = "../dist/lambda_common/common_layer.zip"
+  file_name = "../../dist/lambda_common/common_layer.zip"
 }
 
 resource "aws_lambda_layer_version" "core_layer" {
