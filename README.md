@@ -12,7 +12,7 @@ Serverless monorepo for processing ICOS eddy covariance data with AWS Step Funct
 def test_when_no_submissions_are_available_for_site(retrieve_flux_submissions_feature):
     ctx = retrieve_flux_submissions_feature
     ctx.runner
-    .given(a_tracked_site_is_added_with_last_fetched_LAST_FETCHED(ctx))
+    .given(a_monitored_site_is_added_with_last_fetched_LAST_FETCHED(ctx))
     .when(lambda_is_invoked(ctx))
     .then(result_is_empty(ctx))
     .run_all_steps()
@@ -35,8 +35,8 @@ pants test ::
 
 ## Architecture
 
-**carbon tracking service**: Express step function with 3 lambdas to process daily ingestion of carbon data
-**carbon management service**: Lambda + Gateway to handle user interaction with managing data, permissions, owernership and management of which sites to track.
+**carbon monitoring service**: Express step function with 3 lambdas to process daily ingestion of carbon data
+**carbon management service**: Lambda + Gateway to handle user interaction with managing data, permissions, owernership and management of which sites to monitor.
 
 ## Stack
 

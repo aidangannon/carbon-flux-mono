@@ -140,7 +140,7 @@ class ScenarioRunner:
                 )
 
         if self.failures:
-            msgs = [f"Step {failure.name} failed: {failure.error_message} stack track: {failure.error_stack_trace}" for failure in self.failures]
+            msgs = [f"Step {failure.name} failed: {failure.error_message} stack trace: {failure.error_stack_trace}" for failure in self.failures]
             raise AssertionError("\n".join(msgs))
 
 

@@ -1,4 +1,0 @@
-bucket="carbonfluxmono-tf-backend"
-key="carbonfluxmono"
-dynamodb_table="carbonfluxmono-tf-lock"
-region="eu-west-2"
