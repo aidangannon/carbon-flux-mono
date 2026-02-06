@@ -1,3 +1,7 @@
+terraform {
+  backend "s3" {}
+}
+
 variable "python_runtime" {
   type = string
 }
