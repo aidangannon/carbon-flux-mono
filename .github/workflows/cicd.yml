@@ -80,6 +80,7 @@ jobs:
           TF_VAR_aws_region: eu-west-2
           TF_VAR_python_runtime: python3.12
           TF_VAR_klayers_runtime: p312
+          TF_VAR_workspace_root: ${{ github.workspace }}
         run: |
           pants experimental-deploy \
             --changed-since=HEAD~1 \

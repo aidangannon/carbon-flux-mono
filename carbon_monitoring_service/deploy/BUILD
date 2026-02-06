@@ -10,7 +10,7 @@ terraform_deployment(
     root_module=":deploy",
     dependencies=[
         ":backend",
-        "carbon_monitoring_service/src/entry_points:get_latest_submissions_lambda",
-        "carbon_monitoring_service/src/entry_points:get_files_for_submission_lambda",
+        "lambda_common/deploy:deployment",
+        "carbon_monitoring_service/src"
     ],
 )
