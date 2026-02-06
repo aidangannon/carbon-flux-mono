@@ -21,13 +21,11 @@ jobs:
           pants test \
             --changed-since=HEAD~1 \
             --changed-dependents=transitive \
-            ::
       - name: Build with Pants
         run: |
           pants package \
             --changed-since=HEAD~1 \
             --changed-dependents=transitive \
-            ::
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -62,4 +60,3 @@ jobs:
             --changed-since=HEAD~1 \
             --changed-dependents=transitive \
             --download-terraform-args="-auto-approve -var=aws_region=eu-west-2 -var=python_runtime=python3.12" \
-            ::
