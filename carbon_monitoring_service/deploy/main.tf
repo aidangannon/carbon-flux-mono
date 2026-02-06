@@ -13,14 +13,12 @@ terraform {
 
 locals {
   name           = "carbon-monitoring"
-  python_runtime = "python3.12"
-  aws_region     = "eu-west-2"
   icos_data_url  = "http://data.icos-cp.eu"
   icos_meta_url  = "http://meta.icos-cp.eu"
 }
 
 provider "aws" {
-  region = local.aws_region
+  region = var.aws_region
 }
 
 variable "python_runtime" {
@@ -78,7 +76,7 @@ module "lambda_function" {
   function_name = "${local.name}-get-latest-submissions"
   description   = "Gets latest submissions for monitored sites"
   handler       = "carbon_monitoring_service.src.entry_points.get_latest_submissions.handle"
-  runtime       = local.python_runtime
+  runtime       = var.python_runtime
 
   timeout = 30
 
@@ -120,7 +118,7 @@ module "lambda_function" {
     ICOS_META_URL  = local.icos_meta_url
     HOME           = "/tmp"
     DYNAMO_TABLE   = aws_dynamodb_table.db.name
-    DYNAMO_REGION  = local.aws_region
+    DYNAMO_REGION  = var.aws_region
   }
 
   tags = {

@@ -18,10 +18,16 @@ jobs:
           named-caches-hash: ${{ hashFiles('python-default.lock') }}
       - name: Test with Pants
         run: |
-          pants test ::
+          pants test \
+            --changed-since=HEAD~1 \
+            --changed-dependents=transitive \
+            ::
       - name: Build with Pants
         run: |
-          pants package ::
+          pants package \
+            --changed-since=HEAD~1 \
+            --changed-dependents=transitive \
+            ::
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -52,6 +58,8 @@ jobs:
           TF_VAR_icos_username: ${{ secrets.ICOS_USERNAME }}
           TF_VAR_icos_password: ${{ secrets.ICOS_PASSWORD }}
         run: |
-          terraform init -backend-config=backend.toml
-          terraform plan
-          terraform apply -auto-approve
+          pants experimental-deploy \
+            --changed-since=HEAD~1 \
+            --changed-dependents=transitive \
+            --download-terraform-args="-auto-approve -var=aws_region=eu-west-2 -var=python_runtime=python3.12" \
+            ::

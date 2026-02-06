@@ -1,0 +1,4 @@
+bucket="carbonfluxmono-tf-backend"
+key="lambda-common/terraform.tfstate"
+dynamodb_table="carbonfluxmono-tf-lock"
+region="eu-west-2"
