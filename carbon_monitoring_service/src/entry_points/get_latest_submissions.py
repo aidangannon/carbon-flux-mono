@@ -1,9 +1,10 @@
 from lambda_common import logging
 from carbon_monitoring_service.src import bootstrapping
-from carbon_monitoring_service.src.application import ports
 from carbon_monitoring_service.src.application.slices import get_latest_submissions
 from carbon_monitoring_service.src.crosscutting import logging_values
 
+
+bootstrapping.configure_adapters()
 
 def handle(_: dict, __: dict) -> dict:
     with logging.logger.contextualize(**{logging_values.OPERATION: logging_values.DETECT_SUBMISSIONS}):
@@ -11,7 +12,7 @@ def handle(_: dict, __: dict) -> dict:
         try:
             logging.logger.info("handler started")
 
-            flux_submissions = get_latest_submissions.execute(bootstrapping.container[ports.SubmissionsFacade])
+            flux_submissions = get_latest_submissions.get()
 
             logging.logger.info("handler completed")
 

@@ -1,26 +1,10 @@
-from typing import TypeVar, Type
-
-from carbon_monitoring_service.src.application import ports
 from carbon_monitoring_service.src.infrastructure.adapters import icos_flux_client
 from carbon_monitoring_service.src.infrastructure.adapters import dynamo_monitored_site_repository
+from carbon_monitoring_service.src.application import ports
 
 
-__all__ = ["container"]
+__all__ = ["configure_adapters"]
 
-
-T = TypeVar("T")
-
-class Container:
-    """tiny container for our ports/adapters"""
-
-    def __init__(self):
-        self.dependencies = {}
-
-    def __getitem__(self, key: Type[T]) -> T:
-        return self.dependencies[key]
-
-    def __setitem__(self, key: Type[T], value: T) -> None:
-        self.dependencies[key] = value
-
-container = Container()
-container[ports.SubmissionsFacade] = ports.SubmissionsFacade(icos_flux_client, dynamo_monitored_site_repository)
+def configure_adapters():
+    ports.monitored_site_repository = dynamo_monitored_site_repository
+    ports.flux_client = icos_flux_client

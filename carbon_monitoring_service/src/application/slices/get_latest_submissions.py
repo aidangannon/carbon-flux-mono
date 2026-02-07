@@ -3,13 +3,13 @@ from carbon_monitoring_service.src.application import ports
 from carbon_monitoring_service.src.core import SiteSubmission
 
 
-def execute(facade: ports.SubmissionsFacade) -> list[SiteSubmission]:
-    sites = facade.repo.get_all()
+def get() -> list[SiteSubmission]:
+    sites = ports.monitored_site_repository.get_all()
 
     if len(sites) == 0:
         return []
 
-    submissions = facade.client.get_all_latest()
+    submissions = ports.flux_client.get_all_latest()
 
     if len(submissions) == 0:
         logging.logger.error("no submissions found")

@@ -24,7 +24,5 @@ class FluxClient(Protocol):
     def retrieve_files(self, submission: str) -> list[str]:
         ...
 
-@dataclass(slots=True)
-class SubmissionsFacade:
-    client: FluxClient
-    repo: MonitoredSiteRepository
+monitored_site_repository: MonitoredSiteRepository
+flux_client: FluxClient
