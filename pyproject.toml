@@ -9,15 +9,16 @@ python_functions = ["test*"]
 addopts = "-v"
 testpaths = ["tests"]
 
-[tool.pyright]
-venvPath = "."
-venv = "venv"
-extraPaths = ["."]
-exclude = [
-    "venv",
-    "__pycache__",
-    ".pants.d",
-    "dist"
+[tool.pyrefly]
+python-version = "3.12"
+python-interpreter-path = "venv/bin/python"
+search-path = ["."]
+project-includes = ["**/*.py"]
+project-excludes = [
+    "venv/**",
+    "__pycache__/**",
+    ".pants.d/**",
+    "dist/**"
 ]
 
 [project]

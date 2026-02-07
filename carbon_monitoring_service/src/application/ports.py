@@ -6,7 +6,6 @@ from carbon_monitoring_service.src.core import MonitoredSite, Submission
 
 __all__ = ["MonitoredSite", "FluxClient"]
 
-
 class MonitoredSiteRepository(Protocol):
 
     def update_last_fetched(self, site: str, submission_timestamp: int) -> None:
