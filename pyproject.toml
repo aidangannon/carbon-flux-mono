@@ -21,6 +21,18 @@ project-excludes = [
     "dist/**"
 ]
 
+[tool.basedpyright]
+pythonVersion = "3.12"
+venvPath = "."
+venv = "venv"
+include = ["**/*.py"]
+exclude = [
+    "venv",
+    "__pycache__",
+    ".pants.d",
+    "dist"
+]
+
 [project]
 dependencies = [
     "loguru~=0.7.3",

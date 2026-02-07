@@ -1,5 +1,5 @@
 from lambda_common import logging
-from carbon_monitoring_service.src.application import ports
+import carbon_monitoring_service.src.application.ports as ports
 from carbon_monitoring_service.src.core import SiteSubmission
 
 

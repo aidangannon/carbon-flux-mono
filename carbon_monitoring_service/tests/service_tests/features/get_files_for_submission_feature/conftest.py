@@ -1,7 +1,7 @@
 from pytest import fixture
 
-from carbon_monitoring_service.src.crosscutting import logging_values
-from carbon_monitoring_service.src.entry_points import get_files_for_submission
+import carbon_monitoring_service.src.crosscutting.logging_values as logging_values
+import carbon_monitoring_service.src.entry_points.get_files_for_submission as get_files_for_submission
 from pyight_bdd import auto_fixture
 from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature import \
     ResolveFluxSubmissionContext

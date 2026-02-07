@@ -1,7 +1,7 @@
 from pytest import fixture
 
-from carbon_monitoring_service.src.crosscutting import logging_values
-from carbon_monitoring_service.src.entry_points import get_latest_submissions
+import carbon_monitoring_service.src.crosscutting.logging_values as logging_values
+import carbon_monitoring_service.src.entry_points.get_latest_submissions as get_latest_submissions
 from carbon_monitoring_service.tests.service_tests.features.get_latest_submissions_feature import GetLatestSubmissionsContext
 
 

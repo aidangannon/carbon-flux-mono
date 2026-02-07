@@ -6,7 +6,7 @@ from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 
 from carbon_monitoring_service.src.core import MonitoredSite
-from carbon_monitoring_service.src.crosscutting import config
+import carbon_monitoring_service.src.crosscutting.config as config
 
 from carbon_monitoring_service.src.application.exceptions import SiteNotFoundException
 

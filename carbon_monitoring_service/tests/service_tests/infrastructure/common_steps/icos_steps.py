@@ -3,7 +3,7 @@ from datetime import datetime
 from responses import RequestsMock
 
 from pyight_bdd import step
-from carbon_monitoring_service.tests.service_tests.infrastructure.api_mocks import icos
+import carbon_monitoring_service.tests.service_tests.infrastructure.api_mocks.icos as icos
 from carbon_monitoring_service.tests.service_tests.infrastructure.api_mocks.icos import Submission
 
 TIME_END_FIELD = "timeEnd"

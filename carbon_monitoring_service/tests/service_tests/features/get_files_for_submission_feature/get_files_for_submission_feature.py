@@ -1,5 +1,5 @@
 from carbon_monitoring_service.src.application.exceptions import SiteNotFoundException
-from carbon_monitoring_service.src.infrastructure import icos
+import carbon_monitoring_service.src.infrastructure.icos as icos
 from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature.get_files_for_submission_feature_steps import \
     lambda_is_invoked, \
     lambda_should_throw, \

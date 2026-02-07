@@ -1,7 +1,7 @@
 from lambda_common import logging
-from carbon_monitoring_service.src import bootstrapping
-from carbon_monitoring_service.src.application.slices import get_latest_submissions
-from carbon_monitoring_service.src.crosscutting import logging_values
+import carbon_monitoring_service.src.bootstrapping as bootstrapping
+import carbon_monitoring_service.src.application.slices.get_latest_submissions as get_latest_submissions
+import carbon_monitoring_service.src.crosscutting.logging_values as logging_values
 
 
 bootstrapping.configure_adapters()
