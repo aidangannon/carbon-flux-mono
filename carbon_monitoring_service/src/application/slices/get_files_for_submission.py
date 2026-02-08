@@ -1,4 +1,4 @@
-import carbon_monitoring_service.src.application.ports as ports
+from carbon_monitoring_service.src.application import ports
 
 
 def get(

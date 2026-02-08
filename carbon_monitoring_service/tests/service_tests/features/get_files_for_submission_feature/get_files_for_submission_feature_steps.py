@@ -6,11 +6,11 @@ from boto3.dynamodb.conditions import Key
 from carbon_monitoring_service.src.core import MonitoredSite
 from pyight_bdd import step, auto_fixture
 from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature import \
-    ResolveFluxSubmissionContext
+    GetFilesForSubmissionContext
 
 
 @step
-def lambda_is_invoked(ctx: ResolveFluxSubmissionContext):
+def lambda_is_invoked(ctx: GetFilesForSubmissionContext):
     ctx.result = ctx.sut({
         "submission_id": ctx.submission_id,
         "site": ctx.site,
@@ -18,7 +18,7 @@ def lambda_is_invoked(ctx: ResolveFluxSubmissionContext):
     }, {})
 
 @step
-def lambda_should_throw(exception: Type[Exception], ctx: ResolveFluxSubmissionContext):
+def lambda_should_throw(exception: Type[Exception], ctx: GetFilesForSubmissionContext):
     assert_that(ctx.sut) \
         .raises(exception) \
         .when_called_with({
@@ -28,12 +28,12 @@ def lambda_should_throw(exception: Type[Exception], ctx: ResolveFluxSubmissionCo
         }, {})
 
 @step
-def result_should_be_empty(ctx: ResolveFluxSubmissionContext):
+def result_should_be_empty(ctx: GetFilesForSubmissionContext):
     assert_that(ctx.result).is_not_empty()
     assert_that(ctx.result["submissions"]).is_empty()
 
 @step
-def result_should_equal_file_url_and_site(ctx: ResolveFluxSubmissionContext):
+def result_should_equal_file_url_and_site(ctx: GetFilesForSubmissionContext):
     assert_that(ctx.result).is_not_empty()
     assert_that(ctx.result["submissions"]).is_not_empty()
     assert_that(ctx.result["submissions"]).is_equal_to([
@@ -43,7 +43,7 @@ def result_should_equal_file_url_and_site(ctx: ResolveFluxSubmissionContext):
 
 @step
 def a_monitored_site_is_added(
-    ctx: ResolveFluxSubmissionContext
+    ctx: GetFilesForSubmissionContext
 ):
     monitored_site = auto_fixture \
         .build(MonitoredSite) \
@@ -61,7 +61,7 @@ def a_monitored_site_is_added(
 
 @step
 def the_monitored_sites_last_fetched_is_updated(
-    ctx: ResolveFluxSubmissionContext
+    ctx: GetFilesForSubmissionContext
 ):
     response = ctx.table.query(
         KeyConditionExpression=

@@ -6,7 +6,7 @@ from lambda_common.handlers import LambdaHandle
 from pyight_bdd import BaseBddContext, LogCapture
 
 
-class ResolveFluxSubmissionContext(BaseBddContext):
+class GetFilesForSubmissionContext(BaseBddContext):
     sut: LambdaHandle
     requests_mock: RequestsMock
     log_capture: LogCapture

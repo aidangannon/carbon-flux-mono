@@ -8,7 +8,7 @@ from moto import mock_aws
 from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefinitionTypeDef
 
 from pyight_bdd import LogCapture
-import carbon_monitoring_service.tests.service_tests.infrastructure.config as config
+from carbon_monitoring_service.tests.service_tests.infrastructure import config
 
 
 @fixture(scope='session', autouse=True)

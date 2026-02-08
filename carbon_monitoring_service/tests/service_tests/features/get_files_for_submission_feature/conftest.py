@@ -1,15 +1,15 @@
 from pytest import fixture
 
-import carbon_monitoring_service.src.crosscutting.logging_values as logging_values
-import carbon_monitoring_service.src.entry_points.get_files_for_submission as get_files_for_submission
+from carbon_monitoring_service.src.crosscutting import logging_values
+from carbon_monitoring_service.src.entry_points import get_files_for_submission
 from pyight_bdd import auto_fixture
 from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature import \
-    ResolveFluxSubmissionContext
+    GetFilesForSubmissionContext
 
 
 @fixture
 def get_files_for_submission_feature(logging, database, api_mocks):
-    ctx = ResolveFluxSubmissionContext()
+    ctx = GetFilesForSubmissionContext()
     ctx.table = database
     ctx.log_capture = logging
     ctx.requests_mock = api_mocks

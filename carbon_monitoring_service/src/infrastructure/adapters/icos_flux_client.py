@@ -2,8 +2,8 @@ import requests
 from icoscp_core.icos import meta
 
 from carbon_monitoring_service.src.core import Submission
-import carbon_monitoring_service.src.crosscutting.config as config
-import carbon_monitoring_service.src.infrastructure.icos as icos
+from carbon_monitoring_service.src.crosscutting import config
+from carbon_monitoring_service.src.infrastructure import icos
 from lambda_common import logging
 
 __all__ = ["retrieve_files", "get_all_latest"]

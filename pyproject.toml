@@ -9,27 +9,11 @@ python_functions = ["test*"]
 addopts = "-v"
 testpaths = ["tests"]
 
-[tool.pyrefly]
-python-version = "3.12"
-python-interpreter-path = "venv/bin/python"
-search-path = ["."]
-project-includes = ["**/*.py"]
-project-excludes = [
-    "venv/**",
-    "__pycache__/**",
-    ".pants.d/**",
-    "dist/**"
-]
-
-[tool.basedpyright]
+[tool.pyright]
 pythonVersion = "3.12"
 venvPath = "."
 venv = "venv"
-include = ["**/*.py"]
 exclude = [
-    "venv",
-    "__pycache__",
-    ".pants.d",
     "dist"
 ]
 

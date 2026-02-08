@@ -1,5 +1,6 @@
 from carbon_monitoring_service.src.application.exceptions import SiteNotFoundException
-import carbon_monitoring_service.src.infrastructure.icos as icos
+from carbon_monitoring_service.src.infrastructure import icos
+from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature import GetFilesForSubmissionContext
 from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature.get_files_for_submission_feature_steps import \
     lambda_is_invoked, \
     lambda_should_throw, \
@@ -12,7 +13,7 @@ from carbon_monitoring_service.tests.service_tests.infrastructure.common_steps.l
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE
 
 
-def test_when_submission_is_not_found(get_files_for_submission_feature):
+def test_when_submission_is_not_found(get_files_for_submission_feature: GetFilesForSubmissionContext):
     ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_submission_not_found(
