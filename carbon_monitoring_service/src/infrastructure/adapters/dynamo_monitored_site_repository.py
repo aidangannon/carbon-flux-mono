@@ -1,3 +1,4 @@
+from typing import cast
 from mypy_boto3_dynamodb.service_resource import Table
 import functools
 
@@ -17,7 +18,7 @@ __all__ = ["get_all", "update_last_fetched"]
 def lazy_table() -> Table:
     return boto3 \
         .resource('dynamodb', region_name=config.lazy_dynamo_settings().region) \
-        .Table(name=config.lazy_dynamo_settings().table_name)
+        .Table(name=config.lazy_dynamo_settings().table_name or "")
 
 
 def get_all() -> list[MonitoredSite]:
@@ -27,7 +28,7 @@ def get_all() -> list[MonitoredSite]:
                 .eq('MONITORED_SITE#True') & Key('id') \
                 .begins_with('MONITORED')
         )
-    items = response.get('Items', [])
+    items = cast(dict, response.get('Items', []))
 
     return [
         MonitoredSite(
@@ -51,6 +52,7 @@ def update_last_fetched(site: str, submission_timestamp: int) -> None:
             ConditionExpression="attribute_exists(id)",
         )
     except ClientError as e:
-        if e.response["Error"]["Code"] == "ConditionalCheckFailedException":
+        error_response = cast(dict, e.response)
+        if error_response["Error"]["Code"] == "ConditionalCheckFailedException":
             raise SiteNotFoundException(site)
         raise

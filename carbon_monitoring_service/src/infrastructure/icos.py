@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import cast
 
-from icoscp_core.sparql import SparqlResults
+from icoscp_core.sparql import Binding, BoundLiteral, BoundUri, BoundValue, SparqlResults
 from requests import Response
 
 from carbon_monitoring_service.src.core import Submission
@@ -49,9 +50,9 @@ def is_submission_id_malformed(response: Response) -> bool:
 
 def parse_icos_submissions(submissions: SparqlResults) -> dict[str, Submission]:
     return {
-        parse_site_uri(binding["station"].uri): Submission(
-            submission=parse_submission_id(binding["dobj"].uri),
-            submission_time=int(datetime.fromisoformat(binding["submTime"].value).timestamp())
+        parse_site_uri(cast(BoundUri, binding["station"]).uri): Submission(
+            submission=parse_submission_id(cast(BoundUri, binding["dobj"]).uri),
+            submission_time=int(datetime.fromisoformat(cast(BoundLiteral, binding["submTime"]).value).timestamp())
         )
         for binding in submissions.bindings
     }

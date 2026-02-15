@@ -6,7 +6,7 @@ from carbon_monitoring_service.src.crosscutting import logging_values
 
 bootstrapping.configure_adapters()
 
-def handle(_: dict, __: dict) -> dict:
+def handle(event: dict, context: dict) -> dict:
     with logging.logger.contextualize(**{logging_values.OPERATION: logging_values.DETECT_SUBMISSIONS}):
 
         try:

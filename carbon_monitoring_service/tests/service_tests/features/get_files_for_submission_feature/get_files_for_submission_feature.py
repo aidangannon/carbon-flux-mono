@@ -1,7 +1,7 @@
 from carbon_monitoring_service.src.application.exceptions import SiteNotFoundException
 from carbon_monitoring_service.src.infrastructure import icos
-from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature import GetFilesForSubmissionContext
-from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature.get_files_for_submission_feature_steps import \
+from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature.steps import \
+    GetFilesForSubmissionContext, \
     lambda_is_invoked, \
     lambda_should_throw, \
     a_monitored_site_is_added, result_should_equal_file_url_and_site, the_monitored_sites_last_fetched_is_updated
@@ -29,7 +29,7 @@ def test_when_submission_is_not_found(get_files_for_submission_feature: GetFiles
         )) \
         .run_all_steps()
 
-def test_when_submission_is_not_valid_sha256(get_files_for_submission_feature):
+def test_when_submission_is_not_valid_sha256(get_files_for_submission_feature: GetFilesForSubmissionContext):
     ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_submission_id_malformed(
@@ -45,7 +45,7 @@ def test_when_submission_is_not_valid_sha256(get_files_for_submission_feature):
         )) \
         .run_all_steps()
 
-def test_when_site_is_not_found(get_files_for_submission_feature):
+def test_when_site_is_not_found(get_files_for_submission_feature: GetFilesForSubmissionContext):
     ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission(
@@ -62,7 +62,7 @@ def test_when_site_is_not_found(get_files_for_submission_feature):
         .run_all_steps()
     
     
-def test_when_files_are_fetched_for_site(get_files_for_submission_feature):
+def test_when_files_are_fetched_for_site(get_files_for_submission_feature: GetFilesForSubmissionContext):
     ctx = get_files_for_submission_feature
     ctx.runner \
         .given(icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission(

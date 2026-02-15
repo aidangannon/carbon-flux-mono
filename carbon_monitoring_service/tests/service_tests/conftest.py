@@ -10,6 +10,8 @@ from mypy_boto3_dynamodb.type_defs import KeySchemaElementTypeDef, AttributeDefi
 from pyight_bdd import LogCapture
 from carbon_monitoring_service.tests.service_tests.infrastructure import config
 
+from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature.steps import get_files_for_submission_feature
+
 
 @fixture(scope='session', autouse=True)
 def env_vars():
@@ -18,7 +20,7 @@ def env_vars():
 
 
 @fixture(scope='session')
-def logging():
+def logging() -> LogCapture:
     loguru.logger.remove()
     capture = LogCapture()
     loguru.logger.add(capture.capture_logs)

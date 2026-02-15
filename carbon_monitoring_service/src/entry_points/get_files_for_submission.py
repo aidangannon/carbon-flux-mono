@@ -1,4 +1,3 @@
-from typing import Any
 from lambda_common import logging
 from carbon_monitoring_service.src import bootstrapping
 from carbon_monitoring_service.src.application.slices import get_files_for_submission
@@ -7,7 +6,7 @@ from carbon_monitoring_service.src.crosscutting import logging_values
 
 bootstrapping.configure_adapters()
 
-def handle(event: dict[str, Any], _: dict[str, Any]) -> dict[str, list[Any]]:
+def handle(event: dict, context: dict) -> dict:
     with logging.logger.contextualize(**{logging_values.OPERATION: logging_values.RESOLVE_SUBMISSIONS}):
 
 

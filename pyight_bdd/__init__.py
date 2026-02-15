@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import inspect
 import random
 import re
@@ -5,12 +7,13 @@ import traceback
 import uuid
 from abc import ABC
 from dataclasses import dataclass
-from typing import Literal, Callable, Any, Type, TypeVar, Generic
+from typing import Literal, Callable, Any, Type, TypeVar, Generic, ParamSpec
 
 import pytest
 from hypothesis import strategies
 
 T = TypeVar('T')
+P = ParamSpec('P')
 
 StepName = Literal["given", "when", "then", "and"]
 StepResult = Literal["passed", "failed", "skipped"]
@@ -30,8 +33,8 @@ def substitute_args_into_func_display_name(func_name: str, param_values: dict[st
     return result
 
 
-def step(func):
-    def wrapper(*args, **kwargs) -> StepWrapperResult:
+def step(func: Callable[P, Any]) -> Callable[P, StepWrapperResult]:
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> StepWrapperResult:
         def get_param_values():
             sig = inspect.signature(func)
             bound_args = sig.bind(*args, **kwargs)
@@ -63,8 +66,8 @@ class StepWrapperResult:
     result: StepResult
     func_name: str
     get_param_values: Callable[[], dict[str, Any]]
-    error_message: str = None
-    error_stack_trace: str = None
+    error_message: str | None = None
+    error_stack_trace: str | None = None
 
     def __bool__(self) -> bool:
         return self.result == "passed"
@@ -83,17 +86,17 @@ class Step:
 
 @dataclass(frozen=True, slots=True)
 class StepFailure:
-    error_message: str
-    error_stack_trace: str
+    error_message: str | None
+    error_stack_trace: str | None
     name: str
 
 
 class ScenarioRunner:
     steps: list[Step]
     failures: list[StepFailure]
-    context: 'BaseBddContext' = None
+    context: 'BaseBddContext | None' = None
 
-    def __init__(self, context: 'BaseBddContext' = None):
+    def __init__(self, context: 'BaseBddContext | None' = None):
         self.failures = []
         self.steps = []
         self.context = context
@@ -187,7 +190,7 @@ class LogAssertions:
                and (not hasattr(self, '_extra_vars') or
                     all(log['extra'].get(k) == v for k, v in self._extra_vars.items()))
         ]
-        assert len(matching_logs) > 0, f"No logs found matching criteria"
+        assert len(matching_logs) > 0, "No logs found matching criteria"
 
 
 def assert_that_logs(capture: LogCapture):
@@ -196,16 +199,16 @@ def assert_that_logs(capture: LogCapture):
 
 class Fixture:
     @staticmethod
-    def build(cls: Type[T]) -> 'ObjectBuilder[T]':
-        return ObjectBuilder(cls)
+    def build(type: Type[T]) -> 'ObjectBuilder[T]':
+        return ObjectBuilder(type)
 
     @staticmethod
-    def create(cls: Type[T]) -> T:
-        return ObjectBuilder(cls).create()
+    def create(type: Type[T]) -> T:
+        return ObjectBuilder(type).create()
 
     @staticmethod
-    def create_many(cls: Type[T], count: int = None) -> list[T]:
-        return ObjectBuilder(cls).create_many(count)
+    def create_many(type: Type[T], count: int | None = None) -> list[T]:
+        return ObjectBuilder(type).create_many(count)
 
 class ObjectBuilder(Generic[T]):
     def __init__(self, cls: Type[T]):
@@ -226,7 +229,7 @@ class ObjectBuilder(Generic[T]):
             **{k: strategies.just(v) for k, v in self._overrides.items()}
         ).example()
 
-    def create_many(self, count: int = None) -> list[T]:
+    def create_many(self, count: int | None = None) -> list[T]:
         if count is None:
             count = random.Random().randint(1, 15)
 

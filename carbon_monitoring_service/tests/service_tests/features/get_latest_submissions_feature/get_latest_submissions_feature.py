@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, timedelta
 
 from carbon_monitoring_service.src.infrastructure.icos import SubmissionObjectIdMalformed
+from carbon_monitoring_service.tests.service_tests.features.get_latest_submissions_feature import GetLatestSubmissionsContext
 from carbon_monitoring_service.tests.service_tests.features.get_latest_submissions_feature.get_latest_submissions_feature_steps import \
     lambda_is_invoked, result_is_empty, a_monitored_site_is_added_with_last_fetched_LAST_FETCHED, \
     a_submission_exists_for_monitored_site_MONITORED_SITE, \
@@ -12,7 +13,7 @@ from carbon_monitoring_service.tests.service_tests.infrastructure.common_steps.l
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE, \
     there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS
 
-def test_when_no_submissions_are_available_for_site(get_latest_submissions_feature):
+def test_when_no_submissions_are_available_for_site(get_latest_submissions_feature: GetLatestSubmissionsContext):
     ctx = get_latest_submissions_feature
     ctx.runner \
         .given(a_monitored_site_is_added_with_last_fetched_LAST_FETCHED(ctx)) \
@@ -26,7 +27,7 @@ def test_when_no_submissions_are_available_for_site(get_latest_submissions_featu
         )) \
         .run_all_steps()
 
-def test_when_submission_url_is_malformed(get_latest_submissions_feature):
+def test_when_submission_url_is_malformed(get_latest_submissions_feature: GetLatestSubmissionsContext):
     submission_time = datetime.now(tz=timezone.utc)
 
     ctx = get_latest_submissions_feature
@@ -46,7 +47,7 @@ def test_when_submission_url_is_malformed(get_latest_submissions_feature):
         )) \
         .run_all_steps()
 
-def test_when_a_submission_is_has_already_been_processed_for_the_site(get_latest_submissions_feature):
+def test_when_a_submission_is_has_already_been_processed_for_the_site(get_latest_submissions_feature: GetLatestSubmissionsContext):
     submission_time = datetime.now(tz=timezone.utc)
 
     ctx = get_latest_submissions_feature
@@ -58,7 +59,7 @@ def test_when_a_submission_is_has_already_been_processed_for_the_site(get_latest
         .then(result_is_empty(ctx)) \
         .run_all_steps()
 
-def test_when_a_submission_is_deleted_for_site(get_latest_submissions_feature):
+def test_when_a_submission_is_deleted_for_site(get_latest_submissions_feature: GetLatestSubmissionsContext):
     last_fetched_for_site = datetime.now(tz=timezone.utc)
     submission_time = last_fetched_for_site - timedelta(days=5)
 
@@ -71,7 +72,7 @@ def test_when_a_submission_is_deleted_for_site(get_latest_submissions_feature):
         .then(result_is_empty(ctx)) \
         .run_all_steps()
 
-def test_when_a_new_submission_is_added_for_site(get_latest_submissions_feature):
+def test_when_a_new_submission_is_added_for_site(get_latest_submissions_feature: GetLatestSubmissionsContext):
     submission_time = datetime.now(tz=timezone.utc)
     last_fetched_for_site = submission_time - timedelta(days=1)
 
@@ -96,7 +97,7 @@ def test_when_a_new_submission_is_added_for_site(get_latest_submissions_feature)
         )) \
         .run_all_steps()
 
-def test_when_first_submission_is_added_for_site(get_latest_submissions_feature):
+def test_when_first_submission_is_added_for_site(get_latest_submissions_feature: GetLatestSubmissionsContext):
     submission_time = datetime.now(tz=timezone.utc)
 
     ctx = get_latest_submissions_feature
@@ -108,7 +109,7 @@ def test_when_first_submission_is_added_for_site(get_latest_submissions_feature)
         .then(result_has_submissions_SUBMISSIONS_for_monitored_sites(ctx.submissions, ctx)) \
         .run_all_steps()
 
-def test_when_multiple_submissions_are_added_for_different_sites(get_latest_submissions_feature):
+def test_when_multiple_submissions_are_added_for_different_sites(get_latest_submissions_feature: GetLatestSubmissionsContext):
     submission_time = datetime.now(tz=timezone.utc)
     last_fetched = datetime.now(tz=timezone.utc) - timedelta(days=5)
 

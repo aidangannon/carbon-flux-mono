@@ -1,13 +1,44 @@
-from typing import Type
+from typing import Type, cast
 
 from assertpy import assert_that
 from boto3.dynamodb.conditions import Key
+from mypy_boto3_dynamodb.service_resource import Table
+from pytest import fixture
+from responses import RequestsMock
 
 from carbon_monitoring_service.src.core import MonitoredSite
-from pyight_bdd import step, auto_fixture
-from carbon_monitoring_service.tests.service_tests.features.get_files_for_submission_feature import \
-    GetFilesForSubmissionContext
+from carbon_monitoring_service.src.crosscutting import logging_values
+from carbon_monitoring_service.src.entry_points import get_files_for_submission
+from lambda_common.handlers import LambdaHandle
+from pyight_bdd import BaseBddContext, LogCapture, step, auto_fixture
 
+
+class GetFilesForSubmissionContext(BaseBddContext):
+    sut: LambdaHandle
+    requests_mock: RequestsMock
+    log_capture: LogCapture
+    result: dict
+    submission_id: str
+    site: str
+    table: Table
+    submission_timestamp: int
+    file_urls: list[str]
+    scoped_log_vars: dict
+    monitored_site: MonitoredSite
+
+@fixture
+def get_files_for_submission_feature(logging, database, api_mocks):
+    ctx = GetFilesForSubmissionContext()
+    ctx.table = database
+    ctx.log_capture = logging
+    ctx.requests_mock = api_mocks
+    ctx.sut = get_files_for_submission.handle
+    ctx.submission_id = auto_fixture.create(str)
+    ctx.site = auto_fixture.create(str)
+    ctx.file_urls = auto_fixture.create_many(str)
+    ctx.submission_timestamp = auto_fixture.create(int)
+    ctx.scoped_log_vars = {logging_values.OPERATION: logging_values.RESOLVE_SUBMISSIONS}
+    return ctx
 
 @step
 def lambda_is_invoked(ctx: GetFilesForSubmissionContext):
@@ -69,7 +100,7 @@ def the_monitored_sites_last_fetched_is_updated(
             .eq('MONITORED_SITE#True') & Key('id') \
             .eq(f'MONITORED#{ctx.site}')
     )
-    raw_monitored_site = response.get('Items', [])[0]
+    raw_monitored_site = cast(dict, response.get('Items', [])[0])
     monitored_site = MonitoredSite(
         enabled=True,
         last_fetched=raw_monitored_site["last_fetched"],
