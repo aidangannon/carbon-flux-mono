@@ -1,9 +1,8 @@
 from datetime import datetime, timezone, timedelta
 
 from carbon_monitoring_service.src.infrastructure.icos import SubmissionObjectIdMalformed
-from carbon_monitoring_service.tests.service_tests.features.get_latest_submissions_feature import GetLatestSubmissionsContext
-from carbon_monitoring_service.tests.service_tests.features.get_latest_submissions_feature.get_latest_submissions_feature_steps import \
-    lambda_is_invoked, result_is_empty, a_monitored_site_is_added_with_last_fetched_LAST_FETCHED, \
+from carbon_monitoring_service.tests.service_tests.features.get_latest_submissions_feature.steps import \
+    GetLatestSubmissionsContext, lambda_is_invoked, result_is_empty, a_monitored_site_is_added_with_last_fetched_LAST_FETCHED, \
     a_submission_exists_for_monitored_site_MONITORED_SITE, \
     lambda_should_throw_error, result_has_submissions_SUBMISSIONS_for_monitored_sites
 from carbon_monitoring_service.tests.service_tests.infrastructure.common_steps.icos_steps import \
@@ -84,13 +83,13 @@ def test_when_a_new_submission_is_added_for_site(get_latest_submissions_feature:
         .when(lambda_is_invoked(ctx)) \
         .then(result_has_submissions_SUBMISSIONS_for_monitored_sites(ctx.submissions, ctx)) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS(
-            f"handler started",
+            "handler started",
             "INFO",
             ctx.scoped_log_vars,
             ctx.log_capture,
         )) \
         .and_also(there_should_be_a_log_with_severity_LEVEL_and_message_MESSAGE_and_extras_EXTRAS(
-            f"handler completed",
+            "handler completed",
             "INFO",
             ctx.scoped_log_vars,
             ctx.log_capture

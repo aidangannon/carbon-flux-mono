@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import Protocol
 
 from carbon_monitoring_service.src.core import MonitoredSite, Submission

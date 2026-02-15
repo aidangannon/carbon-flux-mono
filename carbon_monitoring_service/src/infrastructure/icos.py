@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import cast
 
-from icoscp_core.sparql import Binding, BoundLiteral, BoundUri, BoundValue, SparqlResults
+from icoscp_core.sparql import BoundLiteral, BoundUri, SparqlResults
 from requests import Response
 
 from carbon_monitoring_service.src.core import Submission
