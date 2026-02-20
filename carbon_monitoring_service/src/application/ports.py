@@ -1,10 +1,11 @@
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from carbon_monitoring_service.src.core import MonitoredSite, Submission
 
 
 __all__ = ["MonitoredSite", "FluxClient"]
 
+@runtime_checkable
 class MonitoredSiteRepository(Protocol):
 
     def update_last_fetched(self, site: str, submission_timestamp: int) -> None:
@@ -14,6 +15,7 @@ class MonitoredSiteRepository(Protocol):
         ...
 
 
+@runtime_checkable
 class FluxClient(Protocol):
 
     def get_all_latest(self) -> dict[str, Submission]:

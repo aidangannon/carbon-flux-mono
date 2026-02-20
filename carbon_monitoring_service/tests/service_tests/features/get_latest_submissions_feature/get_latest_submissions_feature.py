@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
 
-from carbon_monitoring_service.src.infrastructure.icos import SubmissionObjectIdMalformed
+from carbon_monitoring_service.src.infrastructure.adapters.icos import SubmissionObjectIdMalformed
 from carbon_monitoring_service.tests.service_tests.features.get_latest_submissions_feature.steps import \
     GetLatestSubmissionsContext, lambda_is_invoked, result_is_empty, a_monitored_site_is_added_with_last_fetched_LAST_FETCHED, \
     a_submission_exists_for_monitored_site_MONITORED_SITE, \
