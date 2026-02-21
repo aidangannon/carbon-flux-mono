@@ -9,6 +9,9 @@ python_functions = ["test*"]
 addopts = "-v"
 testpaths = ["tests"]
 
+[tool.ruff]
+extend-include = ["README.md", "docs/*.md"]
+
 [tool.pyright]
 pythonVersion = "3.12"
 venvPath = "."

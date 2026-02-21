@@ -8,9 +8,9 @@ bootstrapping.configure_adapters()
 
 
 def handle(event: dict, context: dict) -> dict:
-    with logging.logger.contextualize(
-        **{logging_values.OPERATION: logging_values.RESOLVE_SUBMISSIONS}
-    ):
+    with logging.logger.contextualize(**{
+        logging_values.OPERATION: logging_values.RESOLVE_SUBMISSIONS
+    }):
         try:
             logging.logger.info("handler started")
 

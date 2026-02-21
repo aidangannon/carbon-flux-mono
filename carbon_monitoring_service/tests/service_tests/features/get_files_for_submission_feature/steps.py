@@ -76,9 +76,9 @@ def result_should_be_empty(ctx: GetFilesForSubmissionContext):
 def result_should_equal_file_url_and_site(ctx: GetFilesForSubmissionContext):
     assert_that(ctx.result).is_not_empty()
     assert_that(ctx.result["submissions"]).is_not_empty()
-    assert_that(ctx.result["submissions"]).is_equal_to(
-        [{"site": ctx.site, "file_url": url} for url in ctx.file_urls]
-    )
+    assert_that(ctx.result["submissions"]).is_equal_to([
+        {"site": ctx.site, "file_url": url} for url in ctx.file_urls
+    ])
 
 
 @step
