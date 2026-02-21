@@ -5,19 +5,16 @@ from lambda_common import UnixSeconds
 FileUrl = str
 SiteId = str
 
-@dataclass(
-    frozen=True,
-    slots=True,
-    unsafe_hash=True
-)
+
+@dataclass(frozen=True, slots=True, unsafe_hash=True)
 class MonitoredSite:
     """
     used for keeping track of which sites we need to pull data for
     """
+
     name: SiteId
     enabled: bool
     last_fetched: UnixSeconds | None
-
 
 
 @dataclass(

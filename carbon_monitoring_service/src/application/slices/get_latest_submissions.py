@@ -18,16 +18,18 @@ def get() -> list[SiteSubmission]:
     union_submissions = [
         (site.name, submissions[site.name])
         for site in sites
-        if site.name in submissions and
-           (site.last_fetched is None or
-            submissions[site.name].submission_time > site.last_fetched)
+        if site.name in submissions
+        and (
+            site.last_fetched is None
+            or submissions[site.name].submission_time > site.last_fetched
+        )
     ]
 
     return [
         SiteSubmission(
             site=site,
             submission=submission.submission,
-            submission_time=submission.submission_time
+            submission_time=submission.submission_time,
         )
         for site, submission in union_submissions
     ]

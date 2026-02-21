@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 __all__ = ["lazy_dynamo_settings", "lazy_icos_settings"]
 
+
 def get_from_env_var(key: str) -> str | None:
     return os.environ.get(key, None)
 
@@ -12,6 +13,7 @@ def get_from_env_var(key: str) -> str | None:
 class DynamoSettings:
     table_name: str | None
     region: str | None
+
 
 @dataclass(frozen=True, slots=True)
 class IcosSettings:
@@ -24,6 +26,7 @@ def lazy_dynamo_settings() -> DynamoSettings:
         table_name=get_from_env_var("DYNAMO_TABLE"),
         region=get_from_env_var("DYNAMO_REGION"),
     )
+
 
 @functools.lru_cache(maxsize=1)
 def lazy_icos_settings() -> IcosSettings:

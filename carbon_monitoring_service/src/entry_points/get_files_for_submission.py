@@ -6,10 +6,11 @@ from carbon_monitoring_service.src.crosscutting import logging_values
 
 bootstrapping.configure_adapters()
 
+
 def handle(event: dict, context: dict) -> dict:
-    with logging.logger.contextualize(**{logging_values.OPERATION: logging_values.RESOLVE_SUBMISSIONS}):
-
-
+    with logging.logger.contextualize(
+        **{logging_values.OPERATION: logging_values.RESOLVE_SUBMISSIONS}
+    ):
         try:
             logging.logger.info("handler started")
 
@@ -23,11 +24,7 @@ def handle(event: dict, context: dict) -> dict:
 
             return {
                 "submissions": [
-                    {
-                        "site": event["site"],
-                        "file_url": file
-                    }
-                    for file in files
+                    {"site": event["site"], "file_url": file} for file in files
                 ]
             }
         except Exception as e:

@@ -11,6 +11,7 @@ class Logger(Protocol):
     """
     non-implementation specific duck-type for the logger
     """
+
     def info(self, __message: str, *args: Any, **kwargs: Any) -> None: ...
 
     def warning(self, __message: str, *args: Any, **kwargs: Any) -> None: ...
