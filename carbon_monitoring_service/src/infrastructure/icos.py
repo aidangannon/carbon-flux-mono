@@ -99,29 +99,29 @@ class IcosFluxClient:
 
     def get_all_latest(self) -> dict[str, Submission]:
         request = """
-    prefix cpmeta: <http://meta.icos-cp.eu/ontologies/cpmeta/>
-    prefix prov: <http://www.w3.org/ns/prov#>
-    prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix cpmeta: <http://meta.icos-cp.eu/ontologies/cpmeta/>
+prefix prov: <http://www.w3.org/ns/prov#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
-    select ?dobj ?submTime ?station where {
-        ?dobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv> .
-        ?dobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
-        ?dobj cpmeta:wasSubmittedBy/prov:endedAtTime ?submTime .
-        FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?dobj}
+select ?dobj ?submTime ?station where {
+    ?dobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv> .
+    ?dobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
+    ?dobj cpmeta:wasSubmittedBy/prov:endedAtTime ?submTime .
+    FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?dobj}
 
-        {
-            select ?station (max(?maxSubmTime) as ?latestSubmTime) where {
-                ?anyDobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv> .
-                ?anyDobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
-                ?anyDobj cpmeta:wasSubmittedBy/prov:endedAtTime ?maxSubmTime .
-                FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?anyDobj}
-            }
-            group by ?station
+    {
+        select ?station (max(?maxSubmTime) as ?latestSubmTime) where {
+            ?anyDobj cpmeta:hasObjectSpec <http://meta.icos-cp.eu/resources/cpmeta/etcEddyFluxRawSeriesCsv> .
+            ?anyDobj cpmeta:wasAcquiredBy/prov:wasAssociatedWith ?station .
+            ?anyDobj cpmeta:wasSubmittedBy/prov:endedAtTime ?maxSubmTime .
+            FILTER NOT EXISTS {[] cpmeta:isNextVersionOf ?anyDobj}
         }
-
-        FILTER(?submTime = ?latestSubmTime)
+        group by ?station
     }
-    order by desc(?submTime)"""
+
+    FILTER(?submTime = ?latestSubmTime)
+}
+order by desc(?submTime)"""
         response_from_icos = meta.sparql_select(request)
 
         return parse_icos_submissions(response_from_icos)
