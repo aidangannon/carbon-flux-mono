@@ -21,6 +21,11 @@ jobs:
       - uses: pantsbuild/actions/init-pants@v8
         with:
           named-caches-hash: ${{ hashFiles('python-default.lock') }}
+      - name: Lint and type check with Pants
+        run: |
+          pants lint check \
+            --changed-since=HEAD~1 \
+            --changed-dependents=transitive \
       - name: Test with Pants
         run: |
           pants test \
