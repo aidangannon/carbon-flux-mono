@@ -4,8 +4,8 @@ backend_packages = [
   "pants.backend.awslambda.python",
   "pants.backend.python",
   "pants.backend.experimental.terraform",
-  "pants.backend.python.lint.ruff.check",
-  "pants.backend.python.lint.ruff.format",
+  "pants.backend.experimental.python.lint.ruff.check",
+  "pants.backend.experimental.python.lint.ruff.format",
   "pants.backend.experimental.python.typecheck.pyright"
 ]
 
