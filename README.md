@@ -20,7 +20,7 @@ def test_when_no_submissions_are_available_for_site(retrieve_flux_submissions_fe
 
 ### Cached Infra
 ```python
-@functools.lru_cache(   maxsize=1)
+@functools.lru_cache(maxsize=1)
 def lazy_table() -> Table:
     return boto3.resource(
         "dynamodb", region_name=config.lazy_dynamo_settings().region

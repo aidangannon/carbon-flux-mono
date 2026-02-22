@@ -57,7 +57,8 @@ def a_monitored_site_is_added_with_last_fetched_LAST_FETCHED(
     ctx: GetLatestSubmissionsContext, last_fetched: datetime | None = None
 ):
     monitored_site = (
-        auto_fixture.build(MonitoredSite)
+        auto_fixture
+        .build(MonitoredSite)
         .with_field(enabled=True)
         .with_field(last_fetched=last_fetched)
         .create()
