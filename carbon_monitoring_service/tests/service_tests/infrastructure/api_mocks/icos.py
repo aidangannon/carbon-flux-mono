@@ -36,7 +36,6 @@ def create_binding(site: str, submission_time: datetime, dobj_uri: str) -> dict:
 def configure_get_etc_submissions_with_latest(
     datatype: str, submissions: dict[str, Submission], request_mock: RequestsMock
 ):
-
     configure_get_etc_submissions_with_bindings(
         datatype=datatype,
         bindings=[

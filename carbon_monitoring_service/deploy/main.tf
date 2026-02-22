@@ -12,11 +12,11 @@ terraform {
 }
 
 locals {
-  name           = "carbon-monitoring"
-  icos_data_url  = "http://data.icos-cp.eu"
-  icos_meta_url  = "http://meta.icos-cp.eu"
+  name             = "carbon-monitoring"
+  icos_data_url    = "http://data.icos-cp.eu"
+  icos_meta_url    = "http://meta.icos-cp.eu"
   pandas_layer_arn = "arn:aws:lambda:${var.aws_region}:770693421928:layer:Klayers-${var.klayers_runtime}-pandas:22"
-  numpy_layer_arn = "arn:aws:lambda:${var.aws_region}:770693421928:layer:Klayers-${var.klayers_runtime}-numpy:14"
+  numpy_layer_arn  = "arn:aws:lambda:${var.aws_region}:770693421928:layer:Klayers-${var.klayers_runtime}-numpy:14"
 }
 
 provider "aws" {
@@ -120,11 +120,11 @@ module "lambda_function" {
   }
 
   environment_variables = {
-    ICOS_DATA_URL  = local.icos_data_url
-    ICOS_META_URL  = local.icos_meta_url
-    HOME           = "/tmp"
-    DYNAMO_TABLE   = aws_dynamodb_table.db.name
-    DYNAMO_REGION  = var.aws_region
+    ICOS_DATA_URL = local.icos_data_url
+    ICOS_META_URL = local.icos_meta_url
+    HOME          = "/tmp"
+    DYNAMO_TABLE  = aws_dynamodb_table.db.name
+    DYNAMO_REGION = var.aws_region
   }
 
   tags = {
