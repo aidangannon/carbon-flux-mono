@@ -83,6 +83,8 @@ def parse_site_uri(uri: str) -> str:
 
 
 class IcosFluxClient:
+    __slots__ = ()
+
     def retrieve_files(self, submission: str) -> list[str]:
         response = requests.get(
             f"{config.lazy_icos_settings().data_url}/zip/{submission}/listContents"

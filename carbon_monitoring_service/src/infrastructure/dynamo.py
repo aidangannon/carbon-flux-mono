@@ -20,6 +20,8 @@ def lazy_table() -> Table:
 
 
 class DynamoMonitoredSiteRepository:
+    __slots__ = ()
+
     def get_all(self) -> list[MonitoredSite]:
         response = lazy_table().query(
             KeyConditionExpression=Key("partition_key").eq("MONITORED_SITE#True")
