@@ -21,6 +21,7 @@ exclude = [
 ]
 typeCheckingMode = "standard"
 include = ["carbon_monitoring_service", "pyight_bdd", "lambda_common"]
+autoImportCompletions = true
 
 [project]
 dependencies = [
