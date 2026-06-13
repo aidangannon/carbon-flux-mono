@@ -4,16 +4,6 @@ python_sources(
 
 python_tests(
     name="test_suite",
-    dependencies=[
-        "pyight_bdd",
-        "carbon_monitoring_service/src",
-        "carbon_monitoring_service/src/entry_points",
-        "lambda_common",
-        "//:reqs#responses",
-        "//:reqs#assertpy",
-        "//:reqs#moto",
-        "//:reqs#pytest"
-    ],
     sources=[
         "**/*_feature.py",
         "**/*_tests.py"
