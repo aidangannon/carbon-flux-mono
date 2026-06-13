@@ -1,7 +1,11 @@
 
 python_requirements(
     name="reqs",
-    source="pyproject.toml"
+    source="pyproject.toml",
+    module_mapping={
+        "boto3-stubs": ["mypy_boto3_dynamodb"],
+        "icoscp": ["icoscp_core"],
+    },
 )
 
 files(
