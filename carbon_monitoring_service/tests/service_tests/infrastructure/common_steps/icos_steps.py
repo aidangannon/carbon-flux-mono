@@ -13,7 +13,7 @@ EDDY_FLUX_RAW_DATA_TYPE = "etcEddyFluxRawSeriesCsv"
 
 
 @step
-def icos_api_is_configured_to_return_submissions_SUBMISSIONS(
+def icos_api_returns_submissions_SUBMISSIONS(
     submissions: dict[str, Submission], requests_mock: RequestsMock
 ):
     icos.configure_get_etc_submissions_with_latest(
@@ -24,16 +24,14 @@ def icos_api_is_configured_to_return_submissions_SUBMISSIONS(
 
 
 @step
-def icos_api_is_configured_to_return_empty(requests_mock: RequestsMock):
+def icos_api_returns_empty(requests_mock: RequestsMock):
     icos.configure_get_etc_submissions_with_bindings(
         datatype=EDDY_FLUX_RAW_DATA_TYPE, bindings=[], request_mock=requests_mock
     )
 
 
 @step
-def icos_api_is_configured_with_submission_OBJECT_ID_to_submission_not_found(
-    object_id: str, requests_mock: RequestsMock
-):
+def icos_api_submission_OBJECT_ID_not_found(object_id: str, requests_mock: RequestsMock):
     icos.configure_get_content_with_string(
         body=f"""No metadata found for data object with SHA-256 hash of {object_id}
 se.lu.nateko.cp.data.api.MetadataObjectNotFound: No metadata found for data object with SHA-256 hash of {object_id}
@@ -45,9 +43,7 @@ se.lu.nateko.cp.data.api.MetadataObjectNotFound: No metadata found for data obje
 
 
 @step
-def icos_api_is_configured_with_submission_OBJECT_ID_to_submission_id_malformed(
-    object_id: str, requests_mock: RequestsMock
-):
+def icos_api_submission_OBJECT_ID_id_malformed(object_id: str, requests_mock: RequestsMock):
     icos.configure_get_content_with_string(
         body="Expected base64Url- or hex-encoded SHA-256 hash",
         submission_object=object_id,
@@ -57,8 +53,10 @@ def icos_api_is_configured_with_submission_OBJECT_ID_to_submission_id_malformed(
 
 
 @step
-def icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_for_submission(
-    file_urls: list[str], object_id: str, requests_mock: RequestsMock
+def icos_api_submission_OBJECT_ID_returns_files_FILE_URLS(
+    file_urls: list[str],
+    object_id: str,
+    requests_mock: RequestsMock
 ):
     icos.configure_get_content(
         file_urls=file_urls, submission_object=object_id, request_mock=requests_mock
@@ -66,7 +64,7 @@ def icos_api_is_configured_with_submission_OBJECT_ID_to_return_files_FILE_URLS_f
 
 
 @step
-def icos_api_is_configured_to_return_invalid_submission_url_with_submission_time_SUBMISSION_TIME_and_monitored_site_MONITORED_SITE(
+def icos_api_invalid_submission_url_SUBMISSION_TIME_MONITORED_SITE(
     submission_time: datetime, site: str, requests_mock: RequestsMock
 ):
     icos.configure_get_etc_submissions_with_invalid_submission_id(

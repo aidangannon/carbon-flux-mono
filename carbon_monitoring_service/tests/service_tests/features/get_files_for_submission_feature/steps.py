@@ -82,7 +82,7 @@ def result_should_equal_file_url_and_site(ctx: GetFilesForSubmissionContext):
 
 
 @step
-def a_monitored_site_is_added(ctx: GetFilesForSubmissionContext):
+def monitored_site_is_created(ctx: GetFilesForSubmissionContext):
     monitored_site = auto_fixture.build(MonitoredSite).with_field(enabled=True).create()
     monitored_site_dict = {
         "name": monitored_site.name,
@@ -96,7 +96,7 @@ def a_monitored_site_is_added(ctx: GetFilesForSubmissionContext):
 
 
 @step
-def the_monitored_sites_last_fetched_is_updated(ctx: GetFilesForSubmissionContext):
+def site_last_fetched_should_be_updated(ctx: GetFilesForSubmissionContext):
     response = ctx.table.query(
         KeyConditionExpression=Key("partition_key").eq("MONITORED_SITE#True")
         & Key("id").eq(f"MONITORED#{ctx.site}")

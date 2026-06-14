@@ -53,18 +53,19 @@ def lambda_should_throw_error(
 
 
 @step
-def a_monitored_site_is_added_with_last_fetched_LAST_FETCHED(
-    ctx: GetLatestSubmissionsContext, last_fetched: datetime | None = None
+def site_created_with_last_fetched_FETCHED(
+    ctx: GetLatestSubmissionsContext,
+    fetched: datetime | None = None
 ):
     monitored_site = (
         auto_fixture.build(MonitoredSite)
         .with_field(enabled=True)
-        .with_field(last_fetched=last_fetched)
+        .with_field(last_fetched=fetched)
         .create()
     )
     monitored_site_dict = {
         "name": monitored_site.name,
-        "last_fetched": int(last_fetched.timestamp()) if last_fetched else None,
+        "last_fetched": int(fetched.timestamp()) if fetched else None,
         "partition_key": f"MONITORED_SITE#{monitored_site.enabled}",
         "id": f"MONITORED#{monitored_site.name}",
     }
@@ -73,22 +74,25 @@ def a_monitored_site_is_added_with_last_fetched_LAST_FETCHED(
 
 
 @step
-def a_submission_exists_for_monitored_site_MONITORED_SITE(
-    monitored_site: str, submission_time: datetime, ctx: GetLatestSubmissionsContext
+def submission_created_for_site_SITE(
+    site: str,
+    submission_time: datetime,
+    ctx: GetLatestSubmissionsContext
 ):
     submission = auto_fixture.create(str)
-    ctx.submissions[monitored_site] = Submission(submission, submission_time)
+    ctx.submissions[site] = Submission(submission, submission_time)
 
 
 @step
-def result_is_empty(ctx: GetLatestSubmissionsContext):
+def result_should_be_empty(ctx: GetLatestSubmissionsContext):
     assert_that(ctx.lambda_return).is_not_equal_to({})
     assert_that(ctx.lambda_return["submissions"]).is_empty()
 
 
 @step
-def result_has_submissions_SUBMISSIONS_for_monitored_sites(
-    submissions: dict[str, Submission], ctx: GetLatestSubmissionsContext
+def result_should_have_submissions_SUBS(
+    subs: dict[str, Submission],
+    ctx: GetLatestSubmissionsContext
 ):
     expected_submissions = [
         {
@@ -96,7 +100,7 @@ def result_has_submissions_SUBMISSIONS_for_monitored_sites(
             "submission": submission.id,
             "submission_time": int(submission.submission_time.timestamp()),
         }
-        for monitored_site, submission in submissions.items()
+        for monitored_site, submission in subs.items()
     ]
     assert_that(ctx.lambda_return).is_not_equal_to({})
     assert_that(ctx.lambda_return["submissions"]).is_not_empty()
