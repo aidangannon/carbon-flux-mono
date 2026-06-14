@@ -6,7 +6,7 @@ all: install
 .PHONY: install
 install:
 	@pants export
-	@ln -sfn dist/export/python/virtualenvs/python-default/$(PYTHON_VERSION).*/ venv
+	@ln -sfn dist/export/python/virtualenvs/python-default/$(PYTHON_VERSION).*/ .venv
 	@echo "Adding venv"
 
 .PHONY: clean

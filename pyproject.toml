@@ -9,16 +9,18 @@ python_functions = ["test*"]
 addopts = "-v"
 testpaths = ["tests"]
 
-[tool.ruff]
-extend-include = ["README.md", "docs/*.md"]
+[tool.ruff.format]
+exclude = ["**/tests/**"]
+
+[tool.pyrefly]
+python_interpreter = ".venv/bin/python"
 
 [tool.pyright]
+extraPaths = ["."]
+indexing = true
 pythonVersion = "3.12"
 venvPath = "."
 venv = ".venv"
-exclude = [
-    "dist"
-]
 typeCheckingMode = "standard"
 include = ["carbon_monitoring_service", "lambda_common", "pyight_bdd"]
 

@@ -1,5 +1,5 @@
-from typing import cast
 from mypy_boto3_dynamodb.service_resource import Table
+from typing import cast
 import functools
 
 import boto3
