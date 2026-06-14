@@ -1,8 +1,4 @@
-python_sources(
-    dependencies=[
-        "carbon_monitoring_service/src"
-    ]
-)
+python_sources()
 
 python_aws_lambda_function(
     name="get_latest_submissions_lambda",
