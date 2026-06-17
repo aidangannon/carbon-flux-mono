@@ -1,0 +1,21 @@
+# Mono repo structure
+- Its a mono repo if you hadn't figured
+- Each folder in the root of the repository defines a 'thing'
+- A thing can be a service (bunch of lambdas, ec2, ecs), basically its a deployable unit that is bound to a schema
+- Take the 'carbon_monitoring_service'
+    - Inside it has:
+        - src -> source code its own module within the service
+        - tests -> test suite, again its own module which references src
+        - deploy -> all the terraform gubbins
+    - It describes a bunch of lambdas, handlers/endpoints that do things, the lambdas themselves are seperate cloud native things, but they work together to do some function
+- Things it helps with:
+    - Simple & Collaborative for a small scale project which currently this is
+    - It helps having everything in 1 place for being able to understand the whole
+    - No versioned libraries for shared dependencies, everything can co-exist
+    - Enforces unified standards
+    - Since the standards are also in the root of the repo they can be checked out alongside the code you want
+- Things it sucks at:
+    - Needs complicated build system to manage changes alongside deploying/running tests so that we're only testing/deploying the changes within the service we care about
+    - Needs homogeniety, since the ci/cd pipeline is shared
+    - Adds complexity if things become divergent/different
+    - When things scale +100 services will require partial checkouts and/or custom git tooling
