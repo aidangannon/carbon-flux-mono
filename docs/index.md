@@ -5,14 +5,17 @@
 
 ## Architecture
 
-[Link To Architecture Document](./architecture/architecture.md)
+***Outlines overall system architecture***
+[Link To Architecture Document](./architecture/index.md)
 
-## Formatting
+## Coding standards
 
-## Endpoints and handlers
+[Link to coding standards](./coding_standards/index.md)
 
-## Mapping
+## Understanding functionality and reading the code
 
-## Tests
+[Reading the code](./reading_the_code/index.md)
 
-## Logging
+## Running the app
+
+[Running the app](./running_the_app/index.md)
