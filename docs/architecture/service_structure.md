@@ -31,7 +31,7 @@
 - See [`src/application/slices/`](../../carbon_monitoring_service/src/application/slices)
 
 ### `bootstrapping.py`
-- Wires concrete infrastructure adapters into the ports module
+- Wires concrete infrastructure adapters into the ports module at runtime
 - Called once at handler startup
 - See [`src/bootstrapping.py`](../../carbon_monitoring_service/src/bootstrapping.py)
 
