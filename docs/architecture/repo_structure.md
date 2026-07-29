@@ -2,7 +2,7 @@
 
 - It's a mono repo. Each folder at repo root is a 'thing': either a **service** (deployable unit) or a **shared library** consumed by services.
 
-## Things currently at root
+## Examples of things currently at root
 - [`carbon_monitoring_service`](../../carbon_monitoring_service): a service (see layout below)
 - [`lambda_common`](../../lambda_common): shared library, packaged as a Lambda layer (see [`lambda_common/BUILD`](../../lambda_common/BUILD)), consumed by services rather than versioned/published
 - [`pyight_bdd`](../../pyight_bdd): shared test tooling
