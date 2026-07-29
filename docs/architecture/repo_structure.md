@@ -12,7 +12,7 @@
 - `src`: source code, its own module within the service
 - `tests`: test suite, its own module that references `src`
 - `deploy`: Terraform for that service
-- A service describes a bunch of lambdas/handlers/endpoints. Each lambda is a separate cloud-native thing, but together they implement one function.
+- A service describes a bunch of lambdas/handlers/endpoints. Each lambda is a separate cloud-native thing, but together they serve related business functions and are bound to 1 schema.
 
 ## Build system
 - [Pants](https://www.pantsbuild.org/) ([`pants.toml`](../../pants.toml), `BUILD` files per directory, e.g. [`/BUILD`](../../BUILD)) drives builds, lint, typecheck and test
