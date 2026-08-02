@@ -23,7 +23,7 @@
 - Simple & collaborative at small scale
 - Everything in one place: easy to understand the whole
 - Shared deps (e.g. [`lambda_common`](../../lambda_common)) co-exist unversioned, no publish/bump cycle
-- Standards enforced repo-wide, and checked out alongside the code that uses them (see [`docs/index.md`](../index.md), [`docs/coding_standards`](../coding_standards) (empty, TODO), [`docs/tooling`](../tooling) (empty, TODO))
+- Standards enforced repo-wide, and checked out alongside the code that uses them (see [`docs/index.md`](../index.md), [`docs/coding_standards`](../coding_standards), [`docs/tooling`](../tooling) (empty, TODO))
 
 ## Where it breaks down
 - Needs a build system (Pants) to scope builds/tests/deploys to only the things that changed

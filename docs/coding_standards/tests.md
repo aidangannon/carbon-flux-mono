@@ -28,7 +28,7 @@ See [`get_files_for_submission_feature/`](../../carbon_monitoring_service/tests/
 
 - Defines the `Context` class, the fixture, and all step functions for this feature
 - Steps are decorated with `@step`, which wraps the step's arguments and returns a callable the runner can invoke
-- Step names use `UPPERCASE_WORDS` for the dynamic parts of the name (e.g. `lambda_should_throw_EXCEPTION`)
+- Step names use `UPPERCASE_WORDS` for the dynamic parts of the name (e.g. `lambda_should_throw_EXCEPTION`) this must match an argument in the step such as `exception: Exception` which would then be dynamically inserted into the step name for clearer test steps
 - See [`get_files_for_submission_feature/steps.py`](../../carbon_monitoring_service/tests/service_tests/features/get_files_for_submission_feature/steps.py)
 
 ### Context
