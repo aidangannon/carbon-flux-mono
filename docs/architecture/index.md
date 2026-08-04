@@ -1,13 +1,9 @@
 # Architecture index
 
-## Repo structure
-- How the repo is laid out at the top level: services, shared libraries, what belongs where
-- [Repo structure](./repo_structure.md)
+| Doc | Covers |
+|---|---|
+| [Repo structure](./repo_structure.md) | Top-level repo layout: services vs. shared libraries, what belongs at root |
+| [Build system](./build_system.md) | Pants, BUILD files, CI/CD, coding standard for defining new BUILD modules |
+| [Service structure](./service_structure/index.md) | Layer-by-layer breakdown of a service — start here if you're adding to an existing layer (`core`, `ports`, `slices`, `bootstrapping`, `entry_points`, `infrastructure`, `crosscutting`) or to `tests`/`deploy` |
 
-## Build system
-- How Pants and BUILD files work, coding standards for defining new BUILD modules
-- [Build system](./build_system.md)
-
-## Service structure
-- Internal layout of a service: layers, entry points, tests, deploy. Use `carbon_monitoring_service` as the reference implementation.
-- [Service structure](./service_structure.md)
+`carbon_monitoring_service` is the reference implementation for everything below.
