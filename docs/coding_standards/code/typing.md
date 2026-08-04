@@ -1,5 +1,7 @@
 # Protocols, not base classes
 
+[← Code standards index](./index.md)
+
 - `application/ports.py` types each port as a `@runtime_checkable` `Protocol`, see [`MonitoredSiteRepository`, `FluxClient`](../../../carbon_monitoring_service/src/application/ports.py)
 - Adapters in `infrastructure/` don't inherit from these Protocols: `DynamoMonitoredSiteRepository` and `IcosFluxClient` just implement the matching methods. Structural typing means anything with the right shape satisfies the port; no base class coupling infra to application.
 - Prefer this over ABCs for any interface an adapter or test double needs to satisfy

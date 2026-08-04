@@ -1,5 +1,7 @@
 # Asserting logs
 
+[← Test standards index](./index.md)
+
 - Every service test scenario should assert logs, not just the happy-path result
 - Assert message, level, and scoped properties (e.g. operation name) that should be present on every log in that request
 - The `scoped_log_vars` field on the [context](./feature_folder.md#context) carries the properties expected on all logs for the operation

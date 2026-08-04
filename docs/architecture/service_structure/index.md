@@ -1,5 +1,7 @@
 # Service structure index
 
+[← Architecture index](../index.md)
+
 - A service is a deployable unit. Each service at repo root follows: `src/` (own pants module), `tests/` (own pants module, references `src`), `deploy/` (Terraform)
 - Use [`carbon_monitoring_service`](../../../carbon_monitoring_service) as the archetype implementation for every file below
 - Source follows ports-and-adapters, layered inside out: `core` → `application/ports` + `application/slices` → `bootstrapping` → `entry_points`, with `infrastructure` and `crosscutting` supporting from the side

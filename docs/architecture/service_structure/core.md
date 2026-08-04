@@ -1,5 +1,7 @@
 # `core.py`: domain layer
 
+[← Service structure index](./index.md)
+
 - Domain models: plain immutable dataclasses
 - No imports from any other layer: `core` depends on nothing in `application`, `infrastructure`, or `crosscutting`
 - Free functions that operate on domain types (pure transformations, rules) also belong here

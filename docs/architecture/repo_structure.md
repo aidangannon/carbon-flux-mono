@@ -1,5 +1,7 @@
 # Mono repo structure
 
+[← Architecture index](./index.md)
+
 - It's a mono repo. Each folder at repo root is a 'thing': either a **service** (deployable unit) or a **shared library** consumed by services.
 
 ## Examples of things currently at root

@@ -1,5 +1,7 @@
 # `application/slices/`: use cases
 
+[← Service structure index](./index.md)
+
 - One file per use case
 - Each slice calls ports to do its work, coordinates with `core`, and returns domain types
 - No infra imports, no Lambda-specific concerns: a slice doesn't know it's running in a Lambda

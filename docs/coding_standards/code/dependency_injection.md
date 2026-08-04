@@ -1,5 +1,7 @@
 # Dependency injection via ports (IOC)
 
+[← Code standards index](./index.md)
+
 - `application/ports.py` declares each dependency as a module-level variable, typed against a `Protocol`, with no value assigned, e.g. `monitored_site_repository: MonitoredSiteRepository`. See [`application/ports.py`](../../../carbon_monitoring_service/src/application/ports.py).
 - `bootstrapping.py` assigns concrete adapters from `infrastructure/` onto those module attributes, once, before any handler runs: `ports.monitored_site_repository = dynamo.DynamoMonitoredSiteRepository()`. See [`bootstrapping.py`](../../../carbon_monitoring_service/src/bootstrapping.py).
 - Slices call `ports.flux_client.retrieve_files(...)` directly: they ask the `ports` module for what they need at the point of use, rather than having it handed to them via constructor injection.

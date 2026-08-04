@@ -1,5 +1,7 @@
 # `tests/` layout
 
+[← Service structure index](./index.md)
+
 - All tests are service-level: they invoke entry point handlers end-to-end with real infra mocked at the boundary (moto for DynamoDB, `responses` for HTTP)
 - No unit tests per layer
 - Tests use the BDD runner from [`pyight_bdd`](../../../pyight_bdd)

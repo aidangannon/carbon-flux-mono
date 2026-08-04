@@ -1,5 +1,7 @@
 # Coding standards index
 
+[← Index](../index.md)
+
 | Doc | Covers |
 |---|---|
 | [Code](./code/index.md) | Layering, dependency injection via ports (IOC), module-level imports, Protocols, `__slots__`/performance, logging |

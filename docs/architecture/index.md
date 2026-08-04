@@ -1,5 +1,7 @@
 # Architecture index
 
+[← Index](../index.md)
+
 | Doc | Covers |
 |---|---|
 | [Repo structure](./repo_structure.md) | Top-level repo layout: services vs. shared libraries, what belongs at root |

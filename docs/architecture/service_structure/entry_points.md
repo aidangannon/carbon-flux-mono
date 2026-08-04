@@ -1,5 +1,7 @@
 # `entry_points/`: Lambda handlers / web endpoints
 
+[← Service structure index](./index.md)
+
 - Lambda handlers, one file per lambda
 - Each file calls `bootstrapping.configure_adapters()` at module load to wire up ports, then defines a `handle(event, context)` function that calls the relevant slice and serialises the result to a dict
 - Each entry point gets its own `python_aws_lambda_function` target in [`src/entry_points/BUILD`](../../../carbon_monitoring_service/src/entry_points/BUILD), which is what pants packages into a zippable Lambda artifact

@@ -1,5 +1,7 @@
 # Performance: classes, caching, and Lambda cold starts
 
+[← Code standards index](./index.md)
+
 ## Why not classes/containers for everything
 
 - Classes are cheap to define but not free to instantiate repeatedly, and a full IOC container (reflection-based autowiring, object graphs resolved at startup) adds real overhead: bad news for Lambda, where cold start time is a cost you pay on every scale-out

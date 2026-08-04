@@ -1,5 +1,7 @@
 # `bootstrapping.py`: wiring
 
+[← Service structure index](./index.md)
+
 - Wires concrete infrastructure adapters into the [`ports`](./ports.md) module at runtime
 - Called once, at handler cold start (from the top of each [`entry_points/`](./entry_points.md) file)
 - Plain assignment statements: no reflection, no autowiring, readable top to bottom

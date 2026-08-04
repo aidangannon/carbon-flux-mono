@@ -1,5 +1,7 @@
 # Module-level imports
 
+[← Code standards index](./index.md)
+
 - Import the module, not the symbol: `from carbon_monitoring_service.src.infrastructure import icos`, then reference `icos.IcosFluxClient`, never `from ...infrastructure.icos import IcosFluxClient`
 - See [`bootstrapping.py`](../../../carbon_monitoring_service/src/bootstrapping.py) as the exemplar
 - Applies to [ports](./dependency_injection.md), [infrastructure adapters](../../architecture/service_structure/infrastructure.md), and third-party/external libraries: anything with behavior you might need to swap, mock, or monkeypatch in a test

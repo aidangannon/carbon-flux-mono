@@ -1,5 +1,7 @@
 # BUILD file structure
 
+[← Architecture index](./index.md)
+
 - With pants we use `BUILD` files to determine which files make up a dependency in the source
 
 ## Examples

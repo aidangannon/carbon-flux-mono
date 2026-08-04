@@ -1,5 +1,7 @@
 # `infrastructure/`: adapters
 
+[← Service structure index](./index.md)
+
 - Concrete adapter implementations
 - Each file implements one or more [port](./ports.md) `Protocol`s, structurally, no inheritance
 - Imports from `core` and `crosscutting` only

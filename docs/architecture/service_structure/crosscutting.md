@@ -1,5 +1,7 @@
 # `crosscutting/`: shared concerns
 
+[← Service structure index](./index.md)
+
 - Shared concerns used across all layers
 - [`config.py`](../../../carbon_monitoring_service/src/crosscutting/config.py): reads config from env vars via `lru_cache`'d functions. Env vars are set by Terraform at deploy time.
 - [`logging_values.py`](../../../carbon_monitoring_service/src/crosscutting/logging_values.py): constants for structured log fields (operation names etc.), see [`coding_standards/code/logging.md`](../../coding_standards/code/logging.md)

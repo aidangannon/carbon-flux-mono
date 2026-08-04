@@ -1,5 +1,7 @@
 # Service tests
 
+[← Test standards index](./index.md)
+
 - The living document of what the code functionally does
 - End-to-end: invoke entry point handlers directly with infrastructure mocked at the boundary (moto for DynamoDB, `responses` for HTTP)
 - All cases should be captured here, and all run in parallel
