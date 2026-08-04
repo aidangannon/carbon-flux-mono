@@ -1,8 +1,8 @@
 # Feature folder
 
 Each feature is a folder under [`tests/service_tests/features/`](../../../carbon_monitoring_service/tests/service_tests/features/):
-- `<feature_name>.py` — the index: imports steps and assembles them into scenarios (given/when/then chains)
-- `steps.py` — context class, fixture, and step definitions unique to this feature
+- `<feature_name>.py`: the index, imports steps and assembles them into scenarios (given/when/then chains)
+- `steps.py`: context class, fixture, and step definitions unique to this feature
 
 See [`get_files_for_submission_feature/`](../../../carbon_monitoring_service/tests/service_tests/features/get_files_for_submission_feature/) as the reference.
 
@@ -10,7 +10,7 @@ See [`get_files_for_submission_feature/`](../../../carbon_monitoring_service/tes
 
 - Imports step functions from `steps.py` and [`infrastructure/common_steps/`](./common_steps.md)
 - Each test function assembles a scenario by chaining steps: `.given()`, `.and_also()`, `.when()`, `.then()`, `.run_all_steps()`
-- Should read like a spec — the scenario name and step names tell the full story
+- Should read like a spec: the scenario name and step names tell the full story
 - See [`get_files_for_submission_feature.py`](../../../carbon_monitoring_service/tests/service_tests/features/get_files_for_submission_feature/get_files_for_submission_feature.py)
 
 ## `steps.py`

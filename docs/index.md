@@ -1,7 +1,7 @@
 # Index
 
 - A tree of markdown files: this index points to sections, sections point to more docs, docs point to files and line numbers in the code
-- Every file in this tree is small and single-topic — find the one you need from the tables below, you shouldn't need to read siblings
+- Every file in this tree is small and single-topic: find the one you need from the tables below, you shouldn't need to read siblings
 
 ## By section
 
