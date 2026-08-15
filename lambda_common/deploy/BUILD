@@ -7,6 +7,5 @@ terraform_backend(
 
 terraform_deployment(
     name="deployment",
-    root_module=":deploy",
-    dependencies=[":backend", "lambda_common"],
+    root_module=":deploy"
 )

@@ -7,10 +7,5 @@ terraform_backend(
 
 terraform_deployment(
     name="deployment",
-    root_module=":deploy",
-    dependencies=[
-        ":backend",
-        "lambda_common/deploy:deployment",
-        "carbon_monitoring_service/src"
-    ],
+    root_module=":deploy"
 )
